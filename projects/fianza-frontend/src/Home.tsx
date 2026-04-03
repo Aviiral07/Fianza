@@ -42,10 +42,10 @@ const Home: React.FC = () => {
       defaultSender: activeAddress ?? undefined,
       algorand,
     })
-    const result = await factory.deploy({
-      onSchemaBreak: OnSchemaBreak.AppendApp,
-      onUpdate: OnUpdate.AppendApp,
-    })
+  const result = await factory.getAppClientById({
+  appId: BigInt(758228644),
+})
+return result
     setAppId(result.appClient.appId)
     return result.appClient
   }
