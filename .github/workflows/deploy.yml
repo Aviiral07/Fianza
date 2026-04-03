@@ -1,44 +1,43 @@
 name: Deploy to GitHub Pages
-
 on:
   push:
     branches: [main]
   workflow_dispatch:
-
 permissions:
   contents: read
   pages: write
   id-token: write
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-
       - name: Install AlgoKit
         run: pip install algokit
-
       - name: Install dependencies
         run: |
           cd projects/fianza-frontend
           npm install
-
       - name: Build
         run: |
           cd projects/fianza-frontend
           npx vite build
-
+        env:
+          VITE_ALGOD_SERVER: https://testnet-api.algonode.cloud
+          VITE_ALGOD_PORT: 443
+          VITE_ALGOD_TOKEN: ""
+          VITE_ALGOD_NETWORK: testnet
+          VITE_INDEXER_SERVER: https://testnet-idx.algonode.cloud
+          VITE_INDEXER_PORT: 443
+          VITE_INDEXER_TOKEN: ""
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: projects/fianza-frontend/dist
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
