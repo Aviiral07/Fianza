@@ -21,13 +21,18 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Install AlgoKit
+        run: pip install algokit
+
       - name: Install dependencies
-        working-directory: projects/fianza-frontend
-        run: npm ci
+        run: |
+          cd projects/fianza-frontend
+          npm install
 
       - name: Build
-        working-directory: projects/fianza-frontend
-        run: npm run build
+        run: |
+          cd projects/fianza-frontend
+          npx vite build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
