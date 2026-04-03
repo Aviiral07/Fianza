@@ -1,45 +1,182 @@
-# fianza
+# 🔒 Fianza — Blockchain-Powered Rental Escrow
 
-This starter full stack project has been generated using AlgoKit. See below for default getting started instructions.
+> **Transparent, fair, tamper-proof deposits secured by Algorand smart contracts.**
 
-## Setup
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-5DCAA5?style=for-the-badge)](https://aviiiral07.github.io/Fianza/)
+[![Algorand](https://img.shields.io/badge/Built%20on-Algorand-000000?style=for-the-badge&logo=algorand)](https://algorand.com)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-### Initial setup
-1. Clone this repository to your local machine.
-2. Ensure [Docker](https://www.docker.com/) is installed and operational. Then, install `AlgoKit` following this [guide](https://github.com/algorandfoundation/algokit-cli#install).
-3. Run `algokit project bootstrap all` in the project directory. This command sets up your environment by installing necessary dependencies, setting up a Python virtual environment, and preparing your `.env` file.
-4. In the case of a smart contract project, execute `algokit generate env-file -a target_network localnet` from the `fianza-contracts` directory to create a `.env.localnet` file with default configuration for `localnet`.
-5. To build your project, execute `algokit project run build`. This compiles your project and prepares it for running.
-6. For project-specific instructions, refer to the READMEs of the child projects:
-   - Smart Contracts: [fianza-contracts](projects/fianza-contracts/README.md)
-   - Frontend Application: [fianza-frontend](projects/fianza-frontend/README.md)
+---
 
-> This project is structured as a monorepo, refer to the [documentation](https://github.com/algorandfoundation/algokit-cli/blob/main/docs/features/project/run.md) to learn more about custom command orchestration via `algokit project run`.
+## 🚨 The Problem
 
-### Subsequently
+Every year, millions of tenants lose their rental deposits unfairly. Landlords can:
+- Claim false damages with no proof
+- Delay refunds for months
+- Keep deposits with zero accountability
 
-1. If you update to the latest source code and there are new dependencies, you will need to run `algokit project bootstrap all` again.
-2. Follow step 3 above.
+There is no transparent, enforceable system. **Tenants have no power.**
 
-## Tools
+---
 
-This project makes use of Python and React to build Algorand smart contracts and to provide a base project configuration to develop frontends for your Algorand dApps and interactions with smart contracts. The following tools are in use:
+## ✅ The Solution — Fianza
 
-- Algorand, AlgoKit, and AlgoKit Utils
-- Python dependencies including Poetry, Black, Ruff or Flake8, mypy, pytest, and pip-audit
-- React and related dependencies including AlgoKit Utils, Tailwind CSS, daisyUI, use-wallet, npm, jest, playwright, Prettier, ESLint, and Github Actions workflows for build validation
+Fianza puts the deposit into an **immutable Algorand smart contract** — not the landlord's bank account. The rules are agreed upfront, enforced by code, and visible to everyone.
 
-### VS Code
+- 🔒 Funds locked on-chain — landlord can't touch them unfairly
+- 📸 Move-in/out photo evidence stored permanently on IPFS
+- ⚡ Auto-release when conditions are met — no delays
+- ⚖️ Dispute system freezes funds and triggers fair resolution
 
-It has also been configured to have a productive dev experience out of the box in [VS Code](https://code.visualstudio.com/), see the [backend .vscode](./backend/.vscode) and [frontend .vscode](./frontend/.vscode) folders for more details.
+---
 
-## Integrating with smart contracts and application clients
+## 🎥 Live Demo
 
-Refer to the [fianza-contracts](projects/fianza-contracts/README.md) folder for overview of working with smart contracts, [projects/fianza-frontend](projects/fianza-frontend/README.md) for overview of the React project and the [projects/fianza-frontend/contracts](projects/fianza-frontend/src/contracts/README.md) folder for README on adding new smart contracts from backend as application clients on your frontend. The templates provided in these folders will help you get started.
-When you compile and generate smart contract artifacts, your frontend component will automatically generate typescript application clients from smart contract artifacts and move them to `frontend/src/contracts` folder, see [`generate:app-clients` in package.json](projects/fianza-frontend/package.json). Afterwards, you are free to import and use them in your frontend application.
+👉 **[https://aviiiral07.github.io/Fianza/](https://aviiiral07.github.io/Fianza/)**
 
-The frontend starter also provides an example of interactions with your FianzaEscrowClient in [`AppCalls.tsx`](projects/fianza-frontend/src/components/AppCalls.tsx) component by default.
+### Demo Flow
+1. Connect Pera Wallet (Testnet)
+2. Tenant registers landlord wallet address
+3. Tenant locks deposit on-chain
+4. Tenant uploads move-in photo CID (IPFS)
+5. Landlord releases deposit OR raises dispute
+6. Funds move automatically via inner transaction
 
-## Next Steps
+---
 
-You can take this project and customize it to build your own decentralized applications on Algorand. Make sure to understand how to use AlgoKit and how to write smart contracts for Algorand before you start.
+## 🛠 Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Blockchain | Algorand (Testnet) |
+| Smart Contract | Python via AlgoKit (ARC4) |
+| Frontend | React + TypeScript + Vite |
+| Wallet | Pera Wallet via `@txnlab/use-wallet-react` |
+| Storage | IPFS (for photo evidence CIDs) |
+| Deployment | GitHub Pages + GitHub Actions CI/CD |
+
+---
+
+## 📦 Smart Contract — `FianzaEscrow`
+
+Written in Python using AlgoKit's Algorand Python framework (ARC4 standard).
+
+### Methods
+
+| Method | Role | Description |
+|---|---|---|
+| `set_landlord(address)` | Tenant | Register landlord wallet on-chain |
+| `fund_deposit()` | Tenant | Lock ALGO into escrow via grouped txn |
+| `store_cid(cid)` | Tenant | Store IPFS photo evidence CID on-chain |
+| `release_deposit()` | Landlord | Send locked ALGO back to tenant |
+| `raise_dispute()` | Landlord | Freeze funds, set status to DISPUTED |
+| `get_status()` | Anyone | Returns UNFUNDED / FUNDED / DISPUTED |
+| `get_deposit_amount()` | Anyone | Returns locked amount in microALGO |
+| `get_cid()` | Anyone | Returns stored IPFS CID |
+
+### State Machine
+
+```
+UNFUNDED ──(fund_deposit)──► FUNDED ──(release_deposit)──► UNFUNDED
+                                  └──(raise_dispute)──────► DISPUTED
+```
+
+---
+
+## 🚀 Run Locally
+
+### Prerequisites
+- Node.js 22+
+- Python 3.12+
+- AlgoKit CLI
+
+### Install AlgoKit
+```bash
+pip install algokit
+```
+
+### Clone & Run Frontend
+```bash
+git clone https://github.com/Aviiiral07/Fianza.git
+cd Fianza/projects/fianza-frontend
+npm install
+npm run dev
+```
+
+### Deploy Smart Contract
+```bash
+cd Fianza/projects/fianza-contracts
+algokit deploy
+```
+
+### Environment Variables
+Create `.env` in `projects/fianza-frontend/` based on `.env.template`:
+```env
+VITE_ALGOD_SERVER=https://testnet-api.algonode.cloud
+VITE_ALGOD_PORT=443
+VITE_ALGOD_TOKEN=
+VITE_ALGOD_NETWORK=testnet
+VITE_INDEXER_SERVER=https://testnet-idx.algonode.cloud
+VITE_INDEXER_PORT=443
+VITE_INDEXER_TOKEN=
+```
+
+---
+
+## 📁 Project Structure
+
+```
+Fianza/
+├── projects/
+│   ├── fianza-frontend/          # React + TypeScript UI
+│   │   ├── src/
+│   │   │   ├── Home.tsx          # Main escrow interface
+│   │   │   ├── contracts/        # Auto-generated contract client
+│   │   │   └── components/       # ConnectWallet, etc.
+│   │   └── vite.config.ts
+│   └── fianza-contracts/         # Algorand smart contracts
+│       └── smart_contracts/
+│           └── fianza_escrow/
+│               └── contract.py   # ARC4 escrow contract
+└── .github/
+    └── workflows/
+        └── deploy.yml            # CI/CD → GitHub Pages
+```
+
+---
+
+## 🔐 How It Works
+
+```
+Tenant                    Smart Contract              Landlord
+  │                            │                         │
+  │──set_landlord()───────────►│                         │
+  │──fund_deposit() + ALGO────►│                         │
+  │──store_cid(ipfs_hash)─────►│                         │
+  │                            │◄────────────────────────│ release_deposit()
+  │◄───────────── ALGO returned automatically ───────────│
+  │                            │   OR                    │
+  │                            │◄────────────────────────│ raise_dispute()
+  │                            │ (funds frozen on-chain) │
+```
+
+---
+
+## 👥 Team
+
+| Name | Role |
+|---|---|
+| Aviral Dubey | Full Stack + Smart Contract |
+
+---
+
+## 📄 License
+
+MIT License — see [LICENSE](LICENSE)
+
+---
+
+<div align="center">
+  <strong>Built with ❤️ on Algorand</strong><br/>
+  <em>Fianza — Because your deposit belongs to you.</em>
+</div>
