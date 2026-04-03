@@ -1,0 +1,2906 @@
+{
+  "version": 3,
+  "sources": [
+    "../../../contract.py"
+  ],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAIA;;AAAA;AAAA;AAAA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;;;;;;;;;AAAA;AAAA;;;;;;AAAA;;;AAAA;;;;AAAA;AAuBK;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAOG;AAAA;;AAAA;AACA;AAAA;AAAA;AACA;AAAuB;AAAvB;AACA;AAAyB;AAAzB;AACA;;AAAgC;;AAAhC;AACA;;AADgC;;AAChC;AAZH;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAkBU;;AAAc;AAAA;AAAA;AAAA;AAAd;AAAP;AACO;AAAA;AAAA;AAAA;AAAA;AAAP;AACA;;AAA4B;;AAA5B;AACA;AAAuB;AAAvB;AANH;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AASA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAGU;;AAAc;AAAA;AAAA;AAAA;AAAd;AAAP;AACO;AAAA;AAAA;AAAA;AAAwB;AAAxB;AAAP;AACA;;AAAA;AAAA;AALH;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAQA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAGU;;AAAc;AAAA;AAAA;AAAA;AAAd;AAAP;AACO;AAAA;AAAA;AAAA;AAAwB;AAAxB;AAAP;AACA;;AAAA;AAAA;AALH;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAWU;;AAAc;AAAA;AAAA;AAAA;AAAd;AAAP;AACO;AAAA;AAAA;AAAA;AAAwB;AAAxB;AAAP;AACO;AAAA;AAAA;AAAA;AAAA;AAAP;AACA;AACa;AAAA;AAAA;AAAA;AACF;AAAA;;AAAA;AAAA;;;;;AAFX;;;AAAA;;;AAAA;AAIA;AAAuB;AAAvB;AAVH;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAaA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAGU;;AAAc;AAAA;AAAA;AAAA;AAAd;AAAA;;AAAA;AAAP;AACO;AAAA;AAAA;AAAA;AAAwB;AAAxB;AAAP;AACO;AAAA;AAAA;AAAA;AAAA;AAAP;AAC0B;AAAA;;AAAA;AAAA;AAAnB;;AAAA;;AAAA;AAAP;AACY;;AAAA;AAEZ;;;;;;;;AAAA;;;AAAA;;;AAAA;AAKA;AACa;AAAA;AAAA;AAAA;;;;;AADb;;;AAAA;;;AAAA;AAIA;AAAuB;AAAvB;AACO;;;AAAA;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;;;AAAA;;AAnBV;;AAAA;AAAA;AAAA;AAAA;AAAA;AAwBU;;AAAc;AAAA;AAAA;AAAA;AAAd;AAAP;AACO;AAAA;AAAA;AAAA;AAAwB;AAAxB;AAAP;AACA;AAAyB;AAAzB;AALH;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAWM;AAAA;AAAA;AAAA;AAA0B;AAA1B;AAAX;;;AACmB;;;;;;;;;;;;AAJd;;AAAA;AAAA;AAAA;AAAA;AAAA;AAKM;AAAA;AAAA;AAAA;AAAwB;AAAxB;AAAX;;;AACmB;;;;;;;;;;AANd;;;AAOU;;;;;;;;;;;;AAPV",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "algopy.arc4.ARC4Contract.approval_program",
+      "params": {},
+      "block": "main",
+      "stack_in": [],
+      "op": "intcblock 0 1 2 32"
+    },
+    "7": {
+      "op": "bytecblock \"is_funded\" \"tenant\" \"is_disputed\" \"landlord\" \"deposit_amount\" \"move_in_photos_cid\" 0x0000 \"move_out_photos_cid\" 0x151f7c75"
+    },
+    "109": {
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "111": {
+      "op": "!",
+      "defined_out": [
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "tmp%1#1"
+      ]
+    },
+    "112": {
+      "op": "assert",
+      "stack_out": []
+    },
+    "113": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "115": {
+      "op": "bz main_create_NoOp@13",
+      "stack_out": []
+    },
+    "118": {
+      "op": "pushbytess 0xa6a26fb1 0x1e1c7f57 0xf4ad1bfd 0x49b7d14b 0x8e727717 0x7c3fd89d 0x874bdfc0 // method \"fund_deposit()string\", method \"record_move_in(string)string\", method \"record_move_out(string)string\", method \"release_to_tenant()string\", method \"deduct_and_release(uint64,string)string\", method \"raise_dispute()string\", method \"get_status()string\"",
+      "defined_out": [
+        "Method(deduct_and_release(uint64,string)string)",
+        "Method(fund_deposit()string)",
+        "Method(get_status()string)",
+        "Method(raise_dispute()string)",
+        "Method(record_move_in(string)string)",
+        "Method(record_move_out(string)string)",
+        "Method(release_to_tenant()string)"
+      ],
+      "stack_out": [
+        "Method(fund_deposit()string)",
+        "Method(record_move_in(string)string)",
+        "Method(record_move_out(string)string)",
+        "Method(release_to_tenant()string)",
+        "Method(deduct_and_release(uint64,string)string)",
+        "Method(raise_dispute()string)",
+        "Method(get_status()string)"
+      ]
+    },
+    "155": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(deduct_and_release(uint64,string)string)",
+        "Method(fund_deposit()string)",
+        "Method(get_status()string)",
+        "Method(raise_dispute()string)",
+        "Method(record_move_in(string)string)",
+        "Method(record_move_out(string)string)",
+        "Method(release_to_tenant()string)",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "Method(fund_deposit()string)",
+        "Method(record_move_in(string)string)",
+        "Method(record_move_out(string)string)",
+        "Method(release_to_tenant()string)",
+        "Method(deduct_and_release(uint64,string)string)",
+        "Method(raise_dispute()string)",
+        "Method(get_status()string)",
+        "tmp%4#0"
+      ]
+    },
+    "158": {
+      "op": "match fund_deposit record_move_in record_move_out release_to_tenant deduct_and_release raise_dispute get_status",
+      "stack_out": []
+    },
+    "174": {
+      "op": "err"
+    },
+    "175": {
+      "block": "main_create_NoOp@13",
+      "stack_in": [],
+      "op": "pushbytes 0x2ae8e036 // method \"initialize(address,address)string\"",
+      "defined_out": [
+        "Method(initialize(address,address)string)"
+      ],
+      "stack_out": [
+        "Method(initialize(address,address)string)"
+      ]
+    },
+    "181": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(initialize(address,address)string)",
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "Method(initialize(address,address)string)",
+        "tmp%5#0"
+      ]
+    },
+    "184": {
+      "op": "match initialize",
+      "stack_out": []
+    },
+    "188": {
+      "op": "err"
+    },
+    "189": {
+      "subroutine": "smart_contracts.fianza_escrow.contract.FianzaEscrow.initialize[routing]",
+      "params": {},
+      "block": "initialize",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tenant#0"
+      ],
+      "stack_out": [
+        "tenant#0"
+      ]
+    },
+    "192": {
+      "op": "dup",
+      "defined_out": [
+        "tenant#0",
+        "tenant#0 (copy)"
+      ],
+      "stack_out": [
+        "tenant#0",
+        "tenant#0 (copy)"
+      ]
+    },
+    "193": {
+      "op": "len",
+      "defined_out": [
+        "len%0#0",
+        "tenant#0"
+      ],
+      "stack_out": [
+        "tenant#0",
+        "len%0#0"
+      ]
+    },
+    "194": {
+      "op": "intc_3 // 32",
+      "defined_out": [
+        "32",
+        "len%0#0",
+        "tenant#0"
+      ],
+      "stack_out": [
+        "tenant#0",
+        "len%0#0",
+        "32"
+      ]
+    },
+    "195": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "tenant#0"
+      ],
+      "stack_out": [
+        "tenant#0",
+        "eq%0#0"
+      ]
+    },
+    "196": {
+      "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "stack_out": [
+        "tenant#0"
+      ]
+    },
+    "197": {
+      "op": "txna ApplicationArgs 2",
+      "defined_out": [
+        "landlord#0",
+        "tenant#0"
+      ],
+      "stack_out": [
+        "tenant#0",
+        "landlord#0"
+      ]
+    },
+    "200": {
+      "op": "dup",
+      "defined_out": [
+        "landlord#0",
+        "landlord#0 (copy)",
+        "tenant#0"
+      ],
+      "stack_out": [
+        "tenant#0",
+        "landlord#0",
+        "landlord#0 (copy)"
+      ]
+    },
+    "201": {
+      "op": "len",
+      "defined_out": [
+        "landlord#0",
+        "len%1#0",
+        "tenant#0"
+      ],
+      "stack_out": [
+        "tenant#0",
+        "landlord#0",
+        "len%1#0"
+      ]
+    },
+    "202": {
+      "op": "intc_3 // 32",
+      "stack_out": [
+        "tenant#0",
+        "landlord#0",
+        "len%1#0",
+        "32"
+      ]
+    },
+    "203": {
+      "op": "==",
+      "defined_out": [
+        "eq%1#0",
+        "landlord#0",
+        "tenant#0"
+      ],
+      "stack_out": [
+        "tenant#0",
+        "landlord#0",
+        "eq%1#0"
+      ]
+    },
+    "204": {
+      "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "stack_out": [
+        "tenant#0",
+        "landlord#0"
+      ]
+    },
+    "205": {
+      "op": "bytec_1 // \"tenant\"",
+      "defined_out": [
+        "\"tenant\"",
+        "landlord#0",
+        "tenant#0"
+      ],
+      "stack_out": [
+        "tenant#0",
+        "landlord#0",
+        "\"tenant\""
+      ]
+    },
+    "206": {
+      "op": "uncover 2",
+      "stack_out": [
+        "landlord#0",
+        "\"tenant\"",
+        "tenant#0"
+      ]
+    },
+    "208": {
+      "op": "app_global_put",
+      "stack_out": [
+        "landlord#0"
+      ]
+    },
+    "209": {
+      "op": "bytec_3 // \"landlord\"",
+      "defined_out": [
+        "\"landlord\"",
+        "landlord#0"
+      ],
+      "stack_out": [
+        "landlord#0",
+        "\"landlord\""
+      ]
+    },
+    "210": {
+      "op": "swap",
+      "stack_out": [
+        "\"landlord\"",
+        "landlord#0"
+      ]
+    },
+    "211": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "212": {
+      "op": "bytec_0 // \"is_funded\"",
+      "defined_out": [
+        "\"is_funded\""
+      ],
+      "stack_out": [
+        "\"is_funded\""
+      ]
+    },
+    "213": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "\"is_funded\"",
+        "0"
+      ],
+      "stack_out": [
+        "\"is_funded\"",
+        "0"
+      ]
+    },
+    "214": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "215": {
+      "op": "bytec_2 // \"is_disputed\"",
+      "defined_out": [
+        "\"is_disputed\""
+      ],
+      "stack_out": [
+        "\"is_disputed\""
+      ]
+    },
+    "216": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "\"is_disputed\"",
+        "0"
+      ]
+    },
+    "217": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "218": {
+      "op": "bytec 5 // \"move_in_photos_cid\"",
+      "defined_out": [
+        "\"move_in_photos_cid\""
+      ],
+      "stack_out": [
+        "\"move_in_photos_cid\""
+      ]
+    },
+    "220": {
+      "op": "bytec 6 // 0x0000",
+      "defined_out": [
+        "\"move_in_photos_cid\"",
+        "0x0000"
+      ],
+      "stack_out": [
+        "\"move_in_photos_cid\"",
+        "0x0000"
+      ]
+    },
+    "222": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "223": {
+      "op": "bytec 7 // \"move_out_photos_cid\"",
+      "defined_out": [
+        "\"move_out_photos_cid\""
+      ],
+      "stack_out": [
+        "\"move_out_photos_cid\""
+      ]
+    },
+    "225": {
+      "op": "bytec 6 // 0x0000",
+      "stack_out": [
+        "\"move_out_photos_cid\"",
+        "0x0000"
+      ]
+    },
+    "227": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "228": {
+      "op": "pushbytes 0x151f7c7500194669616e7a6120657363726f7720696e697469616c697a6564",
+      "defined_out": [
+        "0x151f7c7500194669616e7a6120657363726f7720696e697469616c697a6564"
+      ],
+      "stack_out": [
+        "0x151f7c7500194669616e7a6120657363726f7720696e697469616c697a6564"
+      ]
+    },
+    "261": {
+      "op": "log",
+      "stack_out": []
+    },
+    "262": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "263": {
+      "op": "return",
+      "stack_out": []
+    },
+    "264": {
+      "subroutine": "smart_contracts.fianza_escrow.contract.FianzaEscrow.fund_deposit[routing]",
+      "params": {},
+      "block": "fund_deposit",
+      "stack_in": [],
+      "op": "txn Sender",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "266": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1",
+        "0"
+      ]
+    },
+    "267": {
+      "op": "bytec_1 // \"tenant\"",
+      "defined_out": [
+        "\"tenant\"",
+        "0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1",
+        "0",
+        "\"tenant\""
+      ]
+    },
+    "268": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1",
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "269": {
+      "error": "check self.tenant exists",
+      "op": "assert // check self.tenant exists",
+      "stack_out": [
+        "tmp%0#1",
+        "maybe_value%0#0"
+      ]
+    },
+    "270": {
+      "op": "==",
+      "defined_out": [
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "tmp%1#1"
+      ]
+    },
+    "271": {
+      "error": "Only tenant can fund",
+      "op": "assert // Only tenant can fund",
+      "stack_out": []
+    },
+    "272": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "0"
+      ]
+    },
+    "273": {
+      "op": "bytec_0 // \"is_funded\"",
+      "defined_out": [
+        "\"is_funded\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"is_funded\""
+      ]
+    },
+    "274": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%1#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "275": {
+      "error": "check self.is_funded exists",
+      "op": "assert // check self.is_funded exists",
+      "stack_out": [
+        "maybe_value%1#0"
+      ]
+    },
+    "276": {
+      "op": "!",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "277": {
+      "error": "Already funded",
+      "op": "assert // Already funded",
+      "stack_out": []
+    },
+    "278": {
+      "op": "bytec 4 // \"deposit_amount\"",
+      "defined_out": [
+        "\"deposit_amount\""
+      ],
+      "stack_out": [
+        "\"deposit_amount\""
+      ]
+    },
+    "280": {
+      "op": "txn Amount",
+      "defined_out": [
+        "\"deposit_amount\"",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "\"deposit_amount\"",
+        "tmp%3#0"
+      ]
+    },
+    "282": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "283": {
+      "op": "bytec_0 // \"is_funded\"",
+      "stack_out": [
+        "\"is_funded\""
+      ]
+    },
+    "284": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "\"is_funded\"",
+        "1"
+      ],
+      "stack_out": [
+        "\"is_funded\"",
+        "1"
+      ]
+    },
+    "285": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "286": {
+      "op": "pushbytes 0x151f7c7500174465706f736974206c6f636b6564206f6e2d636861696e",
+      "defined_out": [
+        "0x151f7c7500174465706f736974206c6f636b6564206f6e2d636861696e"
+      ],
+      "stack_out": [
+        "0x151f7c7500174465706f736974206c6f636b6564206f6e2d636861696e"
+      ]
+    },
+    "317": {
+      "op": "log",
+      "stack_out": []
+    },
+    "318": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "319": {
+      "op": "return",
+      "stack_out": []
+    },
+    "320": {
+      "subroutine": "smart_contracts.fianza_escrow.contract.FianzaEscrow.record_move_in[routing]",
+      "params": {},
+      "block": "record_move_in",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "ipfs_cid#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0"
+      ]
+    },
+    "323": {
+      "op": "dup",
+      "defined_out": [
+        "ipfs_cid#0",
+        "ipfs_cid#0 (copy)"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "ipfs_cid#0 (copy)"
+      ]
+    },
+    "324": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "ipfs_cid#0",
+        "ipfs_cid#0 (copy)"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "ipfs_cid#0 (copy)",
+        "0"
+      ]
+    },
+    "325": {
+      "error": "invalid array length header",
+      "op": "extract_uint16 // on error: invalid array length header",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "ipfs_cid#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "aggregate%array_length%0#0"
+      ]
+    },
+    "326": {
+      "op": "intc_2 // 2",
+      "defined_out": [
+        "2",
+        "aggregate%array_length%0#0",
+        "ipfs_cid#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "aggregate%array_length%0#0",
+        "2"
+      ]
+    },
+    "327": {
+      "op": "+",
+      "defined_out": [
+        "add%0#0",
+        "ipfs_cid#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "add%0#0"
+      ]
+    },
+    "328": {
+      "op": "dig 1",
+      "stack_out": [
+        "ipfs_cid#0",
+        "add%0#0",
+        "ipfs_cid#0 (copy)"
+      ]
+    },
+    "330": {
+      "op": "len",
+      "defined_out": [
+        "add%0#0",
+        "ipfs_cid#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "add%0#0",
+        "len%0#0"
+      ]
+    },
+    "331": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "ipfs_cid#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "eq%0#0"
+      ]
+    },
+    "332": {
+      "error": "invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
+      "op": "assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
+      "stack_out": [
+        "ipfs_cid#0"
+      ]
+    },
+    "333": {
+      "op": "txn Sender",
+      "defined_out": [
+        "ipfs_cid#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "tmp%0#1"
+      ]
+    },
+    "335": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "ipfs_cid#0",
+        "tmp%0#1",
+        "0"
+      ]
+    },
+    "336": {
+      "op": "bytec_1 // \"tenant\"",
+      "defined_out": [
+        "\"tenant\"",
+        "0",
+        "ipfs_cid#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "tmp%0#1",
+        "0",
+        "\"tenant\""
+      ]
+    },
+    "337": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "ipfs_cid#0",
+        "maybe_exists%0#0",
+        "maybe_value%0#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "tmp%0#1",
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "338": {
+      "error": "check self.tenant exists",
+      "op": "assert // check self.tenant exists",
+      "stack_out": [
+        "ipfs_cid#0",
+        "tmp%0#1",
+        "maybe_value%0#0"
+      ]
+    },
+    "339": {
+      "op": "==",
+      "defined_out": [
+        "ipfs_cid#0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "tmp%1#1"
+      ]
+    },
+    "340": {
+      "error": "Only tenant can record move-in",
+      "op": "assert // Only tenant can record move-in",
+      "stack_out": [
+        "ipfs_cid#0"
+      ]
+    },
+    "341": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "ipfs_cid#0",
+        "0"
+      ]
+    },
+    "342": {
+      "op": "bytec_0 // \"is_funded\"",
+      "defined_out": [
+        "\"is_funded\"",
+        "0",
+        "ipfs_cid#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "0",
+        "\"is_funded\""
+      ]
+    },
+    "343": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "ipfs_cid#0",
+        "maybe_exists%1#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "344": {
+      "error": "check self.is_funded exists",
+      "op": "assert // check self.is_funded exists",
+      "stack_out": [
+        "ipfs_cid#0",
+        "maybe_value%1#0"
+      ]
+    },
+    "345": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "ipfs_cid#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "maybe_value%1#0",
+        "1"
+      ]
+    },
+    "346": {
+      "op": "==",
+      "defined_out": [
+        "ipfs_cid#0",
+        "tmp%2#1"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "tmp%2#1"
+      ]
+    },
+    "347": {
+      "error": "Deposit not funded yet",
+      "op": "assert // Deposit not funded yet",
+      "stack_out": [
+        "ipfs_cid#0"
+      ]
+    },
+    "348": {
+      "op": "bytec 5 // \"move_in_photos_cid\"",
+      "defined_out": [
+        "\"move_in_photos_cid\"",
+        "ipfs_cid#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "\"move_in_photos_cid\""
+      ]
+    },
+    "350": {
+      "op": "swap",
+      "stack_out": [
+        "\"move_in_photos_cid\"",
+        "ipfs_cid#0"
+      ]
+    },
+    "351": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "352": {
+      "op": "pushbytes 0x151f7c7500174d6f76652d696e2070686f746f73207265636f72646564",
+      "defined_out": [
+        "0x151f7c7500174d6f76652d696e2070686f746f73207265636f72646564"
+      ],
+      "stack_out": [
+        "0x151f7c7500174d6f76652d696e2070686f746f73207265636f72646564"
+      ]
+    },
+    "383": {
+      "op": "log",
+      "stack_out": []
+    },
+    "384": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "385": {
+      "op": "return",
+      "stack_out": []
+    },
+    "386": {
+      "subroutine": "smart_contracts.fianza_escrow.contract.FianzaEscrow.record_move_out[routing]",
+      "params": {},
+      "block": "record_move_out",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "ipfs_cid#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0"
+      ]
+    },
+    "389": {
+      "op": "dup",
+      "defined_out": [
+        "ipfs_cid#0",
+        "ipfs_cid#0 (copy)"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "ipfs_cid#0 (copy)"
+      ]
+    },
+    "390": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "ipfs_cid#0",
+        "ipfs_cid#0 (copy)"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "ipfs_cid#0 (copy)",
+        "0"
+      ]
+    },
+    "391": {
+      "error": "invalid array length header",
+      "op": "extract_uint16 // on error: invalid array length header",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "ipfs_cid#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "aggregate%array_length%0#0"
+      ]
+    },
+    "392": {
+      "op": "intc_2 // 2",
+      "defined_out": [
+        "2",
+        "aggregate%array_length%0#0",
+        "ipfs_cid#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "aggregate%array_length%0#0",
+        "2"
+      ]
+    },
+    "393": {
+      "op": "+",
+      "defined_out": [
+        "add%0#0",
+        "ipfs_cid#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "add%0#0"
+      ]
+    },
+    "394": {
+      "op": "dig 1",
+      "stack_out": [
+        "ipfs_cid#0",
+        "add%0#0",
+        "ipfs_cid#0 (copy)"
+      ]
+    },
+    "396": {
+      "op": "len",
+      "defined_out": [
+        "add%0#0",
+        "ipfs_cid#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "add%0#0",
+        "len%0#0"
+      ]
+    },
+    "397": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "ipfs_cid#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "eq%0#0"
+      ]
+    },
+    "398": {
+      "error": "invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
+      "op": "assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
+      "stack_out": [
+        "ipfs_cid#0"
+      ]
+    },
+    "399": {
+      "op": "txn Sender",
+      "defined_out": [
+        "ipfs_cid#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "tmp%0#1"
+      ]
+    },
+    "401": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "ipfs_cid#0",
+        "tmp%0#1",
+        "0"
+      ]
+    },
+    "402": {
+      "op": "bytec_1 // \"tenant\"",
+      "defined_out": [
+        "\"tenant\"",
+        "0",
+        "ipfs_cid#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "tmp%0#1",
+        "0",
+        "\"tenant\""
+      ]
+    },
+    "403": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "ipfs_cid#0",
+        "maybe_exists%0#0",
+        "maybe_value%0#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "tmp%0#1",
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "404": {
+      "error": "check self.tenant exists",
+      "op": "assert // check self.tenant exists",
+      "stack_out": [
+        "ipfs_cid#0",
+        "tmp%0#1",
+        "maybe_value%0#0"
+      ]
+    },
+    "405": {
+      "op": "==",
+      "defined_out": [
+        "ipfs_cid#0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "tmp%1#1"
+      ]
+    },
+    "406": {
+      "error": "Only tenant can record move-out",
+      "op": "assert // Only tenant can record move-out",
+      "stack_out": [
+        "ipfs_cid#0"
+      ]
+    },
+    "407": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "ipfs_cid#0",
+        "0"
+      ]
+    },
+    "408": {
+      "op": "bytec_0 // \"is_funded\"",
+      "defined_out": [
+        "\"is_funded\"",
+        "0",
+        "ipfs_cid#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "0",
+        "\"is_funded\""
+      ]
+    },
+    "409": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "ipfs_cid#0",
+        "maybe_exists%1#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "410": {
+      "error": "check self.is_funded exists",
+      "op": "assert // check self.is_funded exists",
+      "stack_out": [
+        "ipfs_cid#0",
+        "maybe_value%1#0"
+      ]
+    },
+    "411": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "ipfs_cid#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "maybe_value%1#0",
+        "1"
+      ]
+    },
+    "412": {
+      "op": "==",
+      "defined_out": [
+        "ipfs_cid#0",
+        "tmp%2#1"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "tmp%2#1"
+      ]
+    },
+    "413": {
+      "error": "Deposit not funded",
+      "op": "assert // Deposit not funded",
+      "stack_out": [
+        "ipfs_cid#0"
+      ]
+    },
+    "414": {
+      "op": "bytec 7 // \"move_out_photos_cid\"",
+      "defined_out": [
+        "\"move_out_photos_cid\"",
+        "ipfs_cid#0"
+      ],
+      "stack_out": [
+        "ipfs_cid#0",
+        "\"move_out_photos_cid\""
+      ]
+    },
+    "416": {
+      "op": "swap",
+      "stack_out": [
+        "\"move_out_photos_cid\"",
+        "ipfs_cid#0"
+      ]
+    },
+    "417": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "418": {
+      "op": "pushbytes 0x151f7c7500184d6f76652d6f75742070686f746f73207265636f72646564",
+      "defined_out": [
+        "0x151f7c7500184d6f76652d6f75742070686f746f73207265636f72646564"
+      ],
+      "stack_out": [
+        "0x151f7c7500184d6f76652d6f75742070686f746f73207265636f72646564"
+      ]
+    },
+    "450": {
+      "op": "log",
+      "stack_out": []
+    },
+    "451": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "452": {
+      "op": "return",
+      "stack_out": []
+    },
+    "453": {
+      "subroutine": "smart_contracts.fianza_escrow.contract.FianzaEscrow.release_to_tenant[routing]",
+      "params": {},
+      "block": "release_to_tenant",
+      "stack_in": [],
+      "op": "txn Sender",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "455": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1",
+        "0"
+      ]
+    },
+    "456": {
+      "op": "bytec_3 // \"landlord\"",
+      "defined_out": [
+        "\"landlord\"",
+        "0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1",
+        "0",
+        "\"landlord\""
+      ]
+    },
+    "457": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1",
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "458": {
+      "error": "check self.landlord exists",
+      "op": "assert // check self.landlord exists",
+      "stack_out": [
+        "tmp%0#1",
+        "maybe_value%0#0"
+      ]
+    },
+    "459": {
+      "op": "==",
+      "defined_out": [
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "tmp%1#1"
+      ]
+    },
+    "460": {
+      "error": "Only landlord can release",
+      "op": "assert // Only landlord can release",
+      "stack_out": []
+    },
+    "461": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "0"
+      ]
+    },
+    "462": {
+      "op": "bytec_0 // \"is_funded\"",
+      "defined_out": [
+        "\"is_funded\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"is_funded\""
+      ]
+    },
+    "463": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%1#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "464": {
+      "error": "check self.is_funded exists",
+      "op": "assert // check self.is_funded exists",
+      "stack_out": [
+        "maybe_value%1#0"
+      ]
+    },
+    "465": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "maybe_value%1#0",
+        "1"
+      ]
+    },
+    "466": {
+      "op": "==",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "467": {
+      "error": "Not funded",
+      "op": "assert // Not funded",
+      "stack_out": []
+    },
+    "468": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "0"
+      ]
+    },
+    "469": {
+      "op": "bytec_2 // \"is_disputed\"",
+      "defined_out": [
+        "\"is_disputed\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"is_disputed\""
+      ]
+    },
+    "470": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%2#0",
+        "maybe_value%2#0"
+      ],
+      "stack_out": [
+        "maybe_value%2#0",
+        "maybe_exists%2#0"
+      ]
+    },
+    "471": {
+      "error": "check self.is_disputed exists",
+      "op": "assert // check self.is_disputed exists",
+      "stack_out": [
+        "maybe_value%2#0"
+      ]
+    },
+    "472": {
+      "op": "!",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "473": {
+      "error": "Under dispute",
+      "op": "assert // Under dispute",
+      "stack_out": []
+    },
+    "474": {
+      "op": "itxn_begin"
+    },
+    "475": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "0"
+      ]
+    },
+    "476": {
+      "op": "bytec_1 // \"tenant\"",
+      "defined_out": [
+        "\"tenant\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"tenant\""
+      ]
+    },
+    "477": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%3#0",
+        "maybe_value%3#0"
+      ],
+      "stack_out": [
+        "maybe_value%3#0",
+        "maybe_exists%3#0"
+      ]
+    },
+    "478": {
+      "error": "check self.tenant exists",
+      "op": "assert // check self.tenant exists",
+      "stack_out": [
+        "maybe_value%3#0"
+      ]
+    },
+    "479": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "maybe_value%3#0",
+        "0"
+      ]
+    },
+    "480": {
+      "op": "bytec 4 // \"deposit_amount\"",
+      "defined_out": [
+        "\"deposit_amount\"",
+        "0",
+        "maybe_value%3#0"
+      ],
+      "stack_out": [
+        "maybe_value%3#0",
+        "0",
+        "\"deposit_amount\""
+      ]
+    },
+    "482": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%4#0",
+        "maybe_value%3#0",
+        "maybe_value%4#0"
+      ],
+      "stack_out": [
+        "maybe_value%3#0",
+        "maybe_value%4#0",
+        "maybe_exists%4#0"
+      ]
+    },
+    "483": {
+      "error": "check self.deposit_amount exists",
+      "op": "assert // check self.deposit_amount exists",
+      "stack_out": [
+        "maybe_value%3#0",
+        "maybe_value%4#0"
+      ]
+    },
+    "484": {
+      "op": "itxn_field Amount",
+      "stack_out": [
+        "maybe_value%3#0"
+      ]
+    },
+    "486": {
+      "op": "itxn_field Receiver",
+      "stack_out": []
+    },
+    "488": {
+      "op": "intc_1 // pay",
+      "defined_out": [
+        "pay"
+      ],
+      "stack_out": [
+        "pay"
+      ]
+    },
+    "489": {
+      "op": "itxn_field TypeEnum",
+      "stack_out": []
+    },
+    "491": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "0"
+      ]
+    },
+    "492": {
+      "op": "itxn_field Fee",
+      "stack_out": []
+    },
+    "494": {
+      "op": "itxn_submit"
+    },
+    "495": {
+      "op": "bytec_0 // \"is_funded\"",
+      "stack_out": [
+        "\"is_funded\""
+      ]
+    },
+    "496": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "\"is_funded\"",
+        "0"
+      ]
+    },
+    "497": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "498": {
+      "op": "pushbytes 0x151f7c75001a4465706f7369742072657475726e656420746f2074656e616e74",
+      "defined_out": [
+        "0x151f7c75001a4465706f7369742072657475726e656420746f2074656e616e74"
+      ],
+      "stack_out": [
+        "0x151f7c75001a4465706f7369742072657475726e656420746f2074656e616e74"
+      ]
+    },
+    "532": {
+      "op": "log",
+      "stack_out": []
+    },
+    "533": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "534": {
+      "op": "return",
+      "stack_out": []
+    },
+    "535": {
+      "subroutine": "smart_contracts.fianza_escrow.contract.FianzaEscrow.deduct_and_release[routing]",
+      "params": {},
+      "block": "deduct_and_release",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "538": {
+      "op": "dup",
+      "defined_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "539": {
+      "op": "len",
+      "defined_out": [
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0"
+      ]
+    },
+    "540": {
+      "op": "pushint 8",
+      "defined_out": [
+        "8",
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0",
+        "8"
+      ]
+    },
+    "542": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "eq%0#0"
+      ]
+    },
+    "543": {
+      "error": "invalid number of bytes for arc4.uint64",
+      "op": "assert // invalid number of bytes for arc4.uint64",
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "544": {
+      "op": "btoi",
+      "defined_out": [
+        "deduction_amount#0"
+      ],
+      "stack_out": [
+        "deduction_amount#0"
+      ]
+    },
+    "545": {
+      "op": "txna ApplicationArgs 2",
+      "defined_out": [
+        "deduction_amount#0",
+        "reason#0"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0"
+      ]
+    },
+    "548": {
+      "op": "dup",
+      "defined_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "reason#0 (copy)"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "reason#0 (copy)"
+      ]
+    },
+    "549": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "deduction_amount#0",
+        "reason#0",
+        "reason#0 (copy)"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "reason#0 (copy)",
+        "0"
+      ]
+    },
+    "550": {
+      "error": "invalid array length header",
+      "op": "extract_uint16 // on error: invalid array length header",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "deduction_amount#0",
+        "reason#0"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "aggregate%array_length%0#0"
+      ]
+    },
+    "551": {
+      "op": "intc_2 // 2",
+      "defined_out": [
+        "2",
+        "aggregate%array_length%0#0",
+        "deduction_amount#0",
+        "reason#0"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "aggregate%array_length%0#0",
+        "2"
+      ]
+    },
+    "552": {
+      "op": "+",
+      "defined_out": [
+        "add%0#0",
+        "deduction_amount#0",
+        "reason#0"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "add%0#0"
+      ]
+    },
+    "553": {
+      "op": "dig 1",
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "add%0#0",
+        "reason#0 (copy)"
+      ]
+    },
+    "555": {
+      "op": "len",
+      "defined_out": [
+        "add%0#0",
+        "deduction_amount#0",
+        "len%1#0",
+        "reason#0"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "add%0#0",
+        "len%1#0"
+      ]
+    },
+    "556": {
+      "op": "==",
+      "defined_out": [
+        "deduction_amount#0",
+        "eq%1#0",
+        "reason#0"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "eq%1#0"
+      ]
+    },
+    "557": {
+      "error": "invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
+      "op": "assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0"
+      ]
+    },
+    "558": {
+      "op": "txn Sender",
+      "defined_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "tmp%0#1"
+      ]
+    },
+    "560": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "tmp%0#1",
+        "0"
+      ]
+    },
+    "561": {
+      "op": "bytec_3 // \"landlord\"",
+      "defined_out": [
+        "\"landlord\"",
+        "0",
+        "deduction_amount#0",
+        "reason#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "tmp%0#1",
+        "0",
+        "\"landlord\""
+      ]
+    },
+    "562": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "deduction_amount#0",
+        "maybe_exists%0#0",
+        "maybe_value%0#0",
+        "reason#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "tmp%0#1",
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "563": {
+      "error": "check self.landlord exists",
+      "op": "assert // check self.landlord exists",
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "tmp%0#1",
+        "maybe_value%0#0"
+      ]
+    },
+    "564": {
+      "op": "swap",
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "tmp%0#1"
+      ]
+    },
+    "565": {
+      "op": "dig 1",
+      "defined_out": [
+        "deduction_amount#0",
+        "maybe_value%0#0",
+        "maybe_value%0#0 (copy)",
+        "reason#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "tmp%0#1",
+        "maybe_value%0#0 (copy)"
+      ]
+    },
+    "567": {
+      "op": "==",
+      "defined_out": [
+        "deduction_amount#0",
+        "maybe_value%0#0",
+        "reason#0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "tmp%1#1"
+      ]
+    },
+    "568": {
+      "error": "Only landlord can deduct",
+      "op": "assert // Only landlord can deduct",
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0"
+      ]
+    },
+    "569": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "0"
+      ]
+    },
+    "570": {
+      "op": "bytec_0 // \"is_funded\"",
+      "defined_out": [
+        "\"is_funded\"",
+        "0",
+        "deduction_amount#0",
+        "maybe_value%0#0",
+        "reason#0"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "0",
+        "\"is_funded\""
+      ]
+    },
+    "571": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "deduction_amount#0",
+        "maybe_exists%1#0",
+        "maybe_value%0#0",
+        "maybe_value%1#0",
+        "reason#0"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "572": {
+      "error": "check self.is_funded exists",
+      "op": "assert // check self.is_funded exists",
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "maybe_value%1#0"
+      ]
+    },
+    "573": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "deduction_amount#0",
+        "maybe_value%0#0",
+        "maybe_value%1#0",
+        "reason#0"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "maybe_value%1#0",
+        "1"
+      ]
+    },
+    "574": {
+      "op": "==",
+      "defined_out": [
+        "deduction_amount#0",
+        "maybe_value%0#0",
+        "reason#0",
+        "tmp%2#1"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "tmp%2#1"
+      ]
+    },
+    "575": {
+      "error": "Not funded",
+      "op": "assert // Not funded",
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0"
+      ]
+    },
+    "576": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "0"
+      ]
+    },
+    "577": {
+      "op": "bytec_2 // \"is_disputed\"",
+      "defined_out": [
+        "\"is_disputed\"",
+        "0",
+        "deduction_amount#0",
+        "maybe_value%0#0",
+        "reason#0"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "0",
+        "\"is_disputed\""
+      ]
+    },
+    "578": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "deduction_amount#0",
+        "maybe_exists%2#0",
+        "maybe_value%0#0",
+        "maybe_value%2#0",
+        "reason#0"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "maybe_value%2#0",
+        "maybe_exists%2#0"
+      ]
+    },
+    "579": {
+      "error": "check self.is_disputed exists",
+      "op": "assert // check self.is_disputed exists",
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "maybe_value%2#0"
+      ]
+    },
+    "580": {
+      "op": "!",
+      "defined_out": [
+        "deduction_amount#0",
+        "maybe_value%0#0",
+        "reason#0",
+        "tmp%3#1"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "tmp%3#1"
+      ]
+    },
+    "581": {
+      "error": "Under dispute",
+      "op": "assert // Under dispute",
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0"
+      ]
+    },
+    "582": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "0"
+      ]
+    },
+    "583": {
+      "op": "bytec 4 // \"deposit_amount\"",
+      "defined_out": [
+        "\"deposit_amount\"",
+        "0",
+        "deduction_amount#0",
+        "maybe_value%0#0",
+        "reason#0"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "0",
+        "\"deposit_amount\""
+      ]
+    },
+    "585": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "deduction_amount#0",
+        "maybe_exists%3#0",
+        "maybe_value%0#0",
+        "maybe_value%3#0",
+        "reason#0"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "maybe_value%3#0",
+        "maybe_exists%3#0"
+      ]
+    },
+    "586": {
+      "error": "check self.deposit_amount exists",
+      "op": "assert // check self.deposit_amount exists",
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "maybe_value%3#0"
+      ]
+    },
+    "587": {
+      "op": "dig 3",
+      "defined_out": [
+        "deduction_amount#0",
+        "deduction_amount#0 (copy)",
+        "maybe_value%0#0",
+        "maybe_value%3#0",
+        "reason#0"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "maybe_value%3#0",
+        "deduction_amount#0 (copy)"
+      ]
+    },
+    "589": {
+      "op": "dig 1",
+      "defined_out": [
+        "deduction_amount#0",
+        "deduction_amount#0 (copy)",
+        "maybe_value%0#0",
+        "maybe_value%3#0",
+        "maybe_value%3#0 (copy)",
+        "reason#0"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "maybe_value%3#0",
+        "deduction_amount#0 (copy)",
+        "maybe_value%3#0 (copy)"
+      ]
+    },
+    "591": {
+      "op": "<",
+      "defined_out": [
+        "deduction_amount#0",
+        "maybe_value%0#0",
+        "maybe_value%3#0",
+        "reason#0",
+        "tmp%4#1"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "maybe_value%3#0",
+        "tmp%4#1"
+      ]
+    },
+    "592": {
+      "error": "Deduction exceeds deposit",
+      "op": "assert // Deduction exceeds deposit",
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "maybe_value%3#0"
+      ]
+    },
+    "593": {
+      "op": "dig 3",
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "maybe_value%3#0",
+        "deduction_amount#0 (copy)"
+      ]
+    },
+    "595": {
+      "op": "-",
+      "defined_out": [
+        "deduction_amount#0",
+        "maybe_value%0#0",
+        "reason#0",
+        "remainder#0"
+      ],
+      "stack_out": [
+        "deduction_amount#0",
+        "reason#0",
+        "maybe_value%0#0",
+        "remainder#0"
+      ]
+    },
+    "596": {
+      "op": "itxn_begin"
+    },
+    "597": {
+      "op": "uncover 3",
+      "stack_out": [
+        "reason#0",
+        "maybe_value%0#0",
+        "remainder#0",
+        "deduction_amount#0"
+      ]
+    },
+    "599": {
+      "op": "itxn_field Amount",
+      "stack_out": [
+        "reason#0",
+        "maybe_value%0#0",
+        "remainder#0"
+      ]
+    },
+    "601": {
+      "op": "swap",
+      "stack_out": [
+        "reason#0",
+        "remainder#0",
+        "maybe_value%0#0"
+      ]
+    },
+    "602": {
+      "op": "itxn_field Receiver",
+      "stack_out": [
+        "reason#0",
+        "remainder#0"
+      ]
+    },
+    "604": {
+      "op": "intc_1 // pay",
+      "defined_out": [
+        "pay",
+        "reason#0",
+        "remainder#0"
+      ],
+      "stack_out": [
+        "reason#0",
+        "remainder#0",
+        "pay"
+      ]
+    },
+    "605": {
+      "op": "itxn_field TypeEnum",
+      "stack_out": [
+        "reason#0",
+        "remainder#0"
+      ]
+    },
+    "607": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "reason#0",
+        "remainder#0",
+        "0"
+      ]
+    },
+    "608": {
+      "op": "itxn_field Fee",
+      "stack_out": [
+        "reason#0",
+        "remainder#0"
+      ]
+    },
+    "610": {
+      "op": "itxn_submit"
+    },
+    "611": {
+      "op": "itxn_begin"
+    },
+    "612": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "reason#0",
+        "remainder#0",
+        "0"
+      ]
+    },
+    "613": {
+      "op": "bytec_1 // \"tenant\"",
+      "defined_out": [
+        "\"tenant\"",
+        "0",
+        "reason#0",
+        "remainder#0"
+      ],
+      "stack_out": [
+        "reason#0",
+        "remainder#0",
+        "0",
+        "\"tenant\""
+      ]
+    },
+    "614": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%6#0",
+        "maybe_value%6#0",
+        "reason#0",
+        "remainder#0"
+      ],
+      "stack_out": [
+        "reason#0",
+        "remainder#0",
+        "maybe_value%6#0",
+        "maybe_exists%6#0"
+      ]
+    },
+    "615": {
+      "error": "check self.tenant exists",
+      "op": "assert // check self.tenant exists",
+      "stack_out": [
+        "reason#0",
+        "remainder#0",
+        "maybe_value%6#0"
+      ]
+    },
+    "616": {
+      "op": "itxn_field Receiver"
+    },
+    "618": {
+      "op": "itxn_field Amount",
+      "stack_out": [
+        "reason#0"
+      ]
+    },
+    "620": {
+      "op": "intc_1 // pay",
+      "stack_out": [
+        "reason#0",
+        "pay"
+      ]
+    },
+    "621": {
+      "op": "itxn_field TypeEnum",
+      "stack_out": [
+        "reason#0"
+      ]
+    },
+    "623": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "reason#0",
+        "0"
+      ]
+    },
+    "624": {
+      "op": "itxn_field Fee",
+      "stack_out": [
+        "reason#0"
+      ]
+    },
+    "626": {
+      "op": "itxn_submit"
+    },
+    "627": {
+      "op": "bytec_0 // \"is_funded\"",
+      "stack_out": [
+        "reason#0",
+        "\"is_funded\""
+      ]
+    },
+    "628": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "reason#0",
+        "\"is_funded\"",
+        "0"
+      ]
+    },
+    "629": {
+      "op": "app_global_put",
+      "stack_out": [
+        "reason#0"
+      ]
+    },
+    "630": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "extract_to_end%0#0"
+      ],
+      "stack_out": [
+        "extract_to_end%0#0"
+      ]
+    },
+    "633": {
+      "op": "pushbytes 0x00114465706f73697420736574746c65643a20",
+      "defined_out": [
+        "0x00114465706f73697420736574746c65643a20",
+        "extract_to_end%0#0"
+      ],
+      "stack_out": [
+        "extract_to_end%0#0",
+        "0x00114465706f73697420736574746c65643a20"
+      ]
+    },
+    "654": {
+      "op": "swap",
+      "stack_out": [
+        "0x00114465706f73697420736574746c65643a20",
+        "extract_to_end%0#0"
+      ]
+    },
+    "655": {
+      "error": "max array length exceeded",
+      "op": "concat // on error: max array length exceeded",
+      "defined_out": [
+        "concat%0#0"
+      ],
+      "stack_out": [
+        "concat%0#0"
+      ]
+    },
+    "656": {
+      "op": "dup",
+      "defined_out": [
+        "concat%0#0",
+        "concat%0#0 (copy)"
+      ],
+      "stack_out": [
+        "concat%0#0",
+        "concat%0#0 (copy)"
+      ]
+    },
+    "657": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "concat%0#0",
+        "extract_to_end%1#0"
+      ],
+      "stack_out": [
+        "concat%0#0",
+        "extract_to_end%1#0"
+      ]
+    },
+    "660": {
+      "op": "len",
+      "stack_out": [
+        "concat%0#0",
+        "len%0#0"
+      ]
+    },
+    "661": {
+      "op": "itob",
+      "defined_out": [
+        "as_bytes%0#0",
+        "concat%0#0"
+      ],
+      "stack_out": [
+        "concat%0#0",
+        "as_bytes%0#0"
+      ]
+    },
+    "662": {
+      "op": "extract 6 2",
+      "defined_out": [
+        "as_u16_bytes%0#0",
+        "concat%0#0"
+      ],
+      "stack_out": [
+        "concat%0#0",
+        "as_u16_bytes%0#0"
+      ]
+    },
+    "665": {
+      "op": "replace2 0",
+      "defined_out": [
+        "replace%0#0"
+      ],
+      "stack_out": [
+        "replace%0#0"
+      ]
+    },
+    "667": {
+      "op": "bytec 8 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "replace%0#0"
+      ],
+      "stack_out": [
+        "replace%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "669": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "replace%0#0"
+      ]
+    },
+    "670": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "671": {
+      "op": "log",
+      "stack_out": []
+    },
+    "672": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "673": {
+      "op": "return",
+      "stack_out": []
+    },
+    "674": {
+      "subroutine": "smart_contracts.fianza_escrow.contract.FianzaEscrow.raise_dispute[routing]",
+      "params": {},
+      "block": "raise_dispute",
+      "stack_in": [],
+      "op": "txn Sender",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "676": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1",
+        "0"
+      ]
+    },
+    "677": {
+      "op": "bytec_1 // \"tenant\"",
+      "defined_out": [
+        "\"tenant\"",
+        "0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1",
+        "0",
+        "\"tenant\""
+      ]
+    },
+    "678": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1",
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "679": {
+      "error": "check self.tenant exists",
+      "op": "assert // check self.tenant exists",
+      "stack_out": [
+        "tmp%0#1",
+        "maybe_value%0#0"
+      ]
+    },
+    "680": {
+      "op": "==",
+      "defined_out": [
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "tmp%1#1"
+      ]
+    },
+    "681": {
+      "error": "Only tenant can dispute",
+      "op": "assert // Only tenant can dispute",
+      "stack_out": []
+    },
+    "682": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "0"
+      ]
+    },
+    "683": {
+      "op": "bytec_0 // \"is_funded\"",
+      "defined_out": [
+        "\"is_funded\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"is_funded\""
+      ]
+    },
+    "684": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%1#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "685": {
+      "error": "check self.is_funded exists",
+      "op": "assert // check self.is_funded exists",
+      "stack_out": [
+        "maybe_value%1#0"
+      ]
+    },
+    "686": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "maybe_value%1#0",
+        "1"
+      ]
+    },
+    "687": {
+      "op": "==",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "688": {
+      "error": "Not funded",
+      "op": "assert // Not funded",
+      "stack_out": []
+    },
+    "689": {
+      "op": "bytec_2 // \"is_disputed\"",
+      "defined_out": [
+        "\"is_disputed\""
+      ],
+      "stack_out": [
+        "\"is_disputed\""
+      ]
+    },
+    "690": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "\"is_disputed\"",
+        "1"
+      ]
+    },
+    "691": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "692": {
+      "op": "pushbytes 0x151f7c75001d4469737075746520726169736564202d2066756e64732066726f7a656e",
+      "defined_out": [
+        "0x151f7c75001d4469737075746520726169736564202d2066756e64732066726f7a656e"
+      ],
+      "stack_out": [
+        "0x151f7c75001d4469737075746520726169736564202d2066756e64732066726f7a656e"
+      ]
+    },
+    "729": {
+      "op": "log",
+      "stack_out": []
+    },
+    "730": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "731": {
+      "op": "return",
+      "stack_out": []
+    },
+    "732": {
+      "subroutine": "smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status[routing]",
+      "params": {},
+      "block": "get_status",
+      "stack_in": [],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "733": {
+      "op": "bytec_2 // \"is_disputed\"",
+      "defined_out": [
+        "\"is_disputed\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"is_disputed\""
+      ]
+    },
+    "734": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "735": {
+      "error": "check self.is_disputed exists",
+      "op": "assert // check self.is_disputed exists",
+      "stack_out": [
+        "maybe_value%0#0"
+      ]
+    },
+    "736": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "1"
+      ]
+    },
+    "737": {
+      "op": "==",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "738": {
+      "op": "bz get_status_after_if_else@3",
+      "stack_out": []
+    },
+    "741": {
+      "op": "pushbytes 0x00084449535055544544",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "753": {
+      "block": "get_status_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status@6",
+      "stack_in": [
+        "tmp%0#0"
+      ],
+      "op": "bytec 8 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "755": {
+      "op": "swap",
+      "defined_out": [
+        "0x151f7c75",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "0x151f7c75",
+        "tmp%0#0"
+      ]
+    },
+    "756": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "757": {
+      "op": "log",
+      "stack_out": []
+    },
+    "758": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "759": {
+      "op": "return",
+      "stack_out": []
+    },
+    "760": {
+      "block": "get_status_after_if_else@3",
+      "stack_in": [],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "761": {
+      "op": "bytec_0 // \"is_funded\"",
+      "defined_out": [
+        "\"is_funded\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"is_funded\""
+      ]
+    },
+    "762": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%1#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "763": {
+      "error": "check self.is_funded exists",
+      "op": "assert // check self.is_funded exists",
+      "stack_out": [
+        "maybe_value%1#0"
+      ]
+    },
+    "764": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "maybe_value%1#0",
+        "1"
+      ]
+    },
+    "765": {
+      "op": "==",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "766": {
+      "op": "bz get_status_after_if_else@5",
+      "stack_out": []
+    },
+    "769": {
+      "op": "pushbytes 0x000646554e444544",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "779": {
+      "op": "b get_status_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status@6"
+    },
+    "782": {
+      "block": "get_status_after_if_else@5",
+      "stack_in": [],
+      "op": "pushbytes 0x0008554e46554e444544",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "794": {
+      "op": "b get_status_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status@6"
+    }
+  }
+}

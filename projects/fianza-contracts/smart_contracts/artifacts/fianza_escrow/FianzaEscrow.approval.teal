@@ -1,0 +1,77 @@
+#pragma version 11
+#pragma typetrack false
+
+// algopy.arc4.ARC4Contract.approval_program() -> uint64:
+main:
+    intcblock 1
+    bytecblock "is_funded"
+    // smart_contracts/fianza_escrow/contract.py:5
+    // class FianzaEscrow(ARC4Contract):
+    txn NumAppArgs
+    bz main___algopy_default_create@11
+    txn OnCompletion
+    !
+    assert
+    txn ApplicationID
+    assert
+    pushbytess 0x874bdfc0 0xa4d8a114 // method "get_status()string", method "set_funded()string"
+    txna ApplicationArgs 0
+    match get_status set_funded
+    err
+
+main___algopy_default_create@11:
+    txn OnCompletion
+    !
+    txn ApplicationID
+    !
+    &&
+    return
+
+
+// smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status[routing]() -> void:
+get_status:
+    // smart_contracts/fianza_escrow/contract.py:12
+    // if self.is_funded.value == UInt64(1):
+    pushint 0
+    bytec_0 // "is_funded"
+    app_global_get_ex
+    assert // check self.is_funded exists
+    intc_0 // 1
+    ==
+    bz get_status_after_if_else@3
+    // smart_contracts/fianza_escrow/contract.py:13
+    // return String("FUNDED")
+    pushbytes 0x000646554e444544
+
+get_status_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status@4:
+    // smart_contracts/fianza_escrow/contract.py:10
+    // @abimethod
+    pushbytes 0x151f7c75
+    swap
+    concat
+    log
+    intc_0 // 1
+    return
+
+get_status_after_if_else@3:
+    // smart_contracts/fianza_escrow/contract.py:14
+    // return String("UNFUNDED")
+    pushbytes 0x0008554e46554e444544
+    // smart_contracts/fianza_escrow/contract.py:10
+    // @abimethod
+    b get_status_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status@4
+
+
+// smart_contracts.fianza_escrow.contract.FianzaEscrow.set_funded[routing]() -> void:
+set_funded:
+    // smart_contracts/fianza_escrow/contract.py:18
+    // self.is_funded.value = UInt64(1)
+    bytec_0 // "is_funded"
+    intc_0 // 1
+    app_global_put
+    // smart_contracts/fianza_escrow/contract.py:16
+    // @abimethod
+    pushbytes 0x151f7c75000646756e646564
+    log
+    intc_0 // 1
+    return
