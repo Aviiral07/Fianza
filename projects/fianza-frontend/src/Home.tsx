@@ -162,8 +162,10 @@ const Home: React.FC = () => {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <span style={{ color: '#9FE1CB', fontSize: '13px' }}>LocalNet</span>
-          {activeAddress && appId && (
-            <span style={{ color: '#5DCAA5', fontSize: '11px', background: 'rgba(93,202,165,0.1)', padding: '2px 8px', borderRadius: '20px' }}>App #{appId.toString()}</span>
+          {activeAddress && appId !== null && (
+            <span style={{ color: '#5DCAA5', fontSize: '11px', background: 'rgba(93,202,165,0.1)', padding: '2px 8px', borderRadius: '20px' }}>
+              App #{appId.toString()}
+            </span>
           )}
           <button onClick={() => setOpenWalletModal(true)} style={{ background: activeAddress ? 'rgba(93,202,165,0.2)' : '#5DCAA5', color: activeAddress ? '#9FE1CB' : '#1C3A18', border: activeAddress ? '1px solid rgba(93,202,165,0.3)' : 'none', borderRadius: '8px', padding: '8px 18px', cursor: 'pointer', fontWeight: '600', fontSize: '13px' }}>
             {activeAddress ? `${activeAddress.slice(0, 6)}...${activeAddress.slice(-4)}` : 'Connect Wallet'}
