@@ -1,12 +1,4 @@
-from algopy import (
-    ARC4Contract,
-    GlobalState,
-    UInt64,
-    Account,
-    Txn,
-    itxn,
-    op,
-)
+from algopy import ARC4Contract, GlobalState, UInt64, Account, Txn, itxn, op
 from algopy.arc4 import abimethod, String
 
 
@@ -24,15 +16,11 @@ class FianzaEscrow(ARC4Contract):
     """
 
     def __init__(self) -> None:
-        self.status = GlobalState(UInt64)          # 0=UNFUNDED, 1=FUNDED, 2=DISPUTED
-        self.tenant = GlobalState(Account)         # wallet that deposited
-        self.landlord = GlobalState(Account)       # wallet that can release/dispute
-        self.deposit_amount = GlobalState(UInt64)  # amount locked in microALGO
-        self.move_in_cid = GlobalState(String)     # IPFS CID for move-in photos
-
-    # ------------------------------------------------------------------
-    # Setup
-    # ------------------------------------------------------------------
+        self.status = GlobalState(UInt64, default=UInt64(0))
+        self.deposit_amount = GlobalState(UInt64, default=UInt64(0))
+        self.tenant = GlobalState(Account)
+        self.landlord = GlobalState(Account)
+        self.move_in_cid = GlobalState(String, default=String(""))
 
     @abimethod
     def set_landlord(self, landlord: Account) -> String:
@@ -41,10 +29,6 @@ class FianzaEscrow(ARC4Contract):
         self.landlord.value = landlord
         return String("Landlord set")
 
-    # ------------------------------------------------------------------
-    # Tenant actions
-    # ------------------------------------------------------------------
-
     @abimethod(allow_actions=["NoOp"])
     def fund_deposit(self) -> String:
         """
@@ -52,16 +36,11 @@ class FianzaEscrow(ARC4Contract):
         The payment must be attached as a grouped PayTxn.
         """
         assert self.status.value == UInt64(0), "Already funded"
-
-        # Record the tenant wallet
         self.tenant.value = Txn.sender
-
-        # Get the payment amount from the grouped transaction
         pay = op.GTxn.amount(0)
         assert pay > UInt64(0), "Must send ALGO"
         self.deposit_amount.value = pay
         self.status.value = UInt64(1)
-
         return String("FUNDED")
 
     @abimethod
@@ -72,10 +51,6 @@ class FianzaEscrow(ARC4Contract):
         self.move_in_cid.value = cid
         return String("CID stored")
 
-    # ------------------------------------------------------------------
-    # Landlord actions
-    # ------------------------------------------------------------------
-
     @abimethod
     def release_deposit(self) -> String:
         """
@@ -84,38 +59,26 @@ class FianzaEscrow(ARC4Contract):
         """
         assert self.status.value == UInt64(1), "Escrow must be FUNDED"
         assert Txn.sender == self.landlord.value, "Only landlord can release"
-
         amount = self.deposit_amount.value
         tenant = self.tenant.value
-
-        # Send ALGO back to tenant
         itxn.Payment(
             receiver=tenant,
             amount=amount,
             fee=UInt64(1000),
         ).submit()
-
         self.status.value = UInt64(0)
         self.deposit_amount.value = UInt64(0)
-
         return String("RELEASED")
 
     @abimethod
     def raise_dispute(self) -> String:
         """
         Landlord freezes the escrow — funds are locked until resolved.
-        In a full implementation, an oracle or arbitrator would resolve.
         """
         assert self.status.value == UInt64(1), "Escrow must be FUNDED"
         assert Txn.sender == self.landlord.value, "Only landlord can raise dispute"
-
         self.status.value = UInt64(2)
-
         return String("DISPUTED")
-
-    # ------------------------------------------------------------------
-    # Read-only
-    # ------------------------------------------------------------------
 
     @abimethod(readonly=True)
     def get_status(self) -> String:
