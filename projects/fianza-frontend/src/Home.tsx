@@ -1,11 +1,12 @@
 import { useWallet } from '@txnlab/use-wallet-react'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import ConnectWallet from './components/ConnectWallet'
 import { FianzaEscrowFactory } from './contracts/FianzaEscrow'
-import { OnSchemaBreak, OnUpdate } from '@algorandfoundation/algokit-utils/types/app'
 import { getAlgodConfigFromViteEnvironment, getIndexerConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
 import { AlgorandClient } from '@algorandfoundation/algokit-utils'
 import algosdk from 'algosdk'
+
+const APP_ID = BigInt(758255149)
 
 const Home: React.FC = () => {
   const [openWalletModal, setOpenWalletModal] = useState(false)
@@ -16,7 +17,6 @@ const Home: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'tenant' | 'landlord'>('tenant')
   const [loading, setLoading] = useState<{ [key: string]: boolean }>({})
   const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null)
-  const [appId, setAppId] = useState<bigint | null>(null)
   const [depositAmountOnChain, setDepositAmountOnChain] = useState<bigint | null>(null)
   const [cidOnChain, setCidOnChain] = useState<string>('')
 
@@ -25,65 +25,29 @@ const Home: React.FC = () => {
   const algodConfig = getAlgodConfigFromViteEnvironment()
   const indexerConfig = getIndexerConfigFromViteEnvironment()
 
-  const getAlgorand = () => {
-    const algorand = AlgorandClient.fromConfig({ algodConfig, indexerConfig })
-    algorand.setDefaultSigner(transactionSigner)
-    return algorand
-  }
-
   const showToast = (msg: string, type: 'success' | 'error') => {
     setToast({ msg, type })
     setTimeout(() => setToast(null), 4000)
   }
 
-const getOrDeployContract = async () => {
-  const algorand = getAlgorand()
-  const factory = new FianzaEscrowFactory({
-    defaultSender: activeAddress ?? undefined,
-    algorand,
-  })
-  const appClient = await factory.getAppClientById({
-    appId: BigInt(758255149),
-  })
-  setAppId(appClient.appId)
-  return appClient
-}
-
-  const refreshStatus = async (appClient: any) => {
-    try {
-      const statusRes = await appClient.send.getStatus({ args: {} })
-      const s = statusRes.return as string
-      if (s === 'FUNDED') setEscrowStatus('FUNDED')
-      else if (s === 'DISPUTED') setEscrowStatus('DISPUTED')
-      else setEscrowStatus('UNFUNDED')
-
-      const amountRes = await appClient.send.getDepositAmount({ args: {} })
-      setDepositAmountOnChain(amountRes.return as bigint)
-
-      const cidRes = await appClient.send.getCid({ args: {} })
-      setCidOnChain(cidRes.return as string)
-    } catch (_) {}
+  const getAppClient = () => {
+    if (!activeAddress) throw new Error('Wallet not connected')
+    const algorand = AlgorandClient.fromConfig({ algodConfig, indexerConfig })
+    algorand.setDefaultSigner(transactionSigner)
+    const factory = new FianzaEscrowFactory({
+      defaultSender: activeAddress,
+      algorand,
+    })
+    return factory.getAppClientById({ appId: APP_ID })
   }
 
-  useEffect(() => {
-    if (!activeAddress) return
-    const init = async () => {
-      try {
-        const appClient = await getOrDeployContract()
-        await refreshStatus(appClient)
-      } catch (_) {}
-    }
-    init()
-  }, [activeAddress])
-
-  // ── Tenant: Set Landlord ──────────────────────────────────────────
   const handleSetLandlord = async () => {
     if (!activeAddress) return showToast('Connect your wallet first.', 'error')
     if (!landlordAddress) return showToast('Enter the landlord wallet address.', 'error')
     if (!algosdk.isValidAddress(landlordAddress)) return showToast('Invalid Algorand address.', 'error')
     setLoading(l => ({ ...l, landlord: true }))
     try {
-      const appClient = await getOrDeployContract()
+      const appClient = await getAppClient()
       await appClient.send.setLandlord({ args: { landlord: landlordAddress } })
       showToast('Landlord registered on-chain!', 'success')
     } catch (e: any) {
@@ -92,47 +56,42 @@ const getOrDeployContract = async () => {
     setLoading(l => ({ ...l, landlord: false }))
   }
 
-  // ── Tenant: Fund Deposit ──────────────────────────────────────────
   const handleFundDeposit = async () => {
     if (!activeAddress) return showToast('Connect your wallet first.', 'error')
     if (!depositAmount || isNaN(Number(depositAmount)) || Number(depositAmount) <= 0)
       return showToast('Enter a valid ALGO amount.', 'error')
     setLoading(l => ({ ...l, fund: true }))
     try {
-      const appClient = await getOrDeployContract()
+      const appClient = await getAppClient()
       const microAlgo = BigInt(Math.round(Number(depositAmount) * 1_000_000))
-
-      // Send grouped payment + contract call
-      const algorand = getAlgorand()
+      const algorand = AlgorandClient.fromConfig({ algodConfig, indexerConfig })
+      algorand.setDefaultSigner(transactionSigner)
       const suggestedParams = await algorand.client.algod.getTransactionParams().do()
-
       const payTxn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
         from: activeAddress,
-        to: (await appClient.appAddress),
+        to: (await appClient).appAddress,
         amount: microAlgo,
         suggestedParams,
       })
-
-      await appClient.send.fundDeposit({
+      await (await appClient).send.fundDeposit({
         args: {},
         extraTxns: [{ txn: payTxn, signer: transactionSigner }],
       })
-
-      await refreshStatus(appClient)
-      showToast(`${depositAmount} ALGO locked on-chain successfully!`, 'success')
+      setEscrowStatus('FUNDED')
+      setDepositAmountOnChain(microAlgo)
+      showToast(`${depositAmount} ALGO locked on-chain!`, 'success')
     } catch (e: any) {
       showToast(`Error: ${e.message}`, 'error')
     }
     setLoading(l => ({ ...l, fund: false }))
   }
 
-  // ── Tenant: Store CID ─────────────────────────────────────────────
   const handleStoreCID = async () => {
     if (!activeAddress) return showToast('Connect your wallet first.', 'error')
     if (!moveInCID) return showToast('Enter an IPFS CID first.', 'error')
     setLoading(l => ({ ...l, cid: true }))
     try {
-      const appClient = await getOrDeployContract()
+      const appClient = await getAppClient()
       await appClient.send.storeCid({ args: { cid: moveInCID } })
       setCidOnChain(moveInCID)
       showToast('Move-in photos recorded on-chain!', 'success')
@@ -142,14 +101,14 @@ const getOrDeployContract = async () => {
     setLoading(l => ({ ...l, cid: false }))
   }
 
-  // ── Landlord: Release Deposit ─────────────────────────────────────
   const handleReleaseDeposit = async () => {
     if (!activeAddress) return showToast('Connect your wallet first.', 'error')
     setLoading(l => ({ ...l, release: true }))
     try {
-      const appClient = await getOrDeployContract()
+      const appClient = await getAppClient()
       await appClient.send.releaseDeposit({ args: {} })
-      await refreshStatus(appClient)
+      setEscrowStatus('UNFUNDED')
+      setDepositAmountOnChain(null)
       showToast('Deposit released back to tenant on-chain!', 'success')
     } catch (e: any) {
       showToast(`Error: ${e.message}`, 'error')
@@ -157,14 +116,13 @@ const getOrDeployContract = async () => {
     setLoading(l => ({ ...l, release: false }))
   }
 
-  // ── Landlord: Raise Dispute ───────────────────────────────────────
   const handleRaiseDispute = async () => {
     if (!activeAddress) return showToast('Connect your wallet first.', 'error')
     setLoading(l => ({ ...l, dispute: true }))
     try {
-      const appClient = await getOrDeployContract()
+      const appClient = await getAppClient()
       await appClient.send.raiseDispute({ args: {} })
-      await refreshStatus(appClient)
+      setEscrowStatus('DISPUTED')
       showToast('Dispute raised. Funds are frozen on-chain.', 'success')
     } catch (e: any) {
       showToast(`Error: ${e.message}`, 'error')
@@ -172,14 +130,17 @@ const getOrDeployContract = async () => {
     setLoading(l => ({ ...l, dispute: false }))
   }
 
-  // ── Get Status ────────────────────────────────────────────────────
   const handleGetStatus = async () => {
     if (!activeAddress) return showToast('Connect your wallet first.', 'error')
     setLoading(l => ({ ...l, status: true }))
     try {
-      const appClient = await getOrDeployContract()
-      await refreshStatus(appClient)
-      showToast(`On-chain status refreshed!`, 'success')
+      const appClient = await getAppClient()
+      const res = await appClient.send.getStatus({ args: {} })
+      const s = res.return as string
+      if (s === 'FUNDED') setEscrowStatus('FUNDED')
+      else if (s === 'DISPUTED') setEscrowStatus('DISPUTED')
+      else setEscrowStatus('UNFUNDED')
+      showToast(`On-chain status: ${s}`, 'success')
     } catch (e: any) {
       showToast(`Error: ${e.message}`, 'error')
     }
@@ -204,7 +165,6 @@ const getOrDeployContract = async () => {
         </div>
       )}
 
-      {/* NAV */}
       <nav style={{ background: '#1C3A18', padding: '0 40px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <div style={{ width: '32px', height: '32px', background: '#5DCAA5', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -217,17 +177,14 @@ const getOrDeployContract = async () => {
           <span style={{ color: '#5DCAA5', fontSize: '11px', background: 'rgba(93,202,165,0.15)', padding: '2px 8px', borderRadius: '20px', marginLeft: '4px' }}>on Algorand</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span style={{ color: '#9FE1CB', fontSize: '13px' }}>Testnet</span>
-          {activeAddress && appId && (
-            <span style={{ color: '#5DCAA5', fontSize: '11px', background: 'rgba(93,202,165,0.1)', padding: '2px 8px', borderRadius: '20px' }}>App #{appId.toString()}</span>
-          )}
+          <span style={{ color: '#9FE1CB', fontSize: '13px' }}>🟢 Testnet</span>
+          <span style={{ color: '#5DCAA5', fontSize: '11px', background: 'rgba(93,202,165,0.1)', padding: '2px 8px', borderRadius: '20px' }}>App #{APP_ID.toString()}</span>
           <button onClick={() => setOpenWalletModal(true)} style={{ background: activeAddress ? 'rgba(93,202,165,0.2)' : '#5DCAA5', color: activeAddress ? '#9FE1CB' : '#1C3A18', border: activeAddress ? '1px solid rgba(93,202,165,0.3)' : 'none', borderRadius: '8px', padding: '8px 18px', cursor: 'pointer', fontWeight: '600', fontSize: '13px' }}>
             {activeAddress ? `${activeAddress.slice(0, 6)}...${activeAddress.slice(-4)}` : 'Connect Wallet'}
           </button>
         </div>
       </nav>
 
-      {/* HERO */}
       <div style={{ background: 'linear-gradient(180deg, #1C3A18 0%, #2d5a27 100%)', padding: '64px 40px 80px', textAlign: 'center' }}>
         <div style={{ display: 'inline-block', background: 'rgba(93,202,165,0.15)', border: '1px solid rgba(93,202,165,0.3)', borderRadius: '20px', padding: '6px 16px', marginBottom: '20px' }}>
           <span style={{ color: '#5DCAA5', fontSize: '12px', fontWeight: '600', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Blockchain-Powered Escrow</span>
@@ -248,10 +205,9 @@ const getOrDeployContract = async () => {
         </div>
       </div>
 
-      {/* STATS BAR */}
       <div style={{ background: '#F0EBE1', borderBottom: '1px solid #E0D9CE', padding: '20px 40px', display: 'flex', justifyContent: 'center', gap: '60px' }}>
         {[
-          { value: appId ? `#${appId.toString()}` : '—', label: 'App ID' },
+          { value: `#${APP_ID.toString()}`, label: 'App ID' },
           { value: depositAmountOnChain ? `${microToAlgo(depositAmountOnChain)} ALGO` : '0 ALGO', label: 'Locked On-Chain' },
           { value: escrowStatus, label: 'Escrow Status' },
           { value: cidOnChain ? cidOnChain.slice(0, 8) + '...' : '—', label: 'IPFS CID' },
@@ -263,10 +219,8 @@ const getOrDeployContract = async () => {
         ))}
       </div>
 
-      {/* MAIN CONTENT */}
       <div style={{ maxWidth: '1000px', margin: '40px auto', padding: '0 24px' }}>
 
-        {/* TABS + STATUS */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
           <div style={{ display: 'flex', gap: '8px' }}>
             {(['tenant', 'landlord'] as const).map(tab => (
@@ -287,11 +241,9 @@ const getOrDeployContract = async () => {
           </div>
         )}
 
-        {/* TENANT VIEW */}
         {activeTab === 'tenant' && (
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
 
-            {/* Set Landlord */}
             <div style={{ background: 'white', borderRadius: '16px', padding: '28px', border: '1px solid #E8E2D9' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
                 <div style={{ width: '40px', height: '40px', background: '#EEEDFE', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -311,7 +263,6 @@ const getOrDeployContract = async () => {
               </button>
             </div>
 
-            {/* Fund Deposit */}
             <div style={{ background: 'white', borderRadius: '16px', padding: '28px', border: '1px solid #E8E2D9' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
                 <div style={{ width: '40px', height: '40px', background: '#EAF3DE', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -324,14 +275,13 @@ const getOrDeployContract = async () => {
               </div>
               <div style={{ marginBottom: '12px' }}>
                 <label style={{ display: 'block', color: '#5F5E5A', fontSize: '12px', fontWeight: '600', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Amount (ALGO)</label>
-                <input type="number" placeholder="e.g. 500" value={depositAmount} onChange={e => setDepositAmount(e.target.value)} style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #E8E2D9', fontSize: '15px', outline: 'none', boxSizing: 'border-box', color: '#1C1C1A', background: '#FAFAF8' }} />
+                <input type="number" placeholder="e.g. 1" value={depositAmount} onChange={e => setDepositAmount(e.target.value)} style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #E8E2D9', fontSize: '15px', outline: 'none', boxSizing: 'border-box', color: '#1C1C1A', background: '#FAFAF8' }} />
               </div>
               <button onClick={handleFundDeposit} disabled={loading.fund} style={{ width: '100%', padding: '13px', background: loading.fund ? '#9EC898' : '#2d5a27', color: 'white', border: 'none', borderRadius: '10px', cursor: loading.fund ? 'not-allowed' : 'pointer', fontWeight: '700', fontSize: '14px' }}>
                 {loading.fund ? 'Locking On-Chain...' : 'Lock Deposit On-Chain'}
               </button>
             </div>
 
-            {/* Store CID */}
             <div style={{ background: 'white', borderRadius: '16px', padding: '28px', border: '1px solid #E8E2D9', gridColumn: '1 / -1' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
                 <div style={{ width: '40px', height: '40px', background: '#E6F1FB', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -358,11 +308,9 @@ const getOrDeployContract = async () => {
           </div>
         )}
 
-        {/* LANDLORD VIEW */}
         {activeTab === 'landlord' && (
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
 
-            {/* Release Deposit */}
             <div style={{ background: 'white', borderRadius: '16px', padding: '28px', border: '1px solid #E8E2D9' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
                 <div style={{ width: '40px', height: '40px', background: '#EAF3DE', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -384,7 +332,6 @@ const getOrDeployContract = async () => {
               </button>
             </div>
 
-            {/* Raise Dispute */}
             <div style={{ background: 'white', borderRadius: '16px', padding: '28px', border: '1px solid #F7C1C1' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
                 <div style={{ width: '40px', height: '40px', background: '#FCEBEB', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -401,7 +348,6 @@ const getOrDeployContract = async () => {
               </button>
             </div>
 
-            {/* On-chain evidence viewer */}
             {cidOnChain && (
               <div style={{ background: 'white', borderRadius: '16px', padding: '28px', border: '1px solid #E8E2D9', gridColumn: '1 / -1' }}>
                 <h3 style={{ margin: '0 0 12px', color: '#1C1C1A', fontSize: '15px', fontWeight: '700' }}>📸 On-Chain Evidence</h3>
@@ -417,7 +363,6 @@ const getOrDeployContract = async () => {
           </div>
         )}
 
-        {/* HOW IT WORKS */}
         <div style={{ background: 'white', borderRadius: '16px', padding: '32px', border: '1px solid #E8E2D9', marginBottom: '40px' }}>
           <h3 style={{ margin: '0 0 24px', color: '#1C1C1A', fontSize: '16px', fontWeight: '700', textAlign: 'center' }}>How Fianza Works</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
