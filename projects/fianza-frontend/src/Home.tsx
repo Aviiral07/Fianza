@@ -36,19 +36,18 @@ const Home: React.FC = () => {
     setTimeout(() => setToast(null), 4000)
   }
 
-  const getOrDeployContract = async () => {
-    const algorand = getAlgorand()
-    const factory = new FianzaEscrowFactory({
-      defaultSender: activeAddress ?? undefined,
-      algorand,
-    })
-  const result = await factory.getAppClientById({
-  appId: BigInt(758255149),
-})
-return result
-    setAppId(result.appClient.appId)
-    return result.appClient
-  }
+const getOrDeployContract = async () => {
+  const algorand = getAlgorand()
+  const factory = new FianzaEscrowFactory({
+    defaultSender: activeAddress ?? undefined,
+    algorand,
+  })
+  const appClient = await factory.getAppClientById({
+    appId: BigInt(758255149),
+  })
+  setAppId(appClient.appId)
+  return appClient
+}
 
   const refreshStatus = async (appClient: any) => {
     try {
