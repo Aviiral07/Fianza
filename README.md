@@ -32,7 +32,7 @@ Fianza puts the deposit into an **immutable Algorand smart contract** — not th
 
 ## 🎥 Live Demo
 
-👉 **[https://aviiiral07.github.io/Fianza/](https://aviiiral07.github.io/Fianza/)**
+👉 **[https://aviiiral07.github.io/Fianza/](https://aviiral07.github.io/Fianza/)**
 
 ### Demo Flow
 1. Connect Pera Wallet (Testnet)
