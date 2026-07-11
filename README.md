@@ -2,7 +2,7 @@
 
 > **Transparent, fair, tamper-proof deposits secured by Algorand smart contracts.**
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-5DCAA5?style=for-the-badge)](https://aviiiral07.github.io/Fianza/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-5DCAA5?style=for-the-badge)](https://aviiral07.github.io/Fianza/)
 [![Algorand](https://img.shields.io/badge/Built%20on-Algorand-000000?style=for-the-badge&logo=algorand)](https://algorand.com)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
@@ -32,7 +32,7 @@ Fianza puts the deposit into an **immutable Algorand smart contract** — not th
 
 ## 🎥 Live Demo
 
-👉 **[https://aviiiral07.github.io/Fianza/](https://aviiral07.github.io/Fianza/)**
+👉 **[https://aviiral07.github.io/Fianza/](https://aviiral07.github.io/Fianza/)**
 
 ### Demo Flow
 1. Connect Pera Wallet (Testnet)
@@ -97,7 +97,7 @@ pip install algokit
 
 ### Clone & Run Frontend
 ```bash
-git clone https://github.com/Aviiiral07/Fianza.git
+git clone https://github.com/Aviiral07/Fianza.git
 cd Fianza/projects/fianza-frontend
 npm install
 npm run dev

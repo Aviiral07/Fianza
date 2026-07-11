@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import ConnectWallet from './components/ConnectWallet'
 import { FianzaEscrowClient } from './contracts/FianzaEscrow'
 import { getAlgodConfigFromViteEnvironment, getIndexerConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
-import { AlgorandClient } from '@algorandfoundation/algokit-utils'
+import { AlgorandClient, microAlgos } from '@algorandfoundation/algokit-utils'
 
 const APP_ID = BigInt(758255149)
 
@@ -13,6 +13,7 @@ const Home: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'tenant' | 'landlord'>('tenant')
   const [loading, setLoading] = useState(false)
   const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null)
+  const [depositAmount, setDepositAmount] = useState('1')
 
   const { activeAddress, transactionSigner } = useWallet()
 
@@ -53,14 +54,27 @@ const Home: React.FC = () => {
     setLoading(false)
   }
 
-  const handleSetFunded = async () => {
+  const handleFundDeposit = async () => {
     if (!activeAddress) return showToast('Connect your wallet first!', 'error')
+    const amount = Number(depositAmount)
+    if (!amount || amount <= 0) return showToast('Enter a valid deposit amount', 'error')
     setLoading(true)
     try {
       const appClient = getAppClient()
-      await appClient.send.setFunded({ args: {} })
+      const algorand = appClient.algorand
+      // fund_deposit() on-chain expects a linked Payment transaction (group index 0)
+      // carrying the ALGO being locked into escrow, followed by the app call.
+      await algorand
+        .newGroup()
+        .addPayment({
+          sender: activeAddress,
+          receiver: appClient.appAddress,
+          amount: microAlgos(Math.round(amount * 1_000_000)),
+        })
+        .addAppCallMethodCall(appClient.params.fundDeposit({}))
+        .send()
       setEscrowStatus('FUNDED')
-      showToast('Deposit marked as FUNDED on-chain!', 'success')
+      showToast('Deposit funded on-chain!', 'success')
     } catch (e: any) {
       showToast(`Error: ${e.message}`, 'error')
     }
@@ -114,7 +128,7 @@ const Home: React.FC = () => {
           Transparent, fair, tamper-proof deposits secured by Algorand smart contracts.
         </p>
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
-          <button onClick={handleSetFunded} disabled={loading} style={{ background: '#5DCAA5', color: '#1C3A18', border: 'none', borderRadius: '10px', padding: '14px 28px', fontWeight: '700', fontSize: '15px', cursor: 'pointer' }}>
+          <button onClick={handleFundDeposit} disabled={loading} style={{ background: '#5DCAA5', color: '#1C3A18', border: 'none', borderRadius: '10px', padding: '14px 28px', fontWeight: '700', fontSize: '15px', cursor: 'pointer' }}>
             {loading ? 'Processing...' : 'Create Escrow'}
           </button>
           <button onClick={handleGetStatus} disabled={loading} style={{ background: 'transparent', color: '#9FE1CB', border: '1px solid rgba(93,202,165,0.4)', borderRadius: '10px', padding: '14px 28px', fontWeight: '600', fontSize: '15px', cursor: 'pointer' }}>
@@ -172,9 +186,18 @@ const Home: React.FC = () => {
               </div>
             </div>
             <p style={{ color: '#5F5E5A', fontSize: '13px', lineHeight: '1.6', marginBottom: '20px', marginTop: 0 }}>
-              Calls <code style={{ background: '#F0EBE1', padding: '2px 6px', borderRadius: '4px', fontSize: '12px' }}>set_funded</code> on the smart contract — marks the escrow as active and funded on Algorand TestNet.
+              Sends an ALGO payment together with <code style={{ background: '#F0EBE1', padding: '2px 6px', borderRadius: '4px', fontSize: '12px' }}>fund_deposit</code> on the smart contract — locks the deposit into escrow on Algorand TestNet.
             </p>
-            <button onClick={handleSetFunded} disabled={loading} style={{ width: '100%', padding: '13px', background: loading ? '#9EC898' : '#2d5a27', color: 'white', border: 'none', borderRadius: '10px', cursor: loading ? 'not-allowed' : 'pointer', fontWeight: '700', fontSize: '14px' }}>
+            <input
+              type="number"
+              min="0"
+              step="0.1"
+              value={depositAmount}
+              onChange={(e) => setDepositAmount(e.target.value)}
+              placeholder="Amount in ALGO"
+              style={{ width: '100%', padding: '10px 12px', marginBottom: '12px', border: '1px solid #E0D9CE', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box' }}
+            />
+            <button onClick={handleFundDeposit} disabled={loading} style={{ width: '100%', padding: '13px', background: loading ? '#9EC898' : '#2d5a27', color: 'white', border: 'none', borderRadius: '10px', cursor: loading ? 'not-allowed' : 'pointer', fontWeight: '700', fontSize: '14px' }}>
               {loading ? 'Processing...' : 'Lock Deposit On-Chain'}
             </button>
           </div>
@@ -215,7 +238,7 @@ const Home: React.FC = () => {
                 { label: 'Network', value: 'Algorand TestNet' },
                 { label: 'App ID', value: APP_ID.toString() },
                 { label: 'Language', value: 'Python (Puya)' },
-                { label: 'Methods', value: 'get_status, set_funded' },
+                { label: 'Methods', value: 'get_status, fund_deposit' },
                 { label: 'Storage', value: 'Global State' },
                 { label: 'Status', value: escrowStatus },
               ].map((item, i) => (
