@@ -71,7 +71,7 @@ const Home: React.FC = () => {
           receiver: appClient.appAddress,
           amount: microAlgos(Math.round(amount * 1_000_000)),
         })
-        .addAppCallMethodCall(appClient.params.fundDeposit({ args: [] })
+        .addAppCallMethodCall(appClient.params.fundDeposit({ args: [] }))
         .send()
       setEscrowStatus('FUNDED')
       showToast('Deposit funded on-chain!', 'success')
