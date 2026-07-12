@@ -1,4 +1,4 @@
-import { useWallet } from '@txnlab/use-wallet-react'
+	import { useWallet } from '@txnlab/use-wallet-react'
 import React, { useState } from 'react'
 import ConnectWallet from './components/ConnectWallet'
 import { FianzaEscrowClient } from './contracts/FianzaEscrow'
@@ -70,8 +70,9 @@ const Home: React.FC = () => {
           sender: activeAddress,
           receiver: appClient.appAddress,
           amount: Math.round(amount * 1_000_000).microAlgo(),
+          signer: transactionSigner,
         })
-        .addAppCallMethodCall(appClient.params.fundDeposit({ args: [] }))
+        .addAppCallMethodCall(appClient.params.fundDeposit({ args: [], sender: activeAddress, signer: transactionSigner }))
         .send()
       setEscrowStatus('FUNDED')
       showToast('Deposit funded on-chain!', 'success')
