@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import ConnectWallet from './components/ConnectWallet'
 import { FianzaEscrowClient } from './contracts/FianzaEscrow'
 import { getAlgodConfigFromViteEnvironment, getIndexerConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
-import { AlgorandClient, microAlgos } from '@algorandfoundation/algokit-utils'
+import { AlgorandClient } from '@algorandfoundation/algokit-utils'
 
 const APP_ID = BigInt(766160152)
 
@@ -69,13 +69,14 @@ const Home: React.FC = () => {
         .addPayment({
           sender: activeAddress,
           receiver: appClient.appAddress,
-          amount: microAlgos(Math.round(amount * 1_000_000)),
+          amount: Math.round(amount * 1_000_000).microAlgo(),
         })
         .addAppCallMethodCall(appClient.params.fundDeposit({ args: [] }))
         .send()
       setEscrowStatus('FUNDED')
       showToast('Deposit funded on-chain!', 'success')
     } catch (e: any) {
+      console.error('Fund deposit failed:', e)
       showToast(`Error: ${e.message}`, 'error')
     }
     setLoading(false)
