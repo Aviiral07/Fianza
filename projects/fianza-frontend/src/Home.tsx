@@ -5,7 +5,7 @@ import { FianzaEscrowClient } from './contracts/FianzaEscrow'
 import { getAlgodConfigFromViteEnvironment, getIndexerConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
 import { AlgorandClient, microAlgos } from '@algorandfoundation/algokit-utils'
 
-const APP_ID = BigInt(758255149)
+const APP_ID = BigInt(766160152)
 
 const Home: React.FC = () => {
   const [openWalletModal, setOpenWalletModal] = useState(false)

@@ -3,23 +3,23 @@
 
 // algopy.arc4.ARC4Contract.approval_program() -> uint64:
 main:
-    intcblock 1
-    bytecblock "is_funded"
+    intcblock 0 1 2
+    bytecblock "status" "deposit_amount" "landlord" "move_in_cid" "tenant" 0x151f7c75 0x0000 0x0008554e46554e444544
     // smart_contracts/fianza_escrow/contract.py:5
     // class FianzaEscrow(ARC4Contract):
     txn NumAppArgs
-    bz main___algopy_default_create@11
+    bz main___algopy_default_create@17
     txn OnCompletion
     !
     assert
     txn ApplicationID
     assert
-    pushbytess 0x874bdfc0 0xa4d8a114 // method "get_status()string", method "set_funded()string"
+    pushbytess 0x2efd7413 0xa6a26fb1 0xe2ba40d1 0xba23d718 0x7c3fd89d 0x874bdfc0 0x65c38d5c 0x303dbc64 // method "set_landlord(address)string", method "fund_deposit()string", method "store_cid(string)string", method "release_deposit()string", method "raise_dispute()string", method "get_status()string", method "get_deposit_amount()uint64", method "get_cid()string"
     txna ApplicationArgs 0
-    match get_status set_funded
+    match set_landlord fund_deposit store_cid release_deposit raise_dispute get_status get_deposit_amount get_cid
     err
 
-main___algopy_default_create@11:
+main___algopy_default_create@17:
     txn OnCompletion
     !
     txn ApplicationID
@@ -28,50 +28,386 @@ main___algopy_default_create@11:
     return
 
 
+// smart_contracts.fianza_escrow.contract.FianzaEscrow.set_landlord[routing]() -> void:
+set_landlord:
+    // smart_contracts/fianza_escrow/contract.py:22
+    // @abimethod
+    txna ApplicationArgs 1
+    dup
+    len
+    pushint 32
+    ==
+    assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>
+    // smart_contracts/fianza_escrow/contract.py:25
+    // status, exists = self.status.maybe()
+    intc_0 // 0
+    bytec_0 // "status"
+    app_global_get_ex
+    dup
+    uncover 2
+    swap
+    // smart_contracts/fianza_escrow/contract.py:26
+    // if exists:
+    bz set_landlord_after_if_else@3
+    // smart_contracts/fianza_escrow/contract.py:27
+    // assert status == UInt64(0), "Already funded"
+    dup
+    !
+    assert // Already funded
+
+set_landlord_after_if_else@3:
+    // smart_contracts/fianza_escrow/contract.py:28
+    // self.landlord.value = landlord
+    bytec_2 // "landlord"
+    dig 3
+    app_global_put
+    // smart_contracts/fianza_escrow/contract.py:29
+    // if not exists:
+    dig 1
+    bnz set_landlord_after_if_else@5
+    // smart_contracts/fianza_escrow/contract.py:30
+    // self.status.value = UInt64(0)
+    bytec_0 // "status"
+    intc_0 // 0
+    app_global_put
+    // smart_contracts/fianza_escrow/contract.py:31
+    // self.deposit_amount.value = UInt64(0)
+    bytec_1 // "deposit_amount"
+    intc_0 // 0
+    app_global_put
+    // smart_contracts/fianza_escrow/contract.py:32
+    // self.move_in_cid.value = String("")
+    bytec_3 // "move_in_cid"
+    bytec 6 // 0x0000
+    app_global_put
+
+set_landlord_after_if_else@5:
+    // smart_contracts/fianza_escrow/contract.py:22
+    // @abimethod
+    pushbytes 0x151f7c75000c4c616e646c6f726420736574
+    log
+    intc_1 // 1
+    return
+
+
+// smart_contracts.fianza_escrow.contract.FianzaEscrow.fund_deposit[routing]() -> void:
+fund_deposit:
+    // smart_contracts/fianza_escrow/contract.py:38
+    // status, exists = self.status.maybe()
+    intc_0 // 0
+    bytec_0 // "status"
+    app_global_get_ex
+    // smart_contracts/fianza_escrow/contract.py:39
+    // if exists:
+    bz fund_deposit_after_if_else@3
+    // smart_contracts/fianza_escrow/contract.py:40
+    // assert status == UInt64(0), "Already funded"
+    dup
+    !
+    assert // Already funded
+
+fund_deposit_after_if_else@3:
+    // smart_contracts/fianza_escrow/contract.py:41
+    // self.tenant.value = Txn.sender
+    bytec 4 // "tenant"
+    txn Sender
+    app_global_put
+    // smart_contracts/fianza_escrow/contract.py:42
+    // pay = op.GTxn.amount(0)
+    gtxn 0 Amount
+    // smart_contracts/fianza_escrow/contract.py:43
+    // assert pay > UInt64(0), "Must send ALGO"
+    dup
+    assert // Must send ALGO
+    // smart_contracts/fianza_escrow/contract.py:44
+    // self.deposit_amount.value = pay
+    bytec_1 // "deposit_amount"
+    swap
+    app_global_put
+    // smart_contracts/fianza_escrow/contract.py:45
+    // self.status.value = UInt64(1)
+    bytec_0 // "status"
+    intc_1 // 1
+    app_global_put
+    // smart_contracts/fianza_escrow/contract.py:35
+    // @abimethod(allow_actions=["NoOp"])
+    pushbytes 0x151f7c75000646554e444544
+    log
+    intc_1 // 1
+    return
+
+
+// smart_contracts.fianza_escrow.contract.FianzaEscrow.store_cid[routing]() -> void:
+store_cid:
+    // smart_contracts/fianza_escrow/contract.py:48
+    // @abimethod
+    txna ApplicationArgs 1
+    dup
+    intc_0 // 0
+    extract_uint16 // on error: invalid array length header
+    intc_2 // 2
+    +
+    dig 1
+    len
+    ==
+    assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
+    // smart_contracts/fianza_escrow/contract.py:51
+    // assert self.status.value == UInt64(1), "Escrow must be FUNDED"
+    intc_0 // 0
+    bytec_0 // "status"
+    app_global_get_ex
+    assert // check self.status exists
+    intc_1 // 1
+    ==
+    assert // Escrow must be FUNDED
+    // smart_contracts/fianza_escrow/contract.py:52
+    // assert Txn.sender == self.tenant.value, "Only tenant can store CID"
+    txn Sender
+    intc_0 // 0
+    bytec 4 // "tenant"
+    app_global_get_ex
+    assert // check self.tenant exists
+    ==
+    assert // Only tenant can store CID
+    // smart_contracts/fianza_escrow/contract.py:53
+    // self.move_in_cid.value = cid
+    bytec_3 // "move_in_cid"
+    swap
+    app_global_put
+    // smart_contracts/fianza_escrow/contract.py:48
+    // @abimethod
+    pushbytes 0x151f7c75000a4349442073746f726564
+    log
+    intc_1 // 1
+    return
+
+
+// smart_contracts.fianza_escrow.contract.FianzaEscrow.release_deposit[routing]() -> void:
+release_deposit:
+    // smart_contracts/fianza_escrow/contract.py:59
+    // assert self.status.value == UInt64(1), "Escrow must be FUNDED"
+    intc_0 // 0
+    bytec_0 // "status"
+    app_global_get_ex
+    assert // check self.status exists
+    intc_1 // 1
+    ==
+    assert // Escrow must be FUNDED
+    // smart_contracts/fianza_escrow/contract.py:60
+    // assert Txn.sender == self.landlord.value, "Only landlord can release"
+    txn Sender
+    intc_0 // 0
+    bytec_2 // "landlord"
+    app_global_get_ex
+    assert // check self.landlord exists
+    ==
+    assert // Only landlord can release
+    // smart_contracts/fianza_escrow/contract.py:61
+    // amount = self.deposit_amount.value
+    intc_0 // 0
+    bytec_1 // "deposit_amount"
+    app_global_get_ex
+    assert // check self.deposit_amount exists
+    // smart_contracts/fianza_escrow/contract.py:62
+    // tenant = self.tenant.value
+    intc_0 // 0
+    bytec 4 // "tenant"
+    app_global_get_ex
+    assert // check self.tenant exists
+    // smart_contracts/fianza_escrow/contract.py:63-67
+    // itxn.Payment(
+    //     receiver=tenant,
+    //     amount=amount,
+    //     fee=UInt64(1000),
+    // ).submit()
+    itxn_begin
+    itxn_field Receiver
+    itxn_field Amount
+    // smart_contracts/fianza_escrow/contract.py:63
+    // itxn.Payment(
+    intc_1 // pay
+    itxn_field TypeEnum
+    // smart_contracts/fianza_escrow/contract.py:66
+    // fee=UInt64(1000),
+    pushint 1000
+    itxn_field Fee
+    // smart_contracts/fianza_escrow/contract.py:63-67
+    // itxn.Payment(
+    //     receiver=tenant,
+    //     amount=amount,
+    //     fee=UInt64(1000),
+    // ).submit()
+    itxn_submit
+    // smart_contracts/fianza_escrow/contract.py:68
+    // self.status.value = UInt64(0)
+    bytec_0 // "status"
+    intc_0 // 0
+    app_global_put
+    // smart_contracts/fianza_escrow/contract.py:69
+    // self.deposit_amount.value = UInt64(0)
+    bytec_1 // "deposit_amount"
+    intc_0 // 0
+    app_global_put
+    // smart_contracts/fianza_escrow/contract.py:56
+    // @abimethod
+    pushbytes 0x151f7c75000852454c4541534544
+    log
+    intc_1 // 1
+    return
+
+
+// smart_contracts.fianza_escrow.contract.FianzaEscrow.raise_dispute[routing]() -> void:
+raise_dispute:
+    // smart_contracts/fianza_escrow/contract.py:75
+    // assert self.status.value == UInt64(1), "Escrow must be FUNDED"
+    intc_0 // 0
+    bytec_0 // "status"
+    app_global_get_ex
+    assert // check self.status exists
+    intc_1 // 1
+    ==
+    assert // Escrow must be FUNDED
+    // smart_contracts/fianza_escrow/contract.py:76
+    // assert Txn.sender == self.landlord.value, "Only landlord can raise dispute"
+    txn Sender
+    intc_0 // 0
+    bytec_2 // "landlord"
+    app_global_get_ex
+    assert // check self.landlord exists
+    ==
+    assert // Only landlord can raise dispute
+    // smart_contracts/fianza_escrow/contract.py:77
+    // self.status.value = UInt64(2)
+    bytec_0 // "status"
+    intc_2 // 2
+    app_global_put
+    // smart_contracts/fianza_escrow/contract.py:72
+    // @abimethod
+    pushbytes 0x151f7c7500084449535055544544
+    log
+    intc_1 // 1
+    return
+
+
 // smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status[routing]() -> void:
 get_status:
-    // smart_contracts/fianza_escrow/contract.py:12
-    // if self.is_funded.value == UInt64(1):
-    pushint 0
-    bytec_0 // "is_funded"
+    // smart_contracts/fianza_escrow/contract.py:83
+    // status, exists = self.status.maybe()
+    intc_0 // 0
+    bytec_0 // "status"
     app_global_get_ex
-    assert // check self.is_funded exists
-    intc_0 // 1
-    ==
-    bz get_status_after_if_else@3
-    // smart_contracts/fianza_escrow/contract.py:13
-    // return String("FUNDED")
-    pushbytes 0x000646554e444544
+    // smart_contracts/fianza_escrow/contract.py:84
+    // if not exists:
+    bnz get_status_after_if_else@3
+    // smart_contracts/fianza_escrow/contract.py:85
+    // return String("UNFUNDED")
+    bytec 7 // 0x0008554e46554e444544
 
-get_status_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status@4:
-    // smart_contracts/fianza_escrow/contract.py:10
-    // @abimethod
-    pushbytes 0x151f7c75
+get_status_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status@8:
+    // smart_contracts/fianza_escrow/contract.py:80
+    // @abimethod(readonly=True)
+    bytec 5 // 0x151f7c75
     swap
     concat
     log
-    intc_0 // 1
+    intc_1 // 1
     return
 
 get_status_after_if_else@3:
-    // smart_contracts/fianza_escrow/contract.py:14
+    // smart_contracts/fianza_escrow/contract.py:86
+    // if status == UInt64(1):
+    dup
+    intc_1 // 1
+    ==
+    bz get_status_after_if_else@5
+    // smart_contracts/fianza_escrow/contract.py:87
+    // return String("FUNDED")
+    pushbytes 0x000646554e444544
+    // smart_contracts/fianza_escrow/contract.py:80
+    // @abimethod(readonly=True)
+    b get_status_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status@8
+
+get_status_after_if_else@5:
+    // smart_contracts/fianza_escrow/contract.py:88
+    // if status == UInt64(2):
+    dup
+    intc_2 // 2
+    ==
+    bz get_status_after_if_else@7
+    // smart_contracts/fianza_escrow/contract.py:89
+    // return String("DISPUTED")
+    pushbytes 0x00084449535055544544
+    // smart_contracts/fianza_escrow/contract.py:80
+    // @abimethod(readonly=True)
+    b get_status_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status@8
+
+get_status_after_if_else@7:
+    // smart_contracts/fianza_escrow/contract.py:90
     // return String("UNFUNDED")
-    pushbytes 0x0008554e46554e444544
-    // smart_contracts/fianza_escrow/contract.py:10
-    // @abimethod
-    b get_status_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status@4
+    bytec 7 // 0x0008554e46554e444544
+    // smart_contracts/fianza_escrow/contract.py:80
+    // @abimethod(readonly=True)
+    b get_status_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status@8
 
 
-// smart_contracts.fianza_escrow.contract.FianzaEscrow.set_funded[routing]() -> void:
-set_funded:
-    // smart_contracts/fianza_escrow/contract.py:18
-    // self.is_funded.value = UInt64(1)
-    bytec_0 // "is_funded"
-    intc_0 // 1
-    app_global_put
-    // smart_contracts/fianza_escrow/contract.py:16
-    // @abimethod
-    pushbytes 0x151f7c75000646756e646564
+// smart_contracts.fianza_escrow.contract.FianzaEscrow.get_deposit_amount[routing]() -> void:
+get_deposit_amount:
+    // smart_contracts/fianza_escrow/contract.py:95
+    // amount, exists = self.deposit_amount.maybe()
+    intc_0 // 0
+    bytec_1 // "deposit_amount"
+    app_global_get_ex
+    // smart_contracts/fianza_escrow/contract.py:96
+    // if not exists:
+    bnz get_deposit_amount_after_if_else@3
+    // smart_contracts/fianza_escrow/contract.py:97
+    // return UInt64(0)
+    intc_0 // 0
+
+get_deposit_amount_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_deposit_amount@4:
+    // smart_contracts/fianza_escrow/contract.py:92
+    // @abimethod(readonly=True)
+    itob
+    bytec 5 // 0x151f7c75
+    swap
+    concat
     log
-    intc_0 // 1
+    intc_1 // 1
     return
+
+get_deposit_amount_after_if_else@3:
+    dup
+    // smart_contracts/fianza_escrow/contract.py:92
+    // @abimethod(readonly=True)
+    b get_deposit_amount_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_deposit_amount@4
+
+
+// smart_contracts.fianza_escrow.contract.FianzaEscrow.get_cid[routing]() -> void:
+get_cid:
+    // smart_contracts/fianza_escrow/contract.py:103
+    // cid, exists = self.move_in_cid.maybe()
+    intc_0 // 0
+    bytec_3 // "move_in_cid"
+    app_global_get_ex
+    // smart_contracts/fianza_escrow/contract.py:104
+    // if not exists:
+    bnz get_cid_after_if_else@3
+    // smart_contracts/fianza_escrow/contract.py:105
+    // return String("")
+    bytec 6 // 0x0000
+
+get_cid_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_cid@4:
+    // smart_contracts/fianza_escrow/contract.py:100
+    // @abimethod(readonly=True)
+    bytec 5 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_1 // 1
+    return
+
+get_cid_after_if_else@3:
+    dup
+    // smart_contracts/fianza_escrow/contract.py:100
+    // @abimethod(readonly=True)
+    b get_cid_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_cid@4

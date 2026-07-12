@@ -3,7 +3,7 @@
   "sources": [
     "../../fianza_escrow/contract.py"
   ],
-  "mappings": ";;;;;;;;;;;;;;;;AAIA;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;AAAA;;;;;;;;;;;;AAAA;;;AAAA;;;;;;AAAA;;;;;;;;;AAOW;;AAAA;AAAA;AAAA;AAAwB;AAAxB;AAAX;;;AACmB;;;;;;;;;;AAHd;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAIU;;;;;;;;;;;;AAJV;;;AAQG;AAAuB;AAAvB;AAFH;;;;;;;;;;;;;;AAAA;AAAA;AAAA",
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAIA;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;;AAAA;;;;;;;;;AAiBK;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAGoB;AAAA;AAAA;AAAA;AAAA;;AAAA;AACzB;;;AACmB;AAAA;AAAP;AACJ;AAAA;;AAAA;AACG;;AAAA;;;AACC;AAAoB;AAApB;AACA;AAA4B;AAA5B;AACA;AAAyB;;AAAzB;AAVP;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAgBoB;AAAA;AAAA;AACzB;;;AACmB;AAAA;AAAP;AACJ;;AAAoB;;AAApB;AACM;;;AACN;AAAA;AACA;AAAA;AAAA;AACA;AAAoB;AAApB;AAVH;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAaA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAGU;AAAA;AAAA;AAAA;AAAqB;AAArB;AAAP;AACO;;AAAc;AAAA;;AAAA;AAAA;AAAd;AAAP;AACA;AAAA;AAAA;AALH;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAWU;AAAA;AAAA;AAAA;AAAqB;AAArB;AAAP;AACO;;AAAc;AAAA;AAAA;AAAA;AAAd;AAAP;AACS;AAAA;AAAA;AAAA;AACA;AAAA;;AAAA;AAAA;AACT;;;;;AAAA;;;AAGQ;;;;;AAHR;AAKA;AAAoB;AAApB;AACA;AAA4B;AAA5B;AAbH;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAmBU;AAAA;AAAA;AAAA;AAAqB;AAArB;AAAP;AACO;;AAAc;AAAA;AAAA;AAAA;AAAd;AAAP;AACA;AAAoB;AAApB;AALH;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAWoB;AAAA;AAAA;AACd;;;AACQ;;AALd;;AAAA;AAAA;AAAA;AAAA;AAAA;AAMM;AAAU;AAAV;AAAX;;;AACmB;;;;;;;;;;AAPd;;;AAQM;AAAU;AAAV;AAAX;;;AACmB;;;;;;;;;;;;AATd;;;AAUU;;AAVV;;;AAeoB;AAAA;AAAA;AACd;;;AACQ;AALd;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;;AAAA;;;AAWiB;AAAA;AAAA;AACX;;;AACQ;;AALd;;AAAA;AAAA;AAAA;AAAA;AAAA;;AAAA",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
@@ -11,12 +11,12 @@
       "params": {},
       "block": "main",
       "stack_in": [],
-      "op": "intcblock 1"
+      "op": "intcblock 0 1 2"
     },
-    "4": {
-      "op": "bytecblock \"is_funded\""
+    "6": {
+      "op": "bytecblock \"status\" \"deposit_amount\" \"landlord\" \"move_in_cid\" \"tenant\" 0x151f7c75 0x0000 0x0008554e46554e444544"
     },
-    "16": {
+    "77": {
       "op": "txn NumAppArgs",
       "defined_out": [
         "tmp%0#1"
@@ -25,11 +25,11 @@
         "tmp%0#1"
       ]
     },
-    "18": {
-      "op": "bz main___algopy_default_create@11",
+    "79": {
+      "op": "bz main___algopy_default_create@17",
       "stack_out": []
     },
-    "21": {
+    "82": {
       "op": "txn OnCompletion",
       "defined_out": [
         "tmp%2#0"
@@ -38,7 +38,7 @@
         "tmp%2#0"
       ]
     },
-    "23": {
+    "84": {
       "op": "!",
       "defined_out": [
         "tmp%3#0"
@@ -47,11 +47,11 @@
         "tmp%3#0"
       ]
     },
-    "24": {
+    "85": {
       "op": "assert",
       "stack_out": []
     },
-    "25": {
+    "86": {
       "op": "txn ApplicationID",
       "defined_out": [
         "tmp%4#0"
@@ -60,43 +60,67 @@
         "tmp%4#0"
       ]
     },
-    "27": {
+    "88": {
       "op": "assert",
       "stack_out": []
     },
-    "28": {
-      "op": "pushbytess 0x874bdfc0 0xa4d8a114 // method \"get_status()string\", method \"set_funded()string\"",
+    "89": {
+      "op": "pushbytess 0x2efd7413 0xa6a26fb1 0xe2ba40d1 0xba23d718 0x7c3fd89d 0x874bdfc0 0x65c38d5c 0x303dbc64 // method \"set_landlord(address)string\", method \"fund_deposit()string\", method \"store_cid(string)string\", method \"release_deposit()string\", method \"raise_dispute()string\", method \"get_status()string\", method \"get_deposit_amount()uint64\", method \"get_cid()string\"",
       "defined_out": [
+        "Method(fund_deposit()string)",
+        "Method(get_cid()string)",
+        "Method(get_deposit_amount()uint64)",
         "Method(get_status()string)",
-        "Method(set_funded()string)"
+        "Method(raise_dispute()string)",
+        "Method(release_deposit()string)",
+        "Method(set_landlord(address)string)",
+        "Method(store_cid(string)string)"
       ],
       "stack_out": [
+        "Method(set_landlord(address)string)",
+        "Method(fund_deposit()string)",
+        "Method(store_cid(string)string)",
+        "Method(release_deposit()string)",
+        "Method(raise_dispute()string)",
         "Method(get_status()string)",
-        "Method(set_funded()string)"
+        "Method(get_deposit_amount()uint64)",
+        "Method(get_cid()string)"
       ]
     },
-    "40": {
+    "131": {
       "op": "txna ApplicationArgs 0",
       "defined_out": [
+        "Method(fund_deposit()string)",
+        "Method(get_cid()string)",
+        "Method(get_deposit_amount()uint64)",
         "Method(get_status()string)",
-        "Method(set_funded()string)",
+        "Method(raise_dispute()string)",
+        "Method(release_deposit()string)",
+        "Method(set_landlord(address)string)",
+        "Method(store_cid(string)string)",
         "tmp%6#0"
       ],
       "stack_out": [
+        "Method(set_landlord(address)string)",
+        "Method(fund_deposit()string)",
+        "Method(store_cid(string)string)",
+        "Method(release_deposit()string)",
+        "Method(raise_dispute()string)",
         "Method(get_status()string)",
-        "Method(set_funded()string)",
+        "Method(get_deposit_amount()uint64)",
+        "Method(get_cid()string)",
         "tmp%6#0"
       ]
     },
-    "43": {
-      "op": "match get_status set_funded",
+    "134": {
+      "op": "match set_landlord fund_deposit store_cid release_deposit raise_dispute get_status get_deposit_amount get_cid",
       "stack_out": []
     },
-    "49": {
+    "152": {
       "op": "err"
     },
-    "50": {
-      "block": "main___algopy_default_create@11",
+    "153": {
+      "block": "main___algopy_default_create@17",
       "stack_in": [],
       "op": "txn OnCompletion",
       "defined_out": [
@@ -106,7 +130,7 @@
         "tmp%7#0"
       ]
     },
-    "52": {
+    "155": {
       "op": "!",
       "defined_out": [
         "tmp%8#0"
@@ -115,7 +139,7 @@
         "tmp%8#0"
       ]
     },
-    "53": {
+    "156": {
       "op": "txn ApplicationID",
       "defined_out": [
         "tmp%8#0",
@@ -126,7 +150,7 @@
         "tmp%9#0"
       ]
     },
-    "55": {
+    "158": {
       "op": "!",
       "defined_out": [
         "tmp%10#0",
@@ -137,7 +161,7 @@
         "tmp%10#0"
       ]
     },
-    "56": {
+    "159": {
       "op": "&&",
       "defined_out": [
         "tmp%11#0"
@@ -146,17 +170,402 @@
         "tmp%11#0"
       ]
     },
-    "57": {
+    "160": {
       "op": "return",
       "defined_out": [],
       "stack_out": []
     },
-    "58": {
-      "subroutine": "smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status[routing]",
+    "161": {
+      "subroutine": "smart_contracts.fianza_escrow.contract.FianzaEscrow.set_landlord[routing]",
       "params": {},
-      "block": "get_status",
+      "block": "set_landlord",
       "stack_in": [],
-      "op": "pushint 0",
+      "op": "txna ApplicationArgs 1"
+    },
+    "164": {
+      "op": "dup",
+      "defined_out": [
+        "landlord#0"
+      ],
+      "stack_out": [
+        "landlord#0",
+        "landlord#0"
+      ]
+    },
+    "165": {
+      "op": "len",
+      "defined_out": [
+        "landlord#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "landlord#0",
+        "len%0#0"
+      ]
+    },
+    "166": {
+      "op": "pushint 32",
+      "defined_out": [
+        "32",
+        "landlord#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "landlord#0",
+        "len%0#0",
+        "32"
+      ]
+    },
+    "168": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "landlord#0"
+      ],
+      "stack_out": [
+        "landlord#0",
+        "eq%0#0"
+      ]
+    },
+    "169": {
+      "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "stack_out": [
+        "landlord#0"
+      ]
+    },
+    "170": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "landlord#0",
+        "0"
+      ]
+    },
+    "171": {
+      "op": "bytec_0 // \"status\"",
+      "defined_out": [
+        "\"status\"",
+        "0",
+        "landlord#0"
+      ],
+      "stack_out": [
+        "landlord#0",
+        "0",
+        "\"status\""
+      ]
+    },
+    "172": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "exists#0",
+        "landlord#0",
+        "status#0"
+      ],
+      "stack_out": [
+        "landlord#0",
+        "status#0",
+        "exists#0"
+      ]
+    },
+    "173": {
+      "op": "dup",
+      "stack_out": [
+        "landlord#0",
+        "status#0",
+        "exists#0",
+        "exists#0 (copy)"
+      ]
+    },
+    "174": {
+      "op": "uncover 2",
+      "defined_out": [
+        "exists#0",
+        "landlord#0",
+        "status#0"
+      ],
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "exists#0",
+        "status#0"
+      ]
+    },
+    "176": {
+      "op": "swap",
+      "defined_out": [
+        "exists#0",
+        "landlord#0",
+        "status#0"
+      ],
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0",
+        "exists#0"
+      ]
+    },
+    "177": {
+      "op": "bz set_landlord_after_if_else@3",
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0"
+      ]
+    },
+    "180": {
+      "op": "dup",
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0",
+        "status#0"
+      ]
+    },
+    "181": {
+      "op": "!",
+      "defined_out": [
+        "exists#0",
+        "landlord#0",
+        "status#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0",
+        "tmp%0#1"
+      ]
+    },
+    "182": {
+      "error": "Already funded",
+      "op": "assert // Already funded",
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0"
+      ]
+    },
+    "183": {
+      "block": "set_landlord_after_if_else@3",
+      "stack_in": [
+        "landlord#0",
+        "exists#0",
+        "status#0"
+      ],
+      "op": "bytec_2 // \"landlord\"",
+      "defined_out": [
+        "\"landlord\""
+      ],
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0",
+        "\"landlord\""
+      ]
+    },
+    "184": {
+      "op": "dig 3",
+      "defined_out": [
+        "\"landlord\"",
+        "landlord#0"
+      ],
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0",
+        "\"landlord\"",
+        "landlord#0"
+      ]
+    },
+    "186": {
+      "op": "app_global_put",
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0"
+      ]
+    },
+    "187": {
+      "op": "dig 1",
+      "defined_out": [
+        "exists#0",
+        "landlord#0"
+      ],
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0",
+        "exists#0"
+      ]
+    },
+    "189": {
+      "op": "bnz set_landlord_after_if_else@5",
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0"
+      ]
+    },
+    "192": {
+      "op": "bytec_0 // \"status\"",
+      "defined_out": [
+        "\"status\"",
+        "exists#0",
+        "landlord#0"
+      ],
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0",
+        "\"status\""
+      ]
+    },
+    "193": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "\"status\"",
+        "0",
+        "exists#0",
+        "landlord#0"
+      ],
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0",
+        "\"status\"",
+        "0"
+      ]
+    },
+    "194": {
+      "op": "app_global_put",
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0"
+      ]
+    },
+    "195": {
+      "op": "bytec_1 // \"deposit_amount\"",
+      "defined_out": [
+        "\"deposit_amount\"",
+        "exists#0",
+        "landlord#0"
+      ],
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0",
+        "\"deposit_amount\""
+      ]
+    },
+    "196": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0",
+        "\"deposit_amount\"",
+        "0"
+      ]
+    },
+    "197": {
+      "op": "app_global_put",
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0"
+      ]
+    },
+    "198": {
+      "op": "bytec_3 // \"move_in_cid\"",
+      "defined_out": [
+        "\"move_in_cid\"",
+        "exists#0",
+        "landlord#0"
+      ],
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0",
+        "\"move_in_cid\""
+      ]
+    },
+    "199": {
+      "op": "bytec 6 // 0x0000",
+      "defined_out": [
+        "\"move_in_cid\"",
+        "0x0000",
+        "exists#0",
+        "landlord#0"
+      ],
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0",
+        "\"move_in_cid\"",
+        "0x0000"
+      ]
+    },
+    "201": {
+      "op": "app_global_put",
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0"
+      ]
+    },
+    "202": {
+      "block": "set_landlord_after_if_else@5",
+      "stack_in": [
+        "landlord#0",
+        "exists#0",
+        "status#0"
+      ],
+      "op": "pushbytes 0x151f7c75000c4c616e646c6f726420736574",
+      "defined_out": [
+        "0x151f7c75000c4c616e646c6f726420736574"
+      ],
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0",
+        "0x151f7c75000c4c616e646c6f726420736574"
+      ]
+    },
+    "222": {
+      "op": "log",
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0"
+      ]
+    },
+    "223": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0",
+        "1"
+      ]
+    },
+    "224": {
+      "op": "return",
+      "stack_out": [
+        "landlord#0",
+        "exists#0",
+        "status#0"
+      ]
+    },
+    "225": {
+      "subroutine": "smart_contracts.fianza_escrow.contract.FianzaEscrow.fund_deposit[routing]",
+      "params": {},
+      "block": "fund_deposit",
+      "stack_in": [],
+      "op": "intc_0 // 0",
       "defined_out": [
         "0"
       ],
@@ -164,18 +573,534 @@
         "0"
       ]
     },
-    "60": {
-      "op": "bytec_0 // \"is_funded\"",
+    "226": {
+      "op": "bytec_0 // \"status\"",
       "defined_out": [
-        "\"is_funded\"",
+        "\"status\"",
         "0"
       ],
       "stack_out": [
         "0",
-        "\"is_funded\""
+        "\"status\""
       ]
     },
-    "61": {
+    "227": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "exists#0",
+        "status#0"
+      ],
+      "stack_out": [
+        "status#0",
+        "exists#0"
+      ]
+    },
+    "228": {
+      "op": "bz fund_deposit_after_if_else@3",
+      "stack_out": [
+        "status#0"
+      ]
+    },
+    "231": {
+      "op": "dup",
+      "stack_out": [
+        "status#0",
+        "status#0"
+      ]
+    },
+    "232": {
+      "op": "!",
+      "defined_out": [
+        "status#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "status#0",
+        "tmp%0#1"
+      ]
+    },
+    "233": {
+      "error": "Already funded",
+      "op": "assert // Already funded",
+      "stack_out": [
+        "status#0"
+      ]
+    },
+    "234": {
+      "block": "fund_deposit_after_if_else@3",
+      "stack_in": [
+        "status#0"
+      ],
+      "op": "bytec 4 // \"tenant\"",
+      "defined_out": [
+        "\"tenant\""
+      ],
+      "stack_out": [
+        "status#0",
+        "\"tenant\""
+      ]
+    },
+    "236": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"tenant\"",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "status#0",
+        "\"tenant\"",
+        "tmp%1#1"
+      ]
+    },
+    "238": {
+      "op": "app_global_put",
+      "stack_out": [
+        "status#0"
+      ]
+    },
+    "239": {
+      "op": "gtxn 0 Amount",
+      "defined_out": [
+        "pay#0"
+      ],
+      "stack_out": [
+        "status#0",
+        "pay#0"
+      ]
+    },
+    "242": {
+      "op": "dup",
+      "defined_out": [
+        "pay#0",
+        "pay#0 (copy)"
+      ],
+      "stack_out": [
+        "status#0",
+        "pay#0",
+        "pay#0 (copy)"
+      ]
+    },
+    "243": {
+      "error": "Must send ALGO",
+      "op": "assert // Must send ALGO",
+      "stack_out": [
+        "status#0",
+        "pay#0"
+      ]
+    },
+    "244": {
+      "op": "bytec_1 // \"deposit_amount\"",
+      "defined_out": [
+        "\"deposit_amount\"",
+        "pay#0"
+      ],
+      "stack_out": [
+        "status#0",
+        "pay#0",
+        "\"deposit_amount\""
+      ]
+    },
+    "245": {
+      "op": "swap",
+      "stack_out": [
+        "status#0",
+        "\"deposit_amount\"",
+        "pay#0"
+      ]
+    },
+    "246": {
+      "op": "app_global_put",
+      "stack_out": [
+        "status#0"
+      ]
+    },
+    "247": {
+      "op": "bytec_0 // \"status\"",
+      "defined_out": [
+        "\"status\""
+      ],
+      "stack_out": [
+        "status#0",
+        "\"status\""
+      ]
+    },
+    "248": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "\"status\"",
+        "1"
+      ],
+      "stack_out": [
+        "status#0",
+        "\"status\"",
+        "1"
+      ]
+    },
+    "249": {
+      "op": "app_global_put",
+      "stack_out": [
+        "status#0"
+      ]
+    },
+    "250": {
+      "op": "pushbytes 0x151f7c75000646554e444544",
+      "defined_out": [
+        "0x151f7c75000646554e444544"
+      ],
+      "stack_out": [
+        "status#0",
+        "0x151f7c75000646554e444544"
+      ]
+    },
+    "264": {
+      "op": "log",
+      "stack_out": [
+        "status#0"
+      ]
+    },
+    "265": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "status#0",
+        "1"
+      ]
+    },
+    "266": {
+      "op": "return",
+      "stack_out": [
+        "status#0"
+      ]
+    },
+    "267": {
+      "subroutine": "smart_contracts.fianza_escrow.contract.FianzaEscrow.store_cid[routing]",
+      "params": {},
+      "block": "store_cid",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "cid#0"
+      ],
+      "stack_out": [
+        "cid#0"
+      ]
+    },
+    "270": {
+      "op": "dup",
+      "defined_out": [
+        "cid#0",
+        "cid#0 (copy)"
+      ],
+      "stack_out": [
+        "cid#0",
+        "cid#0 (copy)"
+      ]
+    },
+    "271": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "cid#0",
+        "cid#0 (copy)"
+      ],
+      "stack_out": [
+        "cid#0",
+        "cid#0 (copy)",
+        "0"
+      ]
+    },
+    "272": {
+      "error": "invalid array length header",
+      "op": "extract_uint16 // on error: invalid array length header",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "cid#0"
+      ],
+      "stack_out": [
+        "cid#0",
+        "aggregate%array_length%0#0"
+      ]
+    },
+    "273": {
+      "op": "intc_2 // 2",
+      "defined_out": [
+        "2",
+        "aggregate%array_length%0#0",
+        "cid#0"
+      ],
+      "stack_out": [
+        "cid#0",
+        "aggregate%array_length%0#0",
+        "2"
+      ]
+    },
+    "274": {
+      "op": "+",
+      "defined_out": [
+        "add%0#0",
+        "cid#0"
+      ],
+      "stack_out": [
+        "cid#0",
+        "add%0#0"
+      ]
+    },
+    "275": {
+      "op": "dig 1",
+      "stack_out": [
+        "cid#0",
+        "add%0#0",
+        "cid#0 (copy)"
+      ]
+    },
+    "277": {
+      "op": "len",
+      "defined_out": [
+        "add%0#0",
+        "cid#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "cid#0",
+        "add%0#0",
+        "len%0#0"
+      ]
+    },
+    "278": {
+      "op": "==",
+      "defined_out": [
+        "cid#0",
+        "eq%0#0"
+      ],
+      "stack_out": [
+        "cid#0",
+        "eq%0#0"
+      ]
+    },
+    "279": {
+      "error": "invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
+      "op": "assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
+      "stack_out": [
+        "cid#0"
+      ]
+    },
+    "280": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "cid#0",
+        "0"
+      ]
+    },
+    "281": {
+      "op": "bytec_0 // \"status\"",
+      "defined_out": [
+        "\"status\"",
+        "0",
+        "cid#0"
+      ],
+      "stack_out": [
+        "cid#0",
+        "0",
+        "\"status\""
+      ]
+    },
+    "282": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "cid#0",
+        "maybe_exists%0#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "cid#0",
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "283": {
+      "error": "check self.status exists",
+      "op": "assert // check self.status exists",
+      "stack_out": [
+        "cid#0",
+        "maybe_value%0#0"
+      ]
+    },
+    "284": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "cid#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "cid#0",
+        "maybe_value%0#0",
+        "1"
+      ]
+    },
+    "285": {
+      "op": "==",
+      "defined_out": [
+        "cid#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "cid#0",
+        "tmp%0#1"
+      ]
+    },
+    "286": {
+      "error": "Escrow must be FUNDED",
+      "op": "assert // Escrow must be FUNDED",
+      "stack_out": [
+        "cid#0"
+      ]
+    },
+    "287": {
+      "op": "txn Sender",
+      "defined_out": [
+        "cid#0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "cid#0",
+        "tmp%1#1"
+      ]
+    },
+    "289": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "cid#0",
+        "tmp%1#1",
+        "0"
+      ]
+    },
+    "290": {
+      "op": "bytec 4 // \"tenant\"",
+      "defined_out": [
+        "\"tenant\"",
+        "0",
+        "cid#0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "cid#0",
+        "tmp%1#1",
+        "0",
+        "\"tenant\""
+      ]
+    },
+    "292": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "cid#0",
+        "maybe_exists%1#0",
+        "maybe_value%1#0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "cid#0",
+        "tmp%1#1",
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "293": {
+      "error": "check self.tenant exists",
+      "op": "assert // check self.tenant exists",
+      "stack_out": [
+        "cid#0",
+        "tmp%1#1",
+        "maybe_value%1#0"
+      ]
+    },
+    "294": {
+      "op": "==",
+      "defined_out": [
+        "cid#0",
+        "tmp%2#1"
+      ],
+      "stack_out": [
+        "cid#0",
+        "tmp%2#1"
+      ]
+    },
+    "295": {
+      "error": "Only tenant can store CID",
+      "op": "assert // Only tenant can store CID",
+      "stack_out": [
+        "cid#0"
+      ]
+    },
+    "296": {
+      "op": "bytec_3 // \"move_in_cid\"",
+      "defined_out": [
+        "\"move_in_cid\"",
+        "cid#0"
+      ],
+      "stack_out": [
+        "cid#0",
+        "\"move_in_cid\""
+      ]
+    },
+    "297": {
+      "op": "swap",
+      "stack_out": [
+        "\"move_in_cid\"",
+        "cid#0"
+      ]
+    },
+    "298": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "299": {
+      "op": "pushbytes 0x151f7c75000a4349442073746f726564",
+      "defined_out": [
+        "0x151f7c75000a4349442073746f726564"
+      ],
+      "stack_out": [
+        "0x151f7c75000a4349442073746f726564"
+      ]
+    },
+    "317": {
+      "op": "log",
+      "stack_out": []
+    },
+    "318": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "319": {
+      "op": "return",
+      "stack_out": []
+    },
+    "320": {
+      "subroutine": "smart_contracts.fianza_escrow.contract.FianzaEscrow.release_deposit[routing]",
+      "params": {},
+      "block": "release_deposit",
+      "stack_in": [],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "321": {
+      "op": "bytec_0 // \"status\"",
+      "defined_out": [
+        "\"status\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"status\""
+      ]
+    },
+    "322": {
       "op": "app_global_get_ex",
       "defined_out": [
         "maybe_exists%0#0",
@@ -186,15 +1111,15 @@
         "maybe_exists%0#0"
       ]
     },
-    "62": {
-      "error": "check self.is_funded exists",
-      "op": "assert // check self.is_funded exists",
+    "323": {
+      "error": "check self.status exists",
+      "op": "assert // check self.status exists",
       "stack_out": [
         "maybe_value%0#0"
       ]
     },
-    "63": {
-      "op": "intc_0 // 1",
+    "324": {
+      "op": "intc_1 // 1",
       "defined_out": [
         "1",
         "maybe_value%0#0"
@@ -204,7 +1129,7 @@
         "1"
       ]
     },
-    "64": {
+    "325": {
       "op": "==",
       "defined_out": [
         "tmp%0#1"
@@ -213,134 +1138,929 @@
         "tmp%0#1"
       ]
     },
-    "65": {
-      "op": "bz get_status_after_if_else@3",
+    "326": {
+      "error": "Escrow must be FUNDED",
+      "op": "assert // Escrow must be FUNDED",
       "stack_out": []
     },
-    "68": {
-      "op": "pushbytes 0x000646554e444544",
+    "327": {
+      "op": "txn Sender",
       "defined_out": [
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "tmp%1#1"
+      ]
+    },
+    "329": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "tmp%1#1",
+        "0"
+      ]
+    },
+    "330": {
+      "op": "bytec_2 // \"landlord\"",
+      "defined_out": [
+        "\"landlord\"",
+        "0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "tmp%1#1",
+        "0",
+        "\"landlord\""
+      ]
+    },
+    "331": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%1#0",
+        "maybe_value%1#0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "tmp%1#1",
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "332": {
+      "error": "check self.landlord exists",
+      "op": "assert // check self.landlord exists",
+      "stack_out": [
+        "tmp%1#1",
+        "maybe_value%1#0"
+      ]
+    },
+    "333": {
+      "op": "==",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "334": {
+      "error": "Only landlord can release",
+      "op": "assert // Only landlord can release",
+      "stack_out": []
+    },
+    "335": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "0"
+      ]
+    },
+    "336": {
+      "op": "bytec_1 // \"deposit_amount\"",
+      "defined_out": [
+        "\"deposit_amount\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"deposit_amount\""
+      ]
+    },
+    "337": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "amount#0",
+        "maybe_exists%2#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "maybe_exists%2#0"
+      ]
+    },
+    "338": {
+      "error": "check self.deposit_amount exists",
+      "op": "assert // check self.deposit_amount exists",
+      "stack_out": [
+        "amount#0"
+      ]
+    },
+    "339": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "amount#0",
+        "0"
+      ]
+    },
+    "340": {
+      "op": "bytec 4 // \"tenant\"",
+      "defined_out": [
+        "\"tenant\"",
+        "0",
+        "amount#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "0",
+        "\"tenant\""
+      ]
+    },
+    "342": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "amount#0",
+        "maybe_exists%3#0",
+        "tenant#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "tenant#0",
+        "maybe_exists%3#0"
+      ]
+    },
+    "343": {
+      "error": "check self.tenant exists",
+      "op": "assert // check self.tenant exists",
+      "stack_out": [
+        "amount#0",
+        "tenant#0"
+      ]
+    },
+    "344": {
+      "op": "itxn_begin"
+    },
+    "345": {
+      "op": "itxn_field Receiver"
+    },
+    "347": {
+      "op": "itxn_field Amount",
+      "stack_out": []
+    },
+    "349": {
+      "op": "intc_1 // pay",
+      "defined_out": [
+        "pay"
+      ],
+      "stack_out": [
+        "pay"
+      ]
+    },
+    "350": {
+      "op": "itxn_field TypeEnum",
+      "stack_out": []
+    },
+    "352": {
+      "op": "pushint 1000",
+      "defined_out": [
+        "1000"
+      ],
+      "stack_out": [
+        "1000"
+      ]
+    },
+    "355": {
+      "op": "itxn_field Fee",
+      "stack_out": []
+    },
+    "357": {
+      "op": "itxn_submit"
+    },
+    "358": {
+      "op": "bytec_0 // \"status\"",
+      "stack_out": [
+        "\"status\""
+      ]
+    },
+    "359": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "\"status\"",
+        "0"
+      ]
+    },
+    "360": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "361": {
+      "op": "bytec_1 // \"deposit_amount\"",
+      "stack_out": [
+        "\"deposit_amount\""
+      ]
+    },
+    "362": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "\"deposit_amount\"",
+        "0"
+      ]
+    },
+    "363": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "364": {
+      "op": "pushbytes 0x151f7c75000852454c4541534544",
+      "defined_out": [
+        "0x151f7c75000852454c4541534544"
+      ],
+      "stack_out": [
+        "0x151f7c75000852454c4541534544"
+      ]
+    },
+    "380": {
+      "op": "log",
+      "stack_out": []
+    },
+    "381": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "382": {
+      "op": "return",
+      "stack_out": []
+    },
+    "383": {
+      "subroutine": "smart_contracts.fianza_escrow.contract.FianzaEscrow.raise_dispute[routing]",
+      "params": {},
+      "block": "raise_dispute",
+      "stack_in": [],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "384": {
+      "op": "bytec_0 // \"status\"",
+      "defined_out": [
+        "\"status\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"status\""
+      ]
+    },
+    "385": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "386": {
+      "error": "check self.status exists",
+      "op": "assert // check self.status exists",
+      "stack_out": [
+        "maybe_value%0#0"
+      ]
+    },
+    "387": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "1"
+      ]
+    },
+    "388": {
+      "op": "==",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "389": {
+      "error": "Escrow must be FUNDED",
+      "op": "assert // Escrow must be FUNDED",
+      "stack_out": []
+    },
+    "390": {
+      "op": "txn Sender",
+      "defined_out": [
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "tmp%1#1"
+      ]
+    },
+    "392": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "tmp%1#1",
+        "0"
+      ]
+    },
+    "393": {
+      "op": "bytec_2 // \"landlord\"",
+      "defined_out": [
+        "\"landlord\"",
+        "0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "tmp%1#1",
+        "0",
+        "\"landlord\""
+      ]
+    },
+    "394": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%1#0",
+        "maybe_value%1#0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "tmp%1#1",
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "395": {
+      "error": "check self.landlord exists",
+      "op": "assert // check self.landlord exists",
+      "stack_out": [
+        "tmp%1#1",
+        "maybe_value%1#0"
+      ]
+    },
+    "396": {
+      "op": "==",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "397": {
+      "error": "Only landlord can raise dispute",
+      "op": "assert // Only landlord can raise dispute",
+      "stack_out": []
+    },
+    "398": {
+      "op": "bytec_0 // \"status\"",
+      "stack_out": [
+        "\"status\""
+      ]
+    },
+    "399": {
+      "op": "intc_2 // 2",
+      "defined_out": [
+        "\"status\"",
+        "2"
+      ],
+      "stack_out": [
+        "\"status\"",
+        "2"
+      ]
+    },
+    "400": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "401": {
+      "op": "pushbytes 0x151f7c7500084449535055544544",
+      "defined_out": [
+        "0x151f7c7500084449535055544544"
+      ],
+      "stack_out": [
+        "0x151f7c7500084449535055544544"
+      ]
+    },
+    "417": {
+      "op": "log",
+      "stack_out": []
+    },
+    "418": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "419": {
+      "op": "return",
+      "stack_out": []
+    },
+    "420": {
+      "subroutine": "smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status[routing]",
+      "params": {},
+      "block": "get_status",
+      "stack_in": [],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "421": {
+      "op": "bytec_0 // \"status\"",
+      "defined_out": [
+        "\"status\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"status\""
+      ]
+    },
+    "422": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "exists#0",
+        "status#0"
+      ],
+      "stack_out": [
+        "status#0",
+        "exists#0"
+      ]
+    },
+    "423": {
+      "op": "bnz get_status_after_if_else@3",
+      "stack_out": [
+        "status#0"
+      ]
+    },
+    "426": {
+      "op": "bytec 7 // 0x0008554e46554e444544",
+      "defined_out": [
+        "status#0",
         "tmp%0#0"
       ],
       "stack_out": [
+        "status#0",
         "tmp%0#0"
       ]
     },
-    "78": {
-      "block": "get_status_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status@4",
+    "428": {
+      "block": "get_status_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status@8",
       "stack_in": [
+        "status#0",
         "tmp%0#0"
       ],
-      "op": "pushbytes 0x151f7c75",
+      "op": "bytec 5 // 0x151f7c75",
       "defined_out": [
         "0x151f7c75"
       ],
       "stack_out": [
+        "status#0",
         "tmp%0#0",
         "0x151f7c75"
       ]
     },
-    "84": {
+    "430": {
       "op": "swap",
       "defined_out": [
         "0x151f7c75",
         "tmp%0#0"
       ],
       "stack_out": [
+        "status#0",
         "0x151f7c75",
         "tmp%0#0"
       ]
     },
-    "85": {
+    "431": {
       "op": "concat",
       "defined_out": [
         "tmp%1#0"
       ],
       "stack_out": [
+        "status#0",
         "tmp%1#0"
       ]
     },
-    "86": {
+    "432": {
       "op": "log",
-      "stack_out": []
+      "stack_out": [
+        "status#0"
+      ]
     },
-    "87": {
-      "op": "intc_0 // 1",
+    "433": {
+      "op": "intc_1 // 1",
       "defined_out": [
         "1"
       ],
       "stack_out": [
+        "status#0",
         "1"
       ]
     },
-    "88": {
+    "434": {
       "op": "return",
-      "stack_out": []
+      "stack_out": [
+        "status#0"
+      ]
     },
-    "89": {
+    "435": {
       "block": "get_status_after_if_else@3",
-      "stack_in": [],
-      "op": "pushbytes 0x0008554e46554e444544",
+      "stack_in": [
+        "status#0"
+      ],
+      "op": "dup",
+      "defined_out": [
+        "status#0"
+      ],
+      "stack_out": [
+        "status#0",
+        "status#0"
+      ]
+    },
+    "436": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "status#0"
+      ],
+      "stack_out": [
+        "status#0",
+        "status#0",
+        "1"
+      ]
+    },
+    "437": {
+      "op": "==",
+      "defined_out": [
+        "status#0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "status#0",
+        "tmp%1#1"
+      ]
+    },
+    "438": {
+      "op": "bz get_status_after_if_else@5",
+      "stack_out": [
+        "status#0"
+      ]
+    },
+    "441": {
+      "op": "pushbytes 0x000646554e444544",
+      "defined_out": [
+        "status#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "status#0",
+        "tmp%0#0"
+      ]
+    },
+    "451": {
+      "op": "b get_status_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status@8"
+    },
+    "454": {
+      "block": "get_status_after_if_else@5",
+      "stack_in": [
+        "status#0"
+      ],
+      "op": "dup",
+      "defined_out": [
+        "status#0"
+      ],
+      "stack_out": [
+        "status#0",
+        "status#0"
+      ]
+    },
+    "455": {
+      "op": "intc_2 // 2",
+      "defined_out": [
+        "2",
+        "status#0"
+      ],
+      "stack_out": [
+        "status#0",
+        "status#0",
+        "2"
+      ]
+    },
+    "456": {
+      "op": "==",
+      "defined_out": [
+        "status#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "status#0",
+        "tmp%3#0"
+      ]
+    },
+    "457": {
+      "op": "bz get_status_after_if_else@7",
+      "stack_out": [
+        "status#0"
+      ]
+    },
+    "460": {
+      "op": "pushbytes 0x00084449535055544544",
+      "defined_out": [
+        "status#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "status#0",
+        "tmp%0#0"
+      ]
+    },
+    "472": {
+      "op": "b get_status_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status@8"
+    },
+    "475": {
+      "block": "get_status_after_if_else@7",
+      "stack_in": [
+        "status#0"
+      ],
+      "op": "bytec 7 // 0x0008554e46554e444544",
       "defined_out": [
         "tmp%0#0"
       ],
       "stack_out": [
+        "status#0",
         "tmp%0#0"
       ]
     },
-    "101": {
-      "op": "b get_status_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status@4"
+    "477": {
+      "op": "b get_status_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_status@8"
     },
-    "104": {
-      "subroutine": "smart_contracts.fianza_escrow.contract.FianzaEscrow.set_funded[routing]",
+    "480": {
+      "subroutine": "smart_contracts.fianza_escrow.contract.FianzaEscrow.get_deposit_amount[routing]",
       "params": {},
-      "block": "set_funded",
+      "block": "get_deposit_amount",
       "stack_in": [],
-      "op": "bytec_0 // \"is_funded\"",
+      "op": "intc_0 // 0",
       "defined_out": [
-        "\"is_funded\""
+        "0"
       ],
       "stack_out": [
-        "\"is_funded\""
+        "0"
       ]
     },
-    "105": {
-      "op": "intc_0 // 1",
+    "481": {
+      "op": "bytec_1 // \"deposit_amount\"",
       "defined_out": [
-        "\"is_funded\"",
-        "1"
+        "\"deposit_amount\"",
+        "0"
       ],
       "stack_out": [
-        "\"is_funded\"",
-        "1"
+        "0",
+        "\"deposit_amount\""
       ]
     },
-    "106": {
-      "op": "app_global_put",
-      "stack_out": []
-    },
-    "107": {
-      "op": "pushbytes 0x151f7c75000646756e646564",
+    "482": {
+      "op": "app_global_get_ex",
       "defined_out": [
-        "0x151f7c75000646756e646564"
+        "amount#0",
+        "exists#0"
       ],
       "stack_out": [
-        "0x151f7c75000646756e646564"
+        "amount#0",
+        "exists#0"
       ]
     },
-    "121": {
+    "483": {
+      "op": "bnz get_deposit_amount_after_if_else@3",
+      "stack_out": [
+        "amount#0"
+      ]
+    },
+    "486": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "amount#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "tmp%0#0"
+      ]
+    },
+    "487": {
+      "block": "get_deposit_amount_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_deposit_amount@4",
+      "stack_in": [
+        "amount#0",
+        "tmp%0#0"
+      ],
+      "op": "itob",
+      "defined_out": [
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "488": {
+      "op": "bytec 5 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "aggregate%val_as_bytes%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "490": {
+      "op": "swap",
+      "stack_out": [
+        "amount#0",
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "491": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "tmp%2#0"
+      ]
+    },
+    "492": {
       "op": "log",
-      "stack_out": []
-    },
-    "122": {
-      "op": "intc_0 // 1",
       "stack_out": [
+        "amount#0"
+      ]
+    },
+    "493": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "amount#0",
         "1"
       ]
     },
-    "123": {
+    "494": {
       "op": "return",
-      "stack_out": []
+      "stack_out": [
+        "amount#0"
+      ]
+    },
+    "495": {
+      "block": "get_deposit_amount_after_if_else@3",
+      "stack_in": [
+        "amount#0"
+      ],
+      "op": "dup",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "tmp%0#0"
+      ]
+    },
+    "496": {
+      "op": "b get_deposit_amount_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_deposit_amount@4"
+    },
+    "499": {
+      "subroutine": "smart_contracts.fianza_escrow.contract.FianzaEscrow.get_cid[routing]",
+      "params": {},
+      "block": "get_cid",
+      "stack_in": [],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "500": {
+      "op": "bytec_3 // \"move_in_cid\"",
+      "defined_out": [
+        "\"move_in_cid\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"move_in_cid\""
+      ]
+    },
+    "501": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "cid#0",
+        "exists#0"
+      ],
+      "stack_out": [
+        "cid#0",
+        "exists#0"
+      ]
+    },
+    "502": {
+      "op": "bnz get_cid_after_if_else@3",
+      "stack_out": [
+        "cid#0"
+      ]
+    },
+    "505": {
+      "op": "bytec 6 // 0x0000",
+      "defined_out": [
+        "cid#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "cid#0",
+        "tmp%0#0"
+      ]
+    },
+    "507": {
+      "block": "get_cid_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_cid@4",
+      "stack_in": [
+        "cid#0",
+        "tmp%0#0"
+      ],
+      "op": "bytec 5 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75"
+      ],
+      "stack_out": [
+        "cid#0",
+        "tmp%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "509": {
+      "op": "swap",
+      "defined_out": [
+        "0x151f7c75",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "cid#0",
+        "0x151f7c75",
+        "tmp%0#0"
+      ]
+    },
+    "510": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "cid#0",
+        "tmp%1#0"
+      ]
+    },
+    "511": {
+      "op": "log",
+      "stack_out": [
+        "cid#0"
+      ]
+    },
+    "512": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "cid#0",
+        "1"
+      ]
+    },
+    "513": {
+      "op": "return",
+      "stack_out": [
+        "cid#0"
+      ]
+    },
+    "514": {
+      "block": "get_cid_after_if_else@3",
+      "stack_in": [
+        "cid#0"
+      ],
+      "op": "dup",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "cid#0",
+        "tmp%0#0"
+      ]
+    },
+    "515": {
+      "op": "b get_cid_after_inlined_smart_contracts.fianza_escrow.contract.FianzaEscrow.get_cid@4"
     }
   }
 }

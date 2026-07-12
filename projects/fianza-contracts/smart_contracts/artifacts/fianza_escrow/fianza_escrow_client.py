@@ -19,7 +19,7 @@ from algosdk.v2client.models import SimulateTraceConfig
 import algokit_utils
 from algokit_utils import AlgorandClient as _AlgoKitAlgorandClient
 
-_APP_SPEC_JSON = r"""{"arcs": [22, 28], "bareActions": {"call": [], "create": ["NoOp"]}, "methods": [{"actions": {"call": ["NoOp"], "create": []}, "args": [], "name": "get_status", "returns": {"type": "string"}, "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [], "name": "set_funded", "returns": {"type": "string"}, "events": [], "readonly": false, "recommendations": {}}], "name": "FianzaEscrow", "state": {"keys": {"box": {}, "global": {"is_funded": {"key": "aXNfZnVuZGVk", "keyType": "AVMString", "valueType": "AVMUint64"}}, "local": {}}, "maps": {"box": {}, "global": {}, "local": {}}, "schema": {"global": {"bytes": 0, "ints": 1}, "local": {"bytes": 0, "ints": 0}}}, "structs": {}, "byteCode": {"approval": "CyABASYBCWlzX2Z1bmRlZDEbQQAdMRkURDEYRIICBIdL38AEpNihFDYaAI4CAAkANwAxGRQxGBQQQ4EAKGVEIhJBABWACAAGRlVOREVEgAQVH3x1TFCwIkOACgAIVU5GVU5ERURC/+YoImeADBUffHUABkZ1bmRlZLAiQw==", "clear": "C4EBQw=="}, "events": [], "networks": {}, "source": {"approval": "I3ByYWdtYSB2ZXJzaW9uIDExCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuYXBwcm92YWxfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIGludGNibG9jayAxCiAgICBieXRlY2Jsb2NrICJpc19mdW5kZWQiCiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weTo1CiAgICAvLyBjbGFzcyBGaWFuemFFc2Nyb3coQVJDNENvbnRyYWN0KToKICAgIHR4biBOdW1BcHBBcmdzCiAgICBieiBtYWluX19fYWxnb3B5X2RlZmF1bHRfY3JlYXRlQDExCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQKICAgIHB1c2hieXRlc3MgMHg4NzRiZGZjMCAweGE0ZDhhMTE0IC8vIG1ldGhvZCAiZ2V0X3N0YXR1cygpc3RyaW5nIiwgbWV0aG9kICJzZXRfZnVuZGVkKClzdHJpbmciCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAwCiAgICBtYXRjaCBnZXRfc3RhdHVzIHNldF9mdW5kZWQKICAgIGVycgoKbWFpbl9fX2FsZ29weV9kZWZhdWx0X2NyZWF0ZUAxMToKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICAhCiAgICAmJgogICAgcmV0dXJuCgoKLy8gc21hcnRfY29udHJhY3RzLmZpYW56YV9lc2Nyb3cuY29udHJhY3QuRmlhbnphRXNjcm93LmdldF9zdGF0dXNbcm91dGluZ10oKSAtPiB2b2lkOgpnZXRfc3RhdHVzOgogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6MTIKICAgIC8vIGlmIHNlbGYuaXNfZnVuZGVkLnZhbHVlID09IFVJbnQ2NCgxKToKICAgIHB1c2hpbnQgMAogICAgYnl0ZWNfMCAvLyAiaXNfZnVuZGVkIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLmlzX2Z1bmRlZCBleGlzdHMKICAgIGludGNfMCAvLyAxCiAgICA9PQogICAgYnogZ2V0X3N0YXR1c19hZnRlcl9pZl9lbHNlQDMKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjEzCiAgICAvLyByZXR1cm4gU3RyaW5nKCJGVU5ERUQiKQogICAgcHVzaGJ5dGVzIDB4MDAwNjQ2NTU0ZTQ0NDU0NAoKZ2V0X3N0YXR1c19hZnRlcl9pbmxpbmVkX3NtYXJ0X2NvbnRyYWN0cy5maWFuemFfZXNjcm93LmNvbnRyYWN0LkZpYW56YUVzY3Jvdy5nZXRfc3RhdHVzQDQ6CiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weToxMAogICAgLy8gQGFiaW1ldGhvZAogICAgcHVzaGJ5dGVzIDB4MTUxZjdjNzUKICAgIHN3YXAKICAgIGNvbmNhdAogICAgbG9nCiAgICBpbnRjXzAgLy8gMQogICAgcmV0dXJuCgpnZXRfc3RhdHVzX2FmdGVyX2lmX2Vsc2VAMzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjE0CiAgICAvLyByZXR1cm4gU3RyaW5nKCJVTkZVTkRFRCIpCiAgICBwdXNoYnl0ZXMgMHgwMDA4NTU0ZTQ2NTU0ZTQ0NDU0NAogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6MTAKICAgIC8vIEBhYmltZXRob2QKICAgIGIgZ2V0X3N0YXR1c19hZnRlcl9pbmxpbmVkX3NtYXJ0X2NvbnRyYWN0cy5maWFuemFfZXNjcm93LmNvbnRyYWN0LkZpYW56YUVzY3Jvdy5nZXRfc3RhdHVzQDQKCgovLyBzbWFydF9jb250cmFjdHMuZmlhbnphX2VzY3Jvdy5jb250cmFjdC5GaWFuemFFc2Nyb3cuc2V0X2Z1bmRlZFtyb3V0aW5nXSgpIC0+IHZvaWQ6CnNldF9mdW5kZWQ6CiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weToxOAogICAgLy8gc2VsZi5pc19mdW5kZWQudmFsdWUgPSBVSW50NjQoMSkKICAgIGJ5dGVjXzAgLy8gImlzX2Z1bmRlZCIKICAgIGludGNfMCAvLyAxCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6MTYKICAgIC8vIEBhYmltZXRob2QKICAgIHB1c2hieXRlcyAweDE1MWY3Yzc1MDAwNjQ2NzU2ZTY0NjU2NAogICAgbG9nCiAgICBpbnRjXzAgLy8gMQogICAgcmV0dXJuCg==", "clear": "I3ByYWdtYSB2ZXJzaW9uIDExCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuY2xlYXJfc3RhdGVfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIHB1c2hpbnQgMQogICAgcmV0dXJuCg=="}, "sourceInfo": {"approval": {"pcOffsetMethod": "none", "sourceInfo": [{"pc": [62], "errorMessage": "check self.is_funded exists"}]}, "clear": {"pcOffsetMethod": "none", "sourceInfo": []}}, "templateVariables": {}}"""
+_APP_SPEC_JSON = r"""{"arcs": [22, 28], "bareActions": {"call": [], "create": ["NoOp"]}, "methods": [{"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "address", "name": "landlord"}], "name": "set_landlord", "returns": {"type": "string"}, "desc": "Called once by the tenant to register the landlord address.", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [], "name": "fund_deposit", "returns": {"type": "string"}, "desc": "Tenant sends ALGO to lock deposit.", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "string", "name": "cid"}], "name": "store_cid", "returns": {"type": "string"}, "desc": "Tenant stores IPFS CID on-chain.", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [], "name": "release_deposit", "returns": {"type": "string"}, "desc": "Landlord releases deposit back to tenant.", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [], "name": "raise_dispute", "returns": {"type": "string"}, "desc": "Landlord freezes the escrow.", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [], "name": "get_status", "returns": {"type": "string"}, "desc": "Returns current escrow status.", "events": [], "readonly": true, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [], "name": "get_deposit_amount", "returns": {"type": "uint64"}, "desc": "Returns locked deposit amount in microALGO.", "events": [], "readonly": true, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [], "name": "get_cid", "returns": {"type": "string"}, "desc": "Returns stored IPFS CID.", "events": [], "readonly": true, "recommendations": {}}], "name": "FianzaEscrow", "state": {"keys": {"box": {}, "global": {"status": {"key": "c3RhdHVz", "keyType": "AVMString", "valueType": "AVMUint64"}, "deposit_amount": {"key": "ZGVwb3NpdF9hbW91bnQ=", "keyType": "AVMString", "valueType": "AVMUint64"}, "tenant": {"key": "dGVuYW50", "keyType": "AVMString", "valueType": "address"}, "landlord": {"key": "bGFuZGxvcmQ=", "keyType": "AVMString", "valueType": "address"}, "move_in_cid": {"key": "bW92ZV9pbl9jaWQ=", "keyType": "AVMString", "valueType": "string"}}, "local": {}}, "maps": {"box": {}, "global": {}, "local": {}}, "schema": {"global": {"bytes": 3, "ints": 2}, "local": {"bytes": 0, "ints": 0}}}, "structs": {}, "byteCode": {"approval": "CyADAAECJggGc3RhdHVzDmRlcG9zaXRfYW1vdW50CGxhbmRsb3JkC21vdmVfaW5fY2lkBnRlbmFudAQVH3x1AgAACgAIVU5GVU5ERUQxG0EARzEZFEQxGESCCAQu/XQTBKaib7EE4rpA0QS6I9cYBHw/2J0Eh0vfwARlw41cBDA9vGQ2GgCOCAAJAEkAcwCoAOcBDAFIAVsAMRkUMRgUEEM2GgFJFYEgEkQiKGVJTwJMQQADSRREKksDZ0sBQAAKKCJnKSJnKycGZ4ASFR98dQAMTGFuZGxvcmQgc2V0sCNDIihlQQADSRREJwQxAGczAAhJRClMZygjZ4AMFR98dQAGRlVOREVEsCNDNhoBSSJZJAhLARUSRCIoZUQjEkQxACInBGVEEkQrTGeAEBUffHUACkNJRCBzdG9yZWSwI0MiKGVEIxJEMQAiKmVEEkQiKWVEIicEZUSxsgeyCCOyEIHoB7IBsygiZykiZ4AOFR98dQAIUkVMRUFTRUSwI0MiKGVEIxJEMQAiKmVEEkQoJGeADhUffHUACERJU1BVVEVEsCNDIihlQAAJJwcnBUxQsCNDSSMSQQANgAgABkZVTkRFREL/5kkkEkEAD4AKAAhESVNQVVRFREL/0ScHQv/MIillQAAJIhYnBUxQsCNDSUL/9CIrZUAACScGJwVMULAjQ0lC//U=", "clear": "C4EBQw=="}, "desc": "\n    Fianza Rental Escrow Smart Contract\n    ------------------------------------\n    Status values:\n      0 = UNFUNDED\n      1 = FUNDED\n      2 = DISPUTED\n    ", "events": [], "networks": {}, "source": {"approval": "I3ByYWdtYSB2ZXJzaW9uIDExCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuYXBwcm92YWxfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIGludGNibG9jayAwIDEgMgogICAgYnl0ZWNibG9jayAic3RhdHVzIiAiZGVwb3NpdF9hbW91bnQiICJsYW5kbG9yZCIgIm1vdmVfaW5fY2lkIiAidGVuYW50IiAweDE1MWY3Yzc1IDB4MDAwMCAweDAwMDg1NTRlNDY1NTRlNDQ0NTQ0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weTo1CiAgICAvLyBjbGFzcyBGaWFuemFFc2Nyb3coQVJDNENvbnRyYWN0KToKICAgIHR4biBOdW1BcHBBcmdzCiAgICBieiBtYWluX19fYWxnb3B5X2RlZmF1bHRfY3JlYXRlQDE3CiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQKICAgIHB1c2hieXRlc3MgMHgyZWZkNzQxMyAweGE2YTI2ZmIxIDB4ZTJiYTQwZDEgMHhiYTIzZDcxOCAweDdjM2ZkODlkIDB4ODc0YmRmYzAgMHg2NWMzOGQ1YyAweDMwM2RiYzY0IC8vIG1ldGhvZCAic2V0X2xhbmRsb3JkKGFkZHJlc3Mpc3RyaW5nIiwgbWV0aG9kICJmdW5kX2RlcG9zaXQoKXN0cmluZyIsIG1ldGhvZCAic3RvcmVfY2lkKHN0cmluZylzdHJpbmciLCBtZXRob2QgInJlbGVhc2VfZGVwb3NpdCgpc3RyaW5nIiwgbWV0aG9kICJyYWlzZV9kaXNwdXRlKClzdHJpbmciLCBtZXRob2QgImdldF9zdGF0dXMoKXN0cmluZyIsIG1ldGhvZCAiZ2V0X2RlcG9zaXRfYW1vdW50KCl1aW50NjQiLCBtZXRob2QgImdldF9jaWQoKXN0cmluZyIKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDAKICAgIG1hdGNoIHNldF9sYW5kbG9yZCBmdW5kX2RlcG9zaXQgc3RvcmVfY2lkIHJlbGVhc2VfZGVwb3NpdCByYWlzZV9kaXNwdXRlIGdldF9zdGF0dXMgZ2V0X2RlcG9zaXRfYW1vdW50IGdldF9jaWQKICAgIGVycgoKbWFpbl9fX2FsZ29weV9kZWZhdWx0X2NyZWF0ZUAxNzoKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICAhCiAgICAmJgogICAgcmV0dXJuCgoKLy8gc21hcnRfY29udHJhY3RzLmZpYW56YV9lc2Nyb3cuY29udHJhY3QuRmlhbnphRXNjcm93LnNldF9sYW5kbG9yZFtyb3V0aW5nXSgpIC0+IHZvaWQ6CnNldF9sYW5kbG9yZDoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjIyCiAgICAvLyBAYWJpbWV0aG9kCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICBkdXAKICAgIGxlbgogICAgcHVzaGludCAzMgogICAgPT0KICAgIGFzc2VydCAvLyBpbnZhbGlkIG51bWJlciBvZiBieXRlcyBmb3IgYXJjNC5zdGF0aWNfYXJyYXk8YXJjNC51aW50OCwgMzI+CiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weToyNQogICAgLy8gc3RhdHVzLCBleGlzdHMgPSBzZWxmLnN0YXR1cy5tYXliZSgpCiAgICBpbnRjXzAgLy8gMAogICAgYnl0ZWNfMCAvLyAic3RhdHVzIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGR1cAogICAgdW5jb3ZlciAyCiAgICBzd2FwCiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weToyNgogICAgLy8gaWYgZXhpc3RzOgogICAgYnogc2V0X2xhbmRsb3JkX2FmdGVyX2lmX2Vsc2VAMwogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6MjcKICAgIC8vIGFzc2VydCBzdGF0dXMgPT0gVUludDY0KDApLCAiQWxyZWFkeSBmdW5kZWQiCiAgICBkdXAKICAgICEKICAgIGFzc2VydCAvLyBBbHJlYWR5IGZ1bmRlZAoKc2V0X2xhbmRsb3JkX2FmdGVyX2lmX2Vsc2VAMzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjI4CiAgICAvLyBzZWxmLmxhbmRsb3JkLnZhbHVlID0gbGFuZGxvcmQKICAgIGJ5dGVjXzIgLy8gImxhbmRsb3JkIgogICAgZGlnIDMKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weToyOQogICAgLy8gaWYgbm90IGV4aXN0czoKICAgIGRpZyAxCiAgICBibnogc2V0X2xhbmRsb3JkX2FmdGVyX2lmX2Vsc2VANQogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6MzAKICAgIC8vIHNlbGYuc3RhdHVzLnZhbHVlID0gVUludDY0KDApCiAgICBieXRlY18wIC8vICJzdGF0dXMiCiAgICBpbnRjXzAgLy8gMAogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjMxCiAgICAvLyBzZWxmLmRlcG9zaXRfYW1vdW50LnZhbHVlID0gVUludDY0KDApCiAgICBieXRlY18xIC8vICJkZXBvc2l0X2Ftb3VudCIKICAgIGludGNfMCAvLyAwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6MzIKICAgIC8vIHNlbGYubW92ZV9pbl9jaWQudmFsdWUgPSBTdHJpbmcoIiIpCiAgICBieXRlY18zIC8vICJtb3ZlX2luX2NpZCIKICAgIGJ5dGVjIDYgLy8gMHgwMDAwCiAgICBhcHBfZ2xvYmFsX3B1dAoKc2V0X2xhbmRsb3JkX2FmdGVyX2lmX2Vsc2VANToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjIyCiAgICAvLyBAYWJpbWV0aG9kCiAgICBwdXNoYnl0ZXMgMHgxNTFmN2M3NTAwMGM0YzYxNmU2NDZjNmY3MjY0MjA3MzY1NzQKICAgIGxvZwogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5maWFuemFfZXNjcm93LmNvbnRyYWN0LkZpYW56YUVzY3Jvdy5mdW5kX2RlcG9zaXRbcm91dGluZ10oKSAtPiB2b2lkOgpmdW5kX2RlcG9zaXQ6CiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weTozOAogICAgLy8gc3RhdHVzLCBleGlzdHMgPSBzZWxmLnN0YXR1cy5tYXliZSgpCiAgICBpbnRjXzAgLy8gMAogICAgYnl0ZWNfMCAvLyAic3RhdHVzIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjM5CiAgICAvLyBpZiBleGlzdHM6CiAgICBieiBmdW5kX2RlcG9zaXRfYWZ0ZXJfaWZfZWxzZUAzCiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weTo0MAogICAgLy8gYXNzZXJ0IHN0YXR1cyA9PSBVSW50NjQoMCksICJBbHJlYWR5IGZ1bmRlZCIKICAgIGR1cAogICAgIQogICAgYXNzZXJ0IC8vIEFscmVhZHkgZnVuZGVkCgpmdW5kX2RlcG9zaXRfYWZ0ZXJfaWZfZWxzZUAzOgogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6NDEKICAgIC8vIHNlbGYudGVuYW50LnZhbHVlID0gVHhuLnNlbmRlcgogICAgYnl0ZWMgNCAvLyAidGVuYW50IgogICAgdHhuIFNlbmRlcgogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjQyCiAgICAvLyBwYXkgPSBvcC5HVHhuLmFtb3VudCgwKQogICAgZ3R4biAwIEFtb3VudAogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6NDMKICAgIC8vIGFzc2VydCBwYXkgPiBVSW50NjQoMCksICJNdXN0IHNlbmQgQUxHTyIKICAgIGR1cAogICAgYXNzZXJ0IC8vIE11c3Qgc2VuZCBBTEdPCiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weTo0NAogICAgLy8gc2VsZi5kZXBvc2l0X2Ftb3VudC52YWx1ZSA9IHBheQogICAgYnl0ZWNfMSAvLyAiZGVwb3NpdF9hbW91bnQiCiAgICBzd2FwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6NDUKICAgIC8vIHNlbGYuc3RhdHVzLnZhbHVlID0gVUludDY0KDEpCiAgICBieXRlY18wIC8vICJzdGF0dXMiCiAgICBpbnRjXzEgLy8gMQogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjM1CiAgICAvLyBAYWJpbWV0aG9kKGFsbG93X2FjdGlvbnM9WyJOb09wIl0pCiAgICBwdXNoYnl0ZXMgMHgxNTFmN2M3NTAwMDY0NjU1NGU0NDQ1NDQKICAgIGxvZwogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5maWFuemFfZXNjcm93LmNvbnRyYWN0LkZpYW56YUVzY3Jvdy5zdG9yZV9jaWRbcm91dGluZ10oKSAtPiB2b2lkOgpzdG9yZV9jaWQ6CiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weTo0OAogICAgLy8gQGFiaW1ldGhvZAogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgZHVwCiAgICBpbnRjXzAgLy8gMAogICAgZXh0cmFjdF91aW50MTYgLy8gb24gZXJyb3I6IGludmFsaWQgYXJyYXkgbGVuZ3RoIGhlYWRlcgogICAgaW50Y18yIC8vIDIKICAgICsKICAgIGRpZyAxCiAgICBsZW4KICAgID09CiAgICBhc3NlcnQgLy8gaW52YWxpZCBudW1iZXIgb2YgYnl0ZXMgZm9yIGFyYzQuZHluYW1pY19hcnJheTxhcmM0LnVpbnQ4PgogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6NTEKICAgIC8vIGFzc2VydCBzZWxmLnN0YXR1cy52YWx1ZSA9PSBVSW50NjQoMSksICJFc2Nyb3cgbXVzdCBiZSBGVU5ERUQiCiAgICBpbnRjXzAgLy8gMAogICAgYnl0ZWNfMCAvLyAic3RhdHVzIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLnN0YXR1cyBleGlzdHMKICAgIGludGNfMSAvLyAxCiAgICA9PQogICAgYXNzZXJ0IC8vIEVzY3JvdyBtdXN0IGJlIEZVTkRFRAogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6NTIKICAgIC8vIGFzc2VydCBUeG4uc2VuZGVyID09IHNlbGYudGVuYW50LnZhbHVlLCAiT25seSB0ZW5hbnQgY2FuIHN0b3JlIENJRCIKICAgIHR4biBTZW5kZXIKICAgIGludGNfMCAvLyAwCiAgICBieXRlYyA0IC8vICJ0ZW5hbnQiCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIHNlbGYudGVuYW50IGV4aXN0cwogICAgPT0KICAgIGFzc2VydCAvLyBPbmx5IHRlbmFudCBjYW4gc3RvcmUgQ0lECiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weTo1MwogICAgLy8gc2VsZi5tb3ZlX2luX2NpZC52YWx1ZSA9IGNpZAogICAgYnl0ZWNfMyAvLyAibW92ZV9pbl9jaWQiCiAgICBzd2FwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6NDgKICAgIC8vIEBhYmltZXRob2QKICAgIHB1c2hieXRlcyAweDE1MWY3Yzc1MDAwYTQzNDk0NDIwNzM3NDZmNzI2NTY0CiAgICBsb2cKICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCgovLyBzbWFydF9jb250cmFjdHMuZmlhbnphX2VzY3Jvdy5jb250cmFjdC5GaWFuemFFc2Nyb3cucmVsZWFzZV9kZXBvc2l0W3JvdXRpbmddKCkgLT4gdm9pZDoKcmVsZWFzZV9kZXBvc2l0OgogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6NTkKICAgIC8vIGFzc2VydCBzZWxmLnN0YXR1cy52YWx1ZSA9PSBVSW50NjQoMSksICJFc2Nyb3cgbXVzdCBiZSBGVU5ERUQiCiAgICBpbnRjXzAgLy8gMAogICAgYnl0ZWNfMCAvLyAic3RhdHVzIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLnN0YXR1cyBleGlzdHMKICAgIGludGNfMSAvLyAxCiAgICA9PQogICAgYXNzZXJ0IC8vIEVzY3JvdyBtdXN0IGJlIEZVTkRFRAogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6NjAKICAgIC8vIGFzc2VydCBUeG4uc2VuZGVyID09IHNlbGYubGFuZGxvcmQudmFsdWUsICJPbmx5IGxhbmRsb3JkIGNhbiByZWxlYXNlIgogICAgdHhuIFNlbmRlcgogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjXzIgLy8gImxhbmRsb3JkIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLmxhbmRsb3JkIGV4aXN0cwogICAgPT0KICAgIGFzc2VydCAvLyBPbmx5IGxhbmRsb3JkIGNhbiByZWxlYXNlCiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weTo2MQogICAgLy8gYW1vdW50ID0gc2VsZi5kZXBvc2l0X2Ftb3VudC52YWx1ZQogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjXzEgLy8gImRlcG9zaXRfYW1vdW50IgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLmRlcG9zaXRfYW1vdW50IGV4aXN0cwogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6NjIKICAgIC8vIHRlbmFudCA9IHNlbGYudGVuYW50LnZhbHVlCiAgICBpbnRjXzAgLy8gMAogICAgYnl0ZWMgNCAvLyAidGVuYW50IgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLnRlbmFudCBleGlzdHMKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjYzLTY3CiAgICAvLyBpdHhuLlBheW1lbnQoCiAgICAvLyAgICAgcmVjZWl2ZXI9dGVuYW50LAogICAgLy8gICAgIGFtb3VudD1hbW91bnQsCiAgICAvLyAgICAgZmVlPVVJbnQ2NCgxMDAwKSwKICAgIC8vICkuc3VibWl0KCkKICAgIGl0eG5fYmVnaW4KICAgIGl0eG5fZmllbGQgUmVjZWl2ZXIKICAgIGl0eG5fZmllbGQgQW1vdW50CiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weTo2MwogICAgLy8gaXR4bi5QYXltZW50KAogICAgaW50Y18xIC8vIHBheQogICAgaXR4bl9maWVsZCBUeXBlRW51bQogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6NjYKICAgIC8vIGZlZT1VSW50NjQoMTAwMCksCiAgICBwdXNoaW50IDEwMDAKICAgIGl0eG5fZmllbGQgRmVlCiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weTo2My02NwogICAgLy8gaXR4bi5QYXltZW50KAogICAgLy8gICAgIHJlY2VpdmVyPXRlbmFudCwKICAgIC8vICAgICBhbW91bnQ9YW1vdW50LAogICAgLy8gICAgIGZlZT1VSW50NjQoMTAwMCksCiAgICAvLyApLnN1Ym1pdCgpCiAgICBpdHhuX3N1Ym1pdAogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6NjgKICAgIC8vIHNlbGYuc3RhdHVzLnZhbHVlID0gVUludDY0KDApCiAgICBieXRlY18wIC8vICJzdGF0dXMiCiAgICBpbnRjXzAgLy8gMAogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjY5CiAgICAvLyBzZWxmLmRlcG9zaXRfYW1vdW50LnZhbHVlID0gVUludDY0KDApCiAgICBieXRlY18xIC8vICJkZXBvc2l0X2Ftb3VudCIKICAgIGludGNfMCAvLyAwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6NTYKICAgIC8vIEBhYmltZXRob2QKICAgIHB1c2hieXRlcyAweDE1MWY3Yzc1MDAwODUyNDU0YzQ1NDE1MzQ1NDQKICAgIGxvZwogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5maWFuemFfZXNjcm93LmNvbnRyYWN0LkZpYW56YUVzY3Jvdy5yYWlzZV9kaXNwdXRlW3JvdXRpbmddKCkgLT4gdm9pZDoKcmFpc2VfZGlzcHV0ZToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5Ojc1CiAgICAvLyBhc3NlcnQgc2VsZi5zdGF0dXMudmFsdWUgPT0gVUludDY0KDEpLCAiRXNjcm93IG11c3QgYmUgRlVOREVEIgogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjXzAgLy8gInN0YXR1cyIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgc2VsZi5zdGF0dXMgZXhpc3RzCiAgICBpbnRjXzEgLy8gMQogICAgPT0KICAgIGFzc2VydCAvLyBFc2Nyb3cgbXVzdCBiZSBGVU5ERUQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5Ojc2CiAgICAvLyBhc3NlcnQgVHhuLnNlbmRlciA9PSBzZWxmLmxhbmRsb3JkLnZhbHVlLCAiT25seSBsYW5kbG9yZCBjYW4gcmFpc2UgZGlzcHV0ZSIKICAgIHR4biBTZW5kZXIKICAgIGludGNfMCAvLyAwCiAgICBieXRlY18yIC8vICJsYW5kbG9yZCIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgc2VsZi5sYW5kbG9yZCBleGlzdHMKICAgID09CiAgICBhc3NlcnQgLy8gT25seSBsYW5kbG9yZCBjYW4gcmFpc2UgZGlzcHV0ZQogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6NzcKICAgIC8vIHNlbGYuc3RhdHVzLnZhbHVlID0gVUludDY0KDIpCiAgICBieXRlY18wIC8vICJzdGF0dXMiCiAgICBpbnRjXzIgLy8gMgogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjcyCiAgICAvLyBAYWJpbWV0aG9kCiAgICBwdXNoYnl0ZXMgMHgxNTFmN2M3NTAwMDg0NDQ5NTM1MDU1NTQ0NTQ0CiAgICBsb2cKICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCgovLyBzbWFydF9jb250cmFjdHMuZmlhbnphX2VzY3Jvdy5jb250cmFjdC5GaWFuemFFc2Nyb3cuZ2V0X3N0YXR1c1tyb3V0aW5nXSgpIC0+IHZvaWQ6CmdldF9zdGF0dXM6CiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weTo4MwogICAgLy8gc3RhdHVzLCBleGlzdHMgPSBzZWxmLnN0YXR1cy5tYXliZSgpCiAgICBpbnRjXzAgLy8gMAogICAgYnl0ZWNfMCAvLyAic3RhdHVzIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5Ojg0CiAgICAvLyBpZiBub3QgZXhpc3RzOgogICAgYm56IGdldF9zdGF0dXNfYWZ0ZXJfaWZfZWxzZUAzCiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weTo4NQogICAgLy8gcmV0dXJuIFN0cmluZygiVU5GVU5ERUQiKQogICAgYnl0ZWMgNyAvLyAweDAwMDg1NTRlNDY1NTRlNDQ0NTQ0CgpnZXRfc3RhdHVzX2FmdGVyX2lubGluZWRfc21hcnRfY29udHJhY3RzLmZpYW56YV9lc2Nyb3cuY29udHJhY3QuRmlhbnphRXNjcm93LmdldF9zdGF0dXNAODoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjgwCiAgICAvLyBAYWJpbWV0aG9kKHJlYWRvbmx5PVRydWUpCiAgICBieXRlYyA1IC8vIDB4MTUxZjdjNzUKICAgIHN3YXAKICAgIGNvbmNhdAogICAgbG9nCiAgICBpbnRjXzEgLy8gMQogICAgcmV0dXJuCgpnZXRfc3RhdHVzX2FmdGVyX2lmX2Vsc2VAMzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5Ojg2CiAgICAvLyBpZiBzdGF0dXMgPT0gVUludDY0KDEpOgogICAgZHVwCiAgICBpbnRjXzEgLy8gMQogICAgPT0KICAgIGJ6IGdldF9zdGF0dXNfYWZ0ZXJfaWZfZWxzZUA1CiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weTo4NwogICAgLy8gcmV0dXJuIFN0cmluZygiRlVOREVEIikKICAgIHB1c2hieXRlcyAweDAwMDY0NjU1NGU0NDQ1NDQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjgwCiAgICAvLyBAYWJpbWV0aG9kKHJlYWRvbmx5PVRydWUpCiAgICBiIGdldF9zdGF0dXNfYWZ0ZXJfaW5saW5lZF9zbWFydF9jb250cmFjdHMuZmlhbnphX2VzY3Jvdy5jb250cmFjdC5GaWFuemFFc2Nyb3cuZ2V0X3N0YXR1c0A4CgpnZXRfc3RhdHVzX2FmdGVyX2lmX2Vsc2VANToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5Ojg4CiAgICAvLyBpZiBzdGF0dXMgPT0gVUludDY0KDIpOgogICAgZHVwCiAgICBpbnRjXzIgLy8gMgogICAgPT0KICAgIGJ6IGdldF9zdGF0dXNfYWZ0ZXJfaWZfZWxzZUA3CiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weTo4OQogICAgLy8gcmV0dXJuIFN0cmluZygiRElTUFVURUQiKQogICAgcHVzaGJ5dGVzIDB4MDAwODQ0NDk1MzUwNTU1NDQ1NDQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjgwCiAgICAvLyBAYWJpbWV0aG9kKHJlYWRvbmx5PVRydWUpCiAgICBiIGdldF9zdGF0dXNfYWZ0ZXJfaW5saW5lZF9zbWFydF9jb250cmFjdHMuZmlhbnphX2VzY3Jvdy5jb250cmFjdC5GaWFuemFFc2Nyb3cuZ2V0X3N0YXR1c0A4CgpnZXRfc3RhdHVzX2FmdGVyX2lmX2Vsc2VANzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjkwCiAgICAvLyByZXR1cm4gU3RyaW5nKCJVTkZVTkRFRCIpCiAgICBieXRlYyA3IC8vIDB4MDAwODU1NGU0NjU1NGU0NDQ1NDQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjgwCiAgICAvLyBAYWJpbWV0aG9kKHJlYWRvbmx5PVRydWUpCiAgICBiIGdldF9zdGF0dXNfYWZ0ZXJfaW5saW5lZF9zbWFydF9jb250cmFjdHMuZmlhbnphX2VzY3Jvdy5jb250cmFjdC5GaWFuemFFc2Nyb3cuZ2V0X3N0YXR1c0A4CgoKLy8gc21hcnRfY29udHJhY3RzLmZpYW56YV9lc2Nyb3cuY29udHJhY3QuRmlhbnphRXNjcm93LmdldF9kZXBvc2l0X2Ftb3VudFtyb3V0aW5nXSgpIC0+IHZvaWQ6CmdldF9kZXBvc2l0X2Ftb3VudDoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5Ojk1CiAgICAvLyBhbW91bnQsIGV4aXN0cyA9IHNlbGYuZGVwb3NpdF9hbW91bnQubWF5YmUoKQogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjXzEgLy8gImRlcG9zaXRfYW1vdW50IgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5Ojk2CiAgICAvLyBpZiBub3QgZXhpc3RzOgogICAgYm56IGdldF9kZXBvc2l0X2Ftb3VudF9hZnRlcl9pZl9lbHNlQDMKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5Ojk3CiAgICAvLyByZXR1cm4gVUludDY0KDApCiAgICBpbnRjXzAgLy8gMAoKZ2V0X2RlcG9zaXRfYW1vdW50X2FmdGVyX2lubGluZWRfc21hcnRfY29udHJhY3RzLmZpYW56YV9lc2Nyb3cuY29udHJhY3QuRmlhbnphRXNjcm93LmdldF9kZXBvc2l0X2Ftb3VudEA0OgogICAgLy8gc21hcnRfY29udHJhY3RzL2ZpYW56YV9lc2Nyb3cvY29udHJhY3QucHk6OTIKICAgIC8vIEBhYmltZXRob2QocmVhZG9ubHk9VHJ1ZSkKICAgIGl0b2IKICAgIGJ5dGVjIDUgLy8gMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCmdldF9kZXBvc2l0X2Ftb3VudF9hZnRlcl9pZl9lbHNlQDM6CiAgICBkdXAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjkyCiAgICAvLyBAYWJpbWV0aG9kKHJlYWRvbmx5PVRydWUpCiAgICBiIGdldF9kZXBvc2l0X2Ftb3VudF9hZnRlcl9pbmxpbmVkX3NtYXJ0X2NvbnRyYWN0cy5maWFuemFfZXNjcm93LmNvbnRyYWN0LkZpYW56YUVzY3Jvdy5nZXRfZGVwb3NpdF9hbW91bnRANAoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5maWFuemFfZXNjcm93LmNvbnRyYWN0LkZpYW56YUVzY3Jvdy5nZXRfY2lkW3JvdXRpbmddKCkgLT4gdm9pZDoKZ2V0X2NpZDoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjEwMwogICAgLy8gY2lkLCBleGlzdHMgPSBzZWxmLm1vdmVfaW5fY2lkLm1heWJlKCkKICAgIGludGNfMCAvLyAwCiAgICBieXRlY18zIC8vICJtb3ZlX2luX2NpZCIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICAvLyBzbWFydF9jb250cmFjdHMvZmlhbnphX2VzY3Jvdy9jb250cmFjdC5weToxMDQKICAgIC8vIGlmIG5vdCBleGlzdHM6CiAgICBibnogZ2V0X2NpZF9hZnRlcl9pZl9lbHNlQDMKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjEwNQogICAgLy8gcmV0dXJuIFN0cmluZygiIikKICAgIGJ5dGVjIDYgLy8gMHgwMDAwCgpnZXRfY2lkX2FmdGVyX2lubGluZWRfc21hcnRfY29udHJhY3RzLmZpYW56YV9lc2Nyb3cuY29udHJhY3QuRmlhbnphRXNjcm93LmdldF9jaWRANDoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjEwMAogICAgLy8gQGFiaW1ldGhvZChyZWFkb25seT1UcnVlKQogICAgYnl0ZWMgNSAvLyAweDE1MWY3Yzc1CiAgICBzd2FwCiAgICBjb25jYXQKICAgIGxvZwogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKZ2V0X2NpZF9hZnRlcl9pZl9lbHNlQDM6CiAgICBkdXAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9maWFuemFfZXNjcm93L2NvbnRyYWN0LnB5OjEwMAogICAgLy8gQGFiaW1ldGhvZChyZWFkb25seT1UcnVlKQogICAgYiBnZXRfY2lkX2FmdGVyX2lubGluZWRfc21hcnRfY29udHJhY3RzLmZpYW56YV9lc2Nyb3cuY29udHJhY3QuRmlhbnphRXNjcm93LmdldF9jaWRANAo=", "clear": "I3ByYWdtYSB2ZXJzaW9uIDExCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuY2xlYXJfc3RhdGVfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIHB1c2hpbnQgMQogICAgcmV0dXJuCg=="}, "sourceInfo": {"approval": {"pcOffsetMethod": "none", "sourceInfo": [{"pc": [182, 233], "errorMessage": "Already funded"}, {"pc": [286, 326, 389], "errorMessage": "Escrow must be FUNDED"}, {"pc": [243], "errorMessage": "Must send ALGO"}, {"pc": [397], "errorMessage": "Only landlord can raise dispute"}, {"pc": [334], "errorMessage": "Only landlord can release"}, {"pc": [295], "errorMessage": "Only tenant can store CID"}, {"pc": [338], "errorMessage": "check self.deposit_amount exists"}, {"pc": [332, 395], "errorMessage": "check self.landlord exists"}, {"pc": [283, 323, 386], "errorMessage": "check self.status exists"}, {"pc": [293, 343], "errorMessage": "check self.tenant exists"}, {"pc": [272], "errorMessage": "invalid array length header"}, {"pc": [279], "errorMessage": "invalid number of bytes for arc4.dynamic_array<arc4.uint8>"}, {"pc": [169], "errorMessage": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>"}]}, "clear": {"pcOffsetMethod": "none", "sourceInfo": []}}, "templateVariables": {}}"""
 APP_SPEC = algokit_utils.Arc56Contract.from_json(_APP_SPEC_JSON)
 
 def _parse_abi_args(args: object | None = None) -> list[object] | None:
@@ -64,9 +64,87 @@ def _init_dataclass(cls: type, data: dict) -> object:
             field_values[field.name] = field_value
     return cls(**field_values)
 
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class SetLandlordArgs:
+    """Dataclass for set_landlord arguments"""
+    landlord: str
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "set_landlord(address)string"
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class StoreCidArgs:
+    """Dataclass for store_cid arguments"""
+    cid: str
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "store_cid(string)string"
+
+
 class FianzaEscrowParams:
     def __init__(self, app_client: algokit_utils.AppClient):
         self.app_client = app_client
+
+    def set_landlord(
+        self,
+        args: tuple[str] | SetLandlordArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "set_landlord(address)string",
+            "args": method_args,
+        }))
+
+    def fund_deposit(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "fund_deposit()string",
+        }))
+
+    def store_cid(
+        self,
+        args: tuple[str] | StoreCidArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "store_cid(string)string",
+            "args": method_args,
+        }))
+
+    def release_deposit(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "release_deposit()string",
+        }))
+
+    def raise_dispute(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "raise_dispute()string",
+        }))
 
     def get_status(
         self,
@@ -79,7 +157,7 @@ class FianzaEscrowParams:
             "method": "get_status()string",
         }))
 
-    def set_funded(
+    def get_deposit_amount(
         self,
         params: algokit_utils.CommonAppCallParams | None = None
     ) -> algokit_utils.AppCallMethodCallParams:
@@ -87,7 +165,18 @@ class FianzaEscrowParams:
         params = params or algokit_utils.CommonAppCallParams()
         return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
             **dataclasses.asdict(params),
-            "method": "set_funded()string",
+            "method": "get_deposit_amount()uint64",
+        }))
+
+    def get_cid(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_cid()string",
         }))
 
     def clear_state(
@@ -105,6 +194,65 @@ class FianzaEscrowCreateTransactionParams:
     def __init__(self, app_client: algokit_utils.AppClient):
         self.app_client = app_client
 
+    def set_landlord(
+        self,
+        args: tuple[str] | SetLandlordArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "set_landlord(address)string",
+            "args": method_args,
+        }))
+
+    def fund_deposit(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "fund_deposit()string",
+        }))
+
+    def store_cid(
+        self,
+        args: tuple[str] | StoreCidArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "store_cid(string)string",
+            "args": method_args,
+        }))
+
+    def release_deposit(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "release_deposit()string",
+        }))
+
+    def raise_dispute(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "raise_dispute()string",
+        }))
+
     def get_status(
         self,
         params: algokit_utils.CommonAppCallParams | None = None
@@ -116,7 +264,7 @@ class FianzaEscrowCreateTransactionParams:
             "method": "get_status()string",
         }))
 
-    def set_funded(
+    def get_deposit_amount(
         self,
         params: algokit_utils.CommonAppCallParams | None = None
     ) -> algokit_utils.BuiltTransactions:
@@ -124,7 +272,18 @@ class FianzaEscrowCreateTransactionParams:
         params = params or algokit_utils.CommonAppCallParams()
         return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
             **dataclasses.asdict(params),
-            "method": "set_funded()string",
+            "method": "get_deposit_amount()uint64",
+        }))
+
+    def get_cid(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_cid()string",
         }))
 
     def clear_state(
@@ -142,6 +301,80 @@ class FianzaEscrowSend:
     def __init__(self, app_client: algokit_utils.AppClient):
         self.app_client = app_client
 
+    def set_landlord(
+        self,
+        args: tuple[str] | SetLandlordArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[str]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "set_landlord(address)string",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
+
+    def fund_deposit(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[str]:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "fund_deposit()string",
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
+
+    def store_cid(
+        self,
+        args: tuple[str] | StoreCidArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[str]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "store_cid(string)string",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
+
+    def release_deposit(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[str]:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "release_deposit()string",
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
+
+    def raise_dispute(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[str]:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "raise_dispute()string",
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
+
     def get_status(
         self,
         params: algokit_utils.CommonAppCallParams | None = None,
@@ -156,7 +389,21 @@ class FianzaEscrowSend:
         parsed_response = response
         return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
 
-    def set_funded(
+    def get_deposit_amount(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[int]:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_deposit_amount()uint64",
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[int], parsed_response)
+
+    def get_cid(
         self,
         params: algokit_utils.CommonAppCallParams | None = None,
         send_params: algokit_utils.SendParams | None = None
@@ -165,7 +412,7 @@ class FianzaEscrowSend:
         params = params or algokit_utils.CommonAppCallParams()
         response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
             **dataclasses.asdict(params),
-            "method": "set_funded()string",
+            "method": "get_cid()string",
         }), send_params=send_params)
         parsed_response = response
         return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
@@ -183,7 +430,11 @@ class FianzaEscrowSend:
 
 class GlobalStateValue(typing.TypedDict):
     """Shape of global_state state key values"""
-    is_funded: int
+    status: int
+    deposit_amount: int
+    tenant: str
+    landlord: str
+    move_in_cid: str
 
 class FianzaEscrowState:
     """Methods to access state for the current FianzaEscrow app"""
@@ -222,12 +473,44 @@ class _GlobalState:
         return typing.cast(GlobalStateValue, converted)
 
     @property
-    def is_funded(self) -> int:
-        """Get the current value of the is_funded key in global_state state"""
-        value = self.app_client.state.global_state.get_value("is_funded")
+    def status(self) -> int:
+        """Get the current value of the status key in global_state state"""
+        value = self.app_client.state.global_state.get_value("status")
         if isinstance(value, dict) and "AVMUint64" in self._struct_classes:
             return _init_dataclass(self._struct_classes["AVMUint64"], value)  # type: ignore
         return typing.cast(int, value)
+
+    @property
+    def deposit_amount(self) -> int:
+        """Get the current value of the deposit_amount key in global_state state"""
+        value = self.app_client.state.global_state.get_value("deposit_amount")
+        if isinstance(value, dict) and "AVMUint64" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["AVMUint64"], value)  # type: ignore
+        return typing.cast(int, value)
+
+    @property
+    def tenant(self) -> str:
+        """Get the current value of the tenant key in global_state state"""
+        value = self.app_client.state.global_state.get_value("tenant")
+        if isinstance(value, dict) and "address" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["address"], value)  # type: ignore
+        return typing.cast(str, value)
+
+    @property
+    def landlord(self) -> str:
+        """Get the current value of the landlord key in global_state state"""
+        value = self.app_client.state.global_state.get_value("landlord")
+        if isinstance(value, dict) and "address" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["address"], value)  # type: ignore
+        return typing.cast(str, value)
+
+    @property
+    def move_in_cid(self) -> str:
+        """Get the current value of the move_in_cid key in global_state state"""
+        value = self.app_client.state.global_state.get_value("move_in_cid")
+        if isinstance(value, dict) and "string" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["string"], value)  # type: ignore
+        return typing.cast(str, value)
 
 class FianzaEscrowClient:
     """Client for interacting with FianzaEscrow smart contract"""
@@ -375,13 +658,49 @@ class FianzaEscrowClient:
     @typing.overload
     def decode_return_value(
         self,
+        method: typing.Literal["set_landlord(address)string"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> str | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["fund_deposit()string"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> str | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["store_cid(string)string"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> str | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["release_deposit()string"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> str | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["raise_dispute()string"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> str | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
         method: typing.Literal["get_status()string"],
         return_value: algokit_utils.ABIReturn | None
     ) -> str | None: ...
     @typing.overload
     def decode_return_value(
         self,
-        method: typing.Literal["set_funded()string"],
+        method: typing.Literal["get_deposit_amount()uint64"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> int | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["get_cid()string"],
         return_value: algokit_utils.ABIReturn | None
     ) -> str | None: ...
     @typing.overload
@@ -395,7 +714,7 @@ class FianzaEscrowClient:
         self,
         method: str,
         return_value: algokit_utils.ABIReturn | None
-    ) -> algokit_utils.ABIValue | algokit_utils.ABIStruct | None | str:
+    ) -> algokit_utils.ABIValue | algokit_utils.ABIStruct | None | int | str:
         """Decode ABI return value for the given method."""
         if return_value is None:
             return None
@@ -566,6 +885,103 @@ class FianzaEscrowFactoryCreateParams:
             algokit_utils.AppFactoryCreateParams(**dataclasses.asdict(params)),
             compilation_params=compilation_params)
 
+    def set_landlord(
+        self,
+        args: tuple[str] | SetLandlordArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the set_landlord(address)string ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "set_landlord(address)string",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def fund_deposit(
+        self,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the fund_deposit()string ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "fund_deposit()string",
+                "args": None,
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def store_cid(
+        self,
+        args: tuple[str] | StoreCidArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the store_cid(string)string ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "store_cid(string)string",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def release_deposit(
+        self,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the release_deposit()string ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "release_deposit()string",
+                "args": None,
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def raise_dispute(
+        self,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the raise_dispute()string ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "raise_dispute()string",
+                "args": None,
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
     def get_status(
         self,
         *,
@@ -585,19 +1001,38 @@ class FianzaEscrowFactoryCreateParams:
             compilation_params=compilation_params
         )
 
-    def set_funded(
+    def get_deposit_amount(
         self,
         *,
         params: algokit_utils.CommonAppCallCreateParams | None = None,
         compilation_params: algokit_utils.AppClientCompilationParams | None = None
     ) -> algokit_utils.AppCreateMethodCallParams:
-        """Creates a new instance using the set_funded()string ABI method"""
+        """Creates a new instance using the get_deposit_amount()uint64 ABI method"""
         params = params or algokit_utils.CommonAppCallCreateParams()
         return self.app_factory.params.create(
             algokit_utils.AppFactoryCreateMethodCallParams(
                 **{
                 **dataclasses.asdict(params),
-                "method": "set_funded()string",
+                "method": "get_deposit_amount()uint64",
+                "args": None,
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def get_cid(
+        self,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the get_cid()string ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "get_cid()string",
                 "args": None,
                 }
             ),
@@ -705,6 +1140,93 @@ class FianzaEscrowComposer:
         self._composer = client.algorand.new_group()
         self._result_mappers: list[typing.Callable[[algokit_utils.ABIReturn | None], object] | None] = []
 
+    def set_landlord(
+        self,
+        args: tuple[str] | SetLandlordArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "FianzaEscrowComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.set_landlord(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "set_landlord(address)string", v
+            )
+        )
+        return self
+
+    def fund_deposit(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "FianzaEscrowComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.fund_deposit(
+                
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "fund_deposit()string", v
+            )
+        )
+        return self
+
+    def store_cid(
+        self,
+        args: tuple[str] | StoreCidArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "FianzaEscrowComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.store_cid(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "store_cid(string)string", v
+            )
+        )
+        return self
+
+    def release_deposit(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "FianzaEscrowComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.release_deposit(
+                
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "release_deposit()string", v
+            )
+        )
+        return self
+
+    def raise_dispute(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "FianzaEscrowComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.raise_dispute(
+                
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "raise_dispute()string", v
+            )
+        )
+        return self
+
     def get_status(
         self,
         params: algokit_utils.CommonAppCallParams | None = None
@@ -722,19 +1244,36 @@ class FianzaEscrowComposer:
         )
         return self
 
-    def set_funded(
+    def get_deposit_amount(
         self,
         params: algokit_utils.CommonAppCallParams | None = None
     ) -> "FianzaEscrowComposer":
         self._composer.add_app_call_method_call(
-            self.client.params.set_funded(
+            self.client.params.get_deposit_amount(
                 
                 params=params,
             )
         )
         self._result_mappers.append(
             lambda v: self.client.decode_return_value(
-                "set_funded()string", v
+                "get_deposit_amount()uint64", v
+            )
+        )
+        return self
+
+    def get_cid(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "FianzaEscrowComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.get_cid(
+                
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "get_cid()string", v
             )
         )
         return self
