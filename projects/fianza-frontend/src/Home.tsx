@@ -4,6 +4,7 @@ import ConnectWallet from './components/ConnectWallet'
 import { FianzaEscrowClient } from './contracts/FianzaEscrow'
 import { getAlgodConfigFromViteEnvironment, getIndexerConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
 import { AlgorandClient } from '@algorandfoundation/algokit-utils'
+import algosdk from 'algosdk'
 
 const APP_ID = BigInt(766160152)
 
@@ -62,19 +63,34 @@ const Home: React.FC = () => {
     setLoading(true)
     try {
       const appClient = getAppClient()
-      const algorand = appClient.algorand
+      const algodClient = appClient.algorand.client.algod
+      const suggestedParams = await algodClient.getTransactionParams().do()
+      const appAddress = appClient.appAddress.toString()
+
       // fund_deposit() on-chain expects a linked Payment transaction (group index 0)
-      // carrying the ALGO being locked into escrow, followed by the app call.
-      await algorand
-        .newGroup()
-        .addPayment({
-          sender: activeAddress,
-          receiver: appClient.appAddress,
-          amount: Math.round(amount * 1_000_000).microAlgo(),
-          signer: transactionSigner,
-        })
-        .addAppCallMethodCall(appClient.params.fundDeposit({ args: [], sender: activeAddress, signer: transactionSigner }))
-        .send({ populateAppCallResources: false })
+      // carrying the ALGO being locked into escrow, followed by the app call (index 1).
+      const paymentTxn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+        sender: activeAddress,
+        receiver: appAddress,
+        amount: Math.round(amount * 1_000_000),
+        suggestedParams,
+      })
+
+      const method = algosdk.ABIMethod.fromSignature('fund_deposit()string')
+      const appCallTxn = algosdk.makeApplicationNoOpTxnFromObject({
+        sender: activeAddress,
+        appIndex: Number(APP_ID),
+        appArgs: [method.getSelector()],
+        suggestedParams,
+      })
+
+      algosdk.assignGroupID([paymentTxn, appCallTxn])
+
+      const signedTxns = await transactionSigner([paymentTxn, appCallTxn], [0, 1])
+
+      const { txid } = await algodClient.sendRawTransaction(signedTxns).do()
+      await algosdk.waitForConfirmation(algodClient, txid, 4)
+
       setEscrowStatus('FUNDED')
       showToast('Deposit funded on-chain!', 'success')
     } catch (e: any) {
