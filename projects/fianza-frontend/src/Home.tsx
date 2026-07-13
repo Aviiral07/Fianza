@@ -1,4 +1,4 @@
-	import { useWallet } from '@txnlab/use-wallet-react'
+import { useWallet } from '@txnlab/use-wallet-react'
 import React, { useState } from 'react'
 import ConnectWallet from './components/ConnectWallet'
 import { FianzaEscrowClient } from './contracts/FianzaEscrow'
@@ -29,6 +29,7 @@ const Home: React.FC = () => {
     if (!activeAddress) throw new Error('Wallet not connected')
     const algorand = AlgorandClient.fromConfig({ algodConfig, indexerConfig })
     algorand.setDefaultSigner(transactionSigner)
+    algorand.setSigner(activeAddress, transactionSigner)
     return new FianzaEscrowClient({
       algorand,
       appId: APP_ID,
@@ -73,7 +74,7 @@ const Home: React.FC = () => {
           signer: transactionSigner,
         })
         .addAppCallMethodCall(appClient.params.fundDeposit({ args: [], sender: activeAddress, signer: transactionSigner }))
-        .send()
+        .send({ populateAppCallResources: false })
       setEscrowStatus('FUNDED')
       showToast('Deposit funded on-chain!', 'success')
     } catch (e: any) {
