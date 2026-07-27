@@ -13,7 +13,7 @@ const Home: React.FC = () => {
   const [escrowStatus, setEscrowStatus] = useState<'UNFUNDED' | 'FUNDED' | 'DISPUTED'>('UNFUNDED')
   const [activeTab, setActiveTab] = useState<'tenant' | 'landlord'>('tenant')
   const [loading, setLoading] = useState(false)
-  const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null)
+  const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' | 'info' } | null>(null)
   const [depositAmount, setDepositAmount] = useState('1')
 
   const { activeAddress, transactionSigner } = useWallet()
@@ -21,9 +21,24 @@ const Home: React.FC = () => {
   const algodConfig = getAlgodConfigFromViteEnvironment()
   const indexerConfig = getIndexerConfigFromViteEnvironment()
 
-  const showToast = (msg: string, type: 'success' | 'error') => {
+  const showToast = (msg: string, type: 'success' | 'error' | 'info') => {
     setToast({ msg, type })
-    setTimeout(() => setToast(null), 4000)
+    setTimeout(() => setToast(null), 5000)
+  }
+
+  // Distinguishes a genuine bug/network failure from the smart contract correctly
+  // rejecting an invalid action (e.g. trying to fund an already-funded escrow).
+  // Both surface as thrown errors, but only the former is actually a "problem".
+  const isContractRejection = (msg: string) => /logic eval error|TransactionPool\.Remember|assert failed/i.test(msg)
+
+  const reportError = (e: any) => {
+    console.error(e)
+    const msg = e?.message || String(e)
+    if (isContractRejection(msg)) {
+      showToast('The smart contract rejected this action — a rule was violated (e.g. escrow already funded). This is expected behavior, not a bug.', 'info')
+    } else {
+      showToast(`Error: ${msg}`, 'error')
+    }
   }
 
   const getAppClient = () => {
@@ -51,7 +66,7 @@ const Home: React.FC = () => {
       else setEscrowStatus('UNFUNDED')
       showToast(`On-chain status: ${s}`, 'success')
     } catch (e: any) {
-      showToast(`Error: ${e.message}`, 'error')
+      reportError(e)
     }
     setLoading(false)
   }
@@ -94,8 +109,7 @@ const Home: React.FC = () => {
       setEscrowStatus('FUNDED')
       showToast('Deposit funded on-chain!', 'success')
     } catch (e: any) {
-      console.error('Fund deposit failed:', e)
-      showToast(`Error: ${e.message}`, 'error')
+      reportError(e)
     }
     setLoading(false)
   }
@@ -109,14 +123,34 @@ const Home: React.FC = () => {
 
   return (
     <div style={{ minHeight: '100vh', background: '#F7F4EE', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+      <style>{`
+        @media (max-width: 720px) {
+          .fianza-nav { padding: 0 16px !important; flex-wrap: wrap; height: auto !important; padding-top: 12px !important; padding-bottom: 12px !important; }
+          .fianza-hero { padding: 40px 20px 56px !important; }
+          .fianza-hero-title { font-size: 32px !important; }
+          .fianza-stats-bar { padding: 16px 20px !important; gap: 28px !important; }
+          .fianza-actions-grid { grid-template-columns: 1fr !important; }
+          .fianza-info-grid { grid-template-columns: 1fr 1fr !important; }
+          .fianza-steps-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 420px) {
+          .fianza-hero-title { font-size: 26px !important; }
+          .fianza-info-grid { grid-template-columns: 1fr !important; }
+          .fianza-steps-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
 
       {toast && (
-        <div style={{ position: 'fixed', top: '20px', right: '20px', zIndex: 9999, background: toast.type === 'success' ? '#2d5a27' : '#A32D2D', color: 'white', padding: '14px 20px', borderRadius: '12px', fontSize: '13px', fontWeight: '600', maxWidth: '360px' }}>
+        <div style={{
+          position: 'fixed', top: '20px', right: '20px', zIndex: 9999,
+          background: toast.type === 'success' ? '#2d5a27' : toast.type === 'info' ? '#B98900' : '#A32D2D',
+          color: 'white', padding: '14px 20px', borderRadius: '12px', fontSize: '13px', fontWeight: '600', maxWidth: '360px',
+        }}>
           {toast.msg}
         </div>
       )}
 
-      <nav style={{ background: '#1C3A18', padding: '0 40px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <nav className="fianza-nav" style={{ background: '#1C3A18', padding: '0 40px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <div style={{ width: '32px', height: '32px', background: '#5DCAA5', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -136,17 +170,17 @@ const Home: React.FC = () => {
         </div>
       </nav>
 
-      <div style={{ background: 'linear-gradient(180deg, #1C3A18 0%, #2d5a27 100%)', padding: '64px 40px 80px', textAlign: 'center' }}>
+      <div className="fianza-hero" style={{ background: 'linear-gradient(180deg, #1C3A18 0%, #2d5a27 100%)', padding: '64px 40px 80px', textAlign: 'center' }}>
         <div style={{ display: 'inline-block', background: 'rgba(93,202,165,0.15)', border: '1px solid rgba(93,202,165,0.3)', borderRadius: '20px', padding: '6px 16px', marginBottom: '20px' }}>
           <span style={{ color: '#5DCAA5', fontSize: '12px', fontWeight: '600', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Blockchain-Powered Escrow</span>
         </div>
-        <h1 style={{ color: '#F7F4EE', fontSize: '48px', fontWeight: '800', margin: '0 0 16px', lineHeight: '1.1', letterSpacing: '-1px', maxWidth: '700px', marginLeft: 'auto', marginRight: 'auto' }}>
+        <h1 className="fianza-hero-title" style={{ color: '#F7F4EE', fontSize: '48px', fontWeight: '800', margin: '0 0 16px', lineHeight: '1.1', letterSpacing: '-1px', maxWidth: '700px', marginLeft: 'auto', marginRight: 'auto' }}>
           Your Landlord Can Never<br /><span style={{ color: '#5DCAA5' }}>Steal Your Deposit</span> Again
         </h1>
         <p style={{ color: '#9FE1CB', fontSize: '18px', margin: '0 auto 32px', maxWidth: '520px', lineHeight: '1.6' }}>
           Transparent, fair, tamper-proof deposits secured by Algorand smart contracts.
         </p>
-        <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
           <button onClick={handleFundDeposit} disabled={loading} style={{ background: '#5DCAA5', color: '#1C3A18', border: 'none', borderRadius: '10px', padding: '14px 28px', fontWeight: '700', fontSize: '15px', cursor: 'pointer' }}>
             {loading ? 'Processing...' : 'Create Escrow'}
           </button>
@@ -156,7 +190,7 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      <div style={{ background: '#F0EBE1', borderBottom: '1px solid #E0D9CE', padding: '20px 40px', display: 'flex', justifyContent: 'center', gap: '60px' }}>
+      <div className="fianza-stats-bar" style={{ background: '#F0EBE1', borderBottom: '1px solid #E0D9CE', padding: '20px 40px', display: 'flex', justifyContent: 'center', gap: '60px', flexWrap: 'wrap' }}>
         {[
           { value: `#${APP_ID.toString()}`, label: 'App ID on TestNet' },
           { value: escrowStatus, label: 'Escrow Status' },
@@ -192,7 +226,7 @@ const Home: React.FC = () => {
           </div>
         )}
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+        <div className="fianza-actions-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
 
           <div style={{ background: 'white', borderRadius: '16px', padding: '28px', border: '1px solid #E8E2D9' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
@@ -240,7 +274,7 @@ const Home: React.FC = () => {
           </div>
 
           <div style={{ background: 'white', borderRadius: '16px', padding: '28px', border: '1px solid #F7C1C1', gridColumn: '1 / -1' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px', flexWrap: 'wrap' }}>
               <div style={{ width: '40px', height: '40px', background: '#FCEBEB', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#A32D2D" strokeWidth="2" strokeLinejoin="round" /><line x1="12" y1="9" x2="12" y2="13" stroke="#A32D2D" strokeWidth="2" strokeLinecap="round" /><line x1="12" y1="17" x2="12.01" y2="17" stroke="#A32D2D" strokeWidth="2" strokeLinecap="round" /></svg>
               </div>
@@ -252,7 +286,7 @@ const Home: React.FC = () => {
                 View on Lora Explorer →
               </a>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+            <div className="fianza-info-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
               {[
                 { label: 'Network', value: 'Algorand TestNet' },
                 { label: 'App ID', value: APP_ID.toString() },
@@ -272,7 +306,7 @@ const Home: React.FC = () => {
 
         <div style={{ background: 'white', borderRadius: '16px', padding: '32px', border: '1px solid #E8E2D9', marginBottom: '40px' }}>
           <h3 style={{ margin: '0 0 24px', color: '#1C1C1A', fontSize: '16px', fontWeight: '700', textAlign: 'center' }}>How Fianza Works</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
+          <div className="fianza-steps-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
             {[
               { icon: '🔒', step: '01', title: 'Deposit On-Chain', desc: 'Funds locked in immutable smart contract', color: '#EAF3DE' },
               { icon: '📋', step: '02', title: 'Rules Pre-Defined', desc: 'Both parties agree to conditions upfront', color: '#E6F1FB' },
