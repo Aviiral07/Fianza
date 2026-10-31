@@ -50,6 +50,477 @@
   margin-bottom: 1rem;
 }
 
+.rentchain-auth {
+  min-height: 100vh;
+  padding: 32px;
+  color: #173a30;
+  background:
+    radial-gradient(ellipse at 12% 8%, rgba(196, 224, 206, 0.6), transparent 34%),
+    #f5f4ed;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.rentchain-session-loading {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  color: #173a30;
+  background: #f5f4ed;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.rentchain-session-loading > div {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+}
+
+.rentchain-session-loading p {
+  color: #718078;
+  font-size: 13px;
+}
+
+.rentchain-auth-shell {
+  width: min(1120px, 100%);
+  min-height: calc(100vh - 64px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
+  align-items: center;
+  gap: clamp(36px, 8vw, 104px);
+  position: relative;
+  padding-bottom: 44px;
+}
+
+.rentchain-intro {
+  display: flex;
+  flex-direction: column;
+  min-height: 590px;
+}
+
+.rentchain-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 19px;
+  font-weight: 750;
+  letter-spacing: -0.5px;
+}
+
+.rentchain-brand-mark {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 12px;
+  color: #f5f4ed;
+  background: #1d4739;
+  font-size: 15px;
+  letter-spacing: -1px;
+}
+
+.rentchain-brand-plus {
+  color: #4a9b79;
+}
+
+.rentchain-brand-by {
+  margin-left: 2px;
+  color: #75847d;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.rentchain-intro-copy {
+  margin: auto 0;
+  padding: 56px 0;
+}
+
+.rentchain-eyebrow {
+  margin: 0 0 14px;
+  color: #43856a;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+
+.rentchain-intro h1 {
+  max-width: 580px;
+  margin: 0;
+  color: #173a30;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(42px, 5vw, 64px);
+  font-weight: 500;
+  letter-spacing: -2.7px;
+  line-height: 1.04;
+}
+
+.rentchain-lead {
+  max-width: 510px;
+  margin: 22px 0 34px;
+  color: #62726a;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.rentchain-principles {
+  display: grid;
+  gap: 18px;
+  max-width: 520px;
+}
+
+.rentchain-principles article {
+  display: grid;
+  grid-template-columns: 35px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.rentchain-principle-number {
+  padding-top: 3px;
+  color: #5a9a7c;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.7px;
+}
+
+.rentchain-principles h2 {
+  margin: 0 0 4px;
+  color: #244b3e;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.rentchain-principles p {
+  margin: 0;
+  color: #748179;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.rentchain-research-note {
+  max-width: 470px;
+  margin: 0;
+  padding-top: 16px;
+  border-top: 1px solid #dfe4db;
+  color: #829087;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.rentchain-auth-card {
+  padding: clamp(28px, 4vw, 44px);
+  border: 1px solid #e5e9e1;
+  border-radius: 20px;
+  background: rgba(255, 255, 252, 0.93);
+  box-shadow: 0 24px 70px rgba(37, 65, 50, 0.09);
+}
+
+.rentchain-auth-card-heading h2 {
+  margin: 0;
+  color: #1c3e32;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: -0.8px;
+}
+
+.rentchain-auth-card-heading > p:last-child {
+  margin: 9px 0 25px;
+  color: #78847c;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.rentchain-auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  padding: 5px;
+  border-radius: 10px;
+  background: #f0f3ed;
+}
+
+.rentchain-auth-tabs button {
+  min-height: 39px;
+  border: 0;
+  border-radius: 7px;
+  color: #697970;
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.rentchain-auth-tabs button.is-active {
+  color: #204637;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(32, 70, 55, 0.08);
+}
+
+.rentchain-auth-form {
+  display: grid;
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.rentchain-auth-form label {
+  display: grid;
+  gap: 7px;
+  color: #42584d;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.rentchain-auth-form input {
+  width: 100%;
+  min-height: 45px;
+  box-sizing: border-box;
+  padding: 0 13px;
+  border: 1px solid #dfe5dc;
+  border-radius: 8px;
+  outline: none;
+  color: #243d32;
+  background: #fff;
+  font: inherit;
+  font-size: 13px;
+}
+
+.rentchain-auth-form input:focus {
+  border-color: #5a9a7c;
+  box-shadow: 0 0 0 3px rgba(90, 154, 124, 0.12);
+}
+
+.rentchain-auth-form input::placeholder {
+  color: #a5aea7;
+}
+
+.rentchain-submit {
+  min-height: 46px;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  background: #1d4739;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+.rentchain-submit:hover:not(:disabled) {
+  background: #28644d;
+  transform: translateY(-1px);
+}
+
+.rentchain-submit:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.rentchain-inline-error,
+.rentchain-auth-error-state [role="alert"] {
+  margin: 0;
+  color: #a33e36;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.rentchain-auth-error-state {
+  display: grid;
+  gap: 16px;
+}
+
+.rentchain-auth-footnote {
+  margin: 18px 0 0;
+  color: #87928a;
+  font-size: 10px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.rentchain-auth-footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #89958c;
+  font-size: 10px;
+}
+
+@media (max-width: 760px) {
+  .rentchain-auth {
+    padding: 22px 16px;
+  }
+
+  .rentchain-auth-shell {
+    min-height: calc(100vh - 44px);
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding-bottom: 54px;
+  }
+
+  .rentchain-intro {
+    min-height: auto;
+  }
+
+  .rentchain-intro-copy {
+    padding: 34px 0 14px;
+  }
+
+  .rentchain-intro h1 {
+    max-width: 520px;
+    font-size: clamp(38px, 10vw, 54px);
+  }
+
+  .rentchain-lead {
+    margin: 16px 0 20px;
+    font-size: 14px;
+  }
+
+  .rentchain-principles {
+    display: none;
+  }
+
+  .rentchain-research-note {
+    display: none;
+  }
+
+  .rentchain-auth-card {
+    padding: 25px;
+  }
+}
+
+@media (max-width: 420px) {
+  .rentchain-brand-by {
+    display: none;
+  }
+
+  .rentchain-auth-footer {
+    font-size: 9px;
+  }
+}
+
+.rentchain-workflow {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 54px 24px 12px;
+}
+
+.rentchain-workflow-heading {
+  max-width: 610px;
+  margin: 0 auto 30px;
+  text-align: center;
+}
+
+.rentchain-workflow-heading > p {
+  margin: 0 0 10px;
+  color: #43856a;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 1.25px;
+}
+
+.rentchain-workflow-heading h2 {
+  margin: 0;
+  color: #1c3e32;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(26px, 4vw, 36px);
+  font-weight: 500;
+  letter-spacing: -0.8px;
+}
+
+.rentchain-workflow-heading > span {
+  display: block;
+  margin-top: 10px;
+  color: #758179;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.rentchain-workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.rentchain-workflow-step {
+  min-height: 142px;
+  padding: 18px 16px;
+  border: 1px solid #e6e8df;
+  border-radius: 12px;
+  background: #fffefa;
+}
+
+.rentchain-workflow-step > span {
+  color: #579477;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.7px;
+}
+
+.rentchain-workflow-step h3 {
+  margin: 11px 0 7px;
+  color: #234537;
+  font-size: 13px;
+}
+
+.rentchain-workflow-step p {
+  margin: 0;
+  color: #748078;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.rentchain-prototype-note {
+  max-width: 850px;
+  margin: 18px auto 0;
+  padding: 12px 16px;
+  border: 1px solid #e4e6dc;
+  border-radius: 8px;
+  color: #6d786f;
+  background: #f0eee6;
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .rentchain-workflow-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .rentchain-workflow {
+    padding: 40px 16px 8px;
+  }
+
+  .rentchain-workflow-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .rentchain-workflow-step {
+    min-height: 130px;
+    padding: 15px 13px;
+  }
+}
+
+@media (max-width: 420px) {
+  .rentchain-workflow-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rentchain-workflow-step {
+    min-height: 0;
+  }
+}
+
 .modal {
   position: fixed;
   top: 0;

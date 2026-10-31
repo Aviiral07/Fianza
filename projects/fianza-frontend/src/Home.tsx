@@ -1,18 +1,35 @@
 import { useWallet } from '@txnlab/use-wallet-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ConnectWallet from './components/ConnectWallet'
+import AuthGate from './components/AuthGate'
+import type { AuthForm } from './components/AuthGate'
 import { FianzaEscrowClient } from './contracts/FianzaEscrow'
 import { getAlgodConfigFromViteEnvironment, getIndexerConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
 import { AlgorandClient } from '@algorandfoundation/algokit-utils'
 import algosdk from 'algosdk'
 
 const APP_ID = BigInt(766160152)
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+
+type AuthUser = {
+  id: string
+  name: string
+  email: string
+}
+
+type AuthStatus = 'checking' | 'authenticated' | 'unauthenticated' | 'error'
 
 const Home: React.FC = () => {
   const [openWalletModal, setOpenWalletModal] = useState(false)
   const [escrowStatus, setEscrowStatus] = useState<'UNFUNDED' | 'FUNDED' | 'DISPUTED'>('UNFUNDED')
   const [activeTab, setActiveTab] = useState<'tenant' | 'landlord'>('tenant')
   const [loading, setLoading] = useState(false)
+  const [authLoading, setAuthLoading] = useState(false)
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login')
+  const [authUser, setAuthUser] = useState<AuthUser | null>(null)
+  const [authStatus, setAuthStatus] = useState<AuthStatus>('checking')
+  const [authError, setAuthError] = useState('')
+  const [authForm, setAuthForm] = useState<AuthForm>({ name: '', email: '', password: '' })
   const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' | 'info' } | null>(null)
   const [depositAmount, setDepositAmount] = useState('1')
 
@@ -20,6 +37,101 @@ const Home: React.FC = () => {
 
   const algodConfig = getAlgodConfigFromViteEnvironment()
   const indexerConfig = getIndexerConfigFromViteEnvironment()
+
+  const loadCurrentUser = async () => {
+    setAuthStatus('checking')
+    setAuthError('')
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/me`, {
+        credentials: 'include',
+      })
+
+      if (response.status === 401) {
+        setAuthUser(null)
+        setAuthStatus('unauthenticated')
+        return
+      }
+
+      if (!response.ok) {
+        throw new Error('The sign-in service could not verify your session.')
+      }
+
+      const data = await response.json()
+      setAuthUser(data.user)
+      setAuthStatus('authenticated')
+    } catch {
+      setAuthUser(null)
+      setAuthStatus('error')
+      setAuthError('Could not connect to the authentication service. Check that the backend is running.')
+    }
+  }
+
+  useEffect(() => {
+    void loadCurrentUser()
+  }, [])
+
+  const handleAuthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target
+    setAuthForm((prev) => ({ ...prev, [name]: value }))
+    setAuthError('')
+  }
+
+  const handleAuthSubmit = async (event: React.FormEvent) => {
+    event.preventDefault()
+    setAuthLoading(true)
+    setAuthError('')
+
+    try {
+      const endpoint = authMode === 'login' ? '/auth/login' : '/auth/register'
+      const payload =
+        authMode === 'login'
+          ? { email: authForm.email, password: authForm.password }
+          : { name: authForm.name, email: authForm.email, password: authForm.password }
+
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(payload),
+      })
+
+      const data = await response.json()
+      if (!response.ok) {
+        throw new Error(data.message || 'Authentication failed')
+      }
+
+      setAuthUser(data.user)
+      setAuthStatus('authenticated')
+      setAuthForm({ name: '', email: '', password: '' })
+      showToast(authMode === 'login' ? 'Signed in successfully' : 'Account created successfully', 'success')
+    } catch (error: any) {
+      setAuthError(error.message || 'Authentication failed')
+    } finally {
+      setAuthLoading(false)
+    }
+  }
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+        method: 'POST',
+        credentials: 'include',
+      })
+
+      if (!response.ok) {
+        throw new Error('The server could not end your session. Please try again.')
+      }
+
+      setAuthUser(null)
+      setAuthStatus('unauthenticated')
+      setAuthError('')
+      setAuthForm({ name: '', email: '', password: '' })
+      showToast('Signed out successfully', 'success')
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : 'Sign out failed. Please try again.', 'error')
+    }
+  }
 
   const showToast = (msg: string, type: 'success' | 'error' | 'info') => {
     setToast({ msg, type })
@@ -121,6 +233,40 @@ const Home: React.FC = () => {
   }
   const status = statusConfig[escrowStatus]
 
+  if (authStatus === 'checking') {
+    return (
+      <main className="rentchain-session-loading" role="status" aria-live="polite">
+        <div>
+          <div className="rentchain-brand">
+            <span className="rentchain-brand-mark" aria-hidden="true">R+</span>
+            <span>RentChain<span className="rentchain-brand-plus">+</span></span>
+            <span className="rentchain-brand-by">by Fianza</span>
+          </div>
+          <p>Checking your secure session…</p>
+        </div>
+      </main>
+    )
+  }
+
+  if (authStatus === 'error' || authStatus === 'unauthenticated' || !authUser) {
+    return (
+      <AuthGate
+        mode={authMode}
+        setMode={(mode) => {
+          setAuthMode(mode)
+          setAuthError('')
+        }}
+        form={authForm}
+        onChange={handleAuthChange}
+        onSubmit={handleAuthSubmit}
+        loading={authLoading}
+        error={authError}
+        sessionError={authStatus === 'error'}
+        onRetry={() => void loadCurrentUser()}
+      />
+    )
+  }
+
   return (
     <div style={{ minHeight: '100vh', background: '#F7F4EE', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
       <style>{`
@@ -167,18 +313,22 @@ const Home: React.FC = () => {
           <button onClick={() => setOpenWalletModal(true)} style={{ background: activeAddress ? 'rgba(93,202,165,0.2)' : '#5DCAA5', color: activeAddress ? '#9FE1CB' : '#1C3A18', border: activeAddress ? '1px solid rgba(93,202,165,0.3)' : 'none', borderRadius: '8px', padding: '8px 18px', cursor: 'pointer', fontWeight: '600', fontSize: '13px' }}>
             {activeAddress ? `${activeAddress.slice(0, 6)}...${activeAddress.slice(-4)}` : 'Connect Wallet'}
           </button>
+          <span style={{ color: '#F7F4EE', fontSize: '12px' }}>{authUser.name}</span>
+          <button onClick={handleLogout} style={{ background: 'transparent', color: '#9FE1CB', border: '1px solid rgba(93,202,165,0.4)', borderRadius: '8px', padding: '8px 12px', cursor: 'pointer', fontSize: '12px' }}>
+            Sign out
+          </button>
         </div>
       </nav>
 
       <div className="fianza-hero" style={{ background: 'linear-gradient(180deg, #1C3A18 0%, #2d5a27 100%)', padding: '64px 40px 80px', textAlign: 'center' }}>
         <div style={{ display: 'inline-block', background: 'rgba(93,202,165,0.15)', border: '1px solid rgba(93,202,165,0.3)', borderRadius: '20px', padding: '6px 16px', marginBottom: '20px' }}>
-          <span style={{ color: '#5DCAA5', fontSize: '12px', fontWeight: '600', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Blockchain-Powered Escrow</span>
+          <span style={{ color: '#5DCAA5', fontSize: '12px', fontWeight: '600', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Evidence-driven rental settlement</span>
         </div>
         <h1 className="fianza-hero-title" style={{ color: '#F7F4EE', fontSize: '48px', fontWeight: '800', margin: '0 0 16px', lineHeight: '1.1', letterSpacing: '-1px', maxWidth: '700px', marginLeft: 'auto', marginRight: 'auto' }}>
-          Your Landlord Can Never<br /><span style={{ color: '#5DCAA5' }}>Steal Your Deposit</span> Again
+          A clearer record for<br /><span style={{ color: '#5DCAA5' }}>every deposit.</span>
         </h1>
         <p style={{ color: '#9FE1CB', fontSize: '18px', margin: '0 auto 32px', maxWidth: '520px', lineHeight: '1.6' }}>
-          Transparent, fair, tamper-proof deposits secured by Algorand smart contracts.
+          Compare inspection evidence, review settlement proposals, and use Algorand escrow for transparent on-chain actions.
         </p>
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
           <button onClick={handleFundDeposit} disabled={loading} style={{ background: '#5DCAA5', color: '#1C3A18', border: 'none', borderRadius: '10px', padding: '14px 28px', fontWeight: '700', fontSize: '15px', cursor: 'pointer' }}>
@@ -195,7 +345,7 @@ const Home: React.FC = () => {
           { value: `#${APP_ID.toString()}`, label: 'App ID on TestNet' },
           { value: escrowStatus, label: 'Escrow Status' },
           { value: activeAddress ? `${activeAddress.slice(0,6)}...` : '—', label: 'Connected Wallet' },
-          { value: '100%', label: 'Tamper-Proof' },
+          { value: 'On-chain', label: 'Settlement record' },
         ].map((stat, i) => (
           <div key={i} style={{ textAlign: 'center' }}>
             <div style={{ color: '#2d5a27', fontSize: '18px', fontWeight: '800' }}>{stat.value}</div>
@@ -203,6 +353,36 @@ const Home: React.FC = () => {
           </div>
         ))}
       </div>
+
+      <section className="rentchain-workflow" aria-labelledby="rentchain-workflow-title">
+        <div className="rentchain-workflow-heading">
+          <p>THE RENTCHAIN+ APPROACH</p>
+          <h2 id="rentchain-workflow-title">Evidence first. Settlement second.</h2>
+          <span>
+            A proposed deduction is a reviewable recommendation, never an unquestioned AI decision.
+          </span>
+        </div>
+        <div className="rentchain-workflow-grid">
+          {[
+            { number: '01', title: 'Agree', text: 'Record the rental terms, deposit amount, parties, and inspection expectations.' },
+            { number: '02', title: 'Document', text: 'Capture comparable move-in and move-out evidence and preserve its provenance.' },
+            { number: '03', title: 'Assess & explain', text: 'Compare evidence, identify candidate damage, and explain any proposed cost.' },
+            { number: '04', title: 'Route by confidence', text: 'Request more evidence or human review when a case is uncertain or contested.' },
+            { number: '05', title: 'Settle & audit', text: 'Execute only an approved outcome and retain a verifiable settlement record.' },
+          ].map((step) => (
+            <article key={step.number} className="rentchain-workflow-step">
+              <span>{step.number}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </article>
+          ))}
+        </div>
+        <p className="rentchain-prototype-note">
+          Prototype status: Algorand wallet connection and escrow status/funding are available. Paired-photo
+          damage detection, explainable AI, evidence upload, and confidence-based approval are research modules
+          and are not yet active in this prototype.
+        </p>
+      </section>
 
       <div style={{ maxWidth: '1000px', margin: '40px auto', padding: '0 24px' }}>
 
@@ -305,17 +485,17 @@ const Home: React.FC = () => {
         </div>
 
         <div style={{ background: 'white', borderRadius: '16px', padding: '32px', border: '1px solid #E8E2D9', marginBottom: '40px' }}>
-          <h3 style={{ margin: '0 0 24px', color: '#1C1C1A', fontSize: '16px', fontWeight: '700', textAlign: 'center' }}>How Fianza Works</h3>
+          <h3 style={{ margin: '0 0 24px', color: '#1C1C1A', fontSize: '16px', fontWeight: '700', textAlign: 'center' }}>Prototype and Research Roadmap</h3>
           <div className="fianza-steps-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
             {[
-              { icon: '🔒', step: '01', title: 'Deposit On-Chain', desc: 'Funds locked in immutable smart contract', color: '#EAF3DE' },
-              { icon: '📋', step: '02', title: 'Rules Pre-Defined', desc: 'Both parties agree to conditions upfront', color: '#E6F1FB' },
-              { icon: '📸', step: '03', title: 'Photo Evidence', desc: 'Move-in/out photos stored on IPFS', color: '#EEEDFE' },
-              { icon: '⚡', step: '04', title: 'Auto-Released', desc: 'Code executes, no human interference', color: '#FAEEDA' },
+              { icon: '🔒', step: 'LIVE', title: 'Fund escrow', desc: 'Connect an Algorand wallet and lock a deposit on TestNet.', color: '#EAF3DE' },
+              { icon: '🔎', step: 'LIVE', title: 'Check status', desc: 'Read the escrow status from the deployed smart contract.', color: '#E6F1FB' },
+              { icon: '📸', step: 'RESEARCH', title: 'Evidence + AI review', desc: 'Paired inspection photos, explainable damage proposals, and evidence integrity.', color: '#EEEDFE' },
+              { icon: '⚖️', step: 'RESEARCH', title: 'Confidence-based review', desc: 'Route uncertain or contested deductions to people before settlement.', color: '#FAEEDA' },
             ].map((item, i) => (
               <div key={i} style={{ textAlign: 'center', padding: '20px 12px' }}>
                 <div style={{ width: '48px', height: '48px', background: item.color, borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px', fontSize: '22px' }}>{item.icon}</div>
-                <div style={{ color: '#B4B2A9', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', marginBottom: '6px' }}>STEP {item.step}</div>
+                <div style={{ color: item.step === 'LIVE' ? '#3B6D11' : '#854F0B', fontSize: '10px', fontWeight: '700', letterSpacing: '1px', marginBottom: '6px' }}>{item.step}</div>
                 <div style={{ color: '#1C1C1A', fontSize: '13px', fontWeight: '700', marginBottom: '6px' }}>{item.title}</div>
                 <div style={{ color: '#888780', fontSize: '12px', lineHeight: '1.5' }}>{item.desc}</div>
               </div>
