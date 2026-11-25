@@ -49,6 +49,10 @@ This project supports both standalone and monorepo setups through AlgoKit worksp
 
 > Please note, by default frontend is pre configured to run against Algorand LocalNet. If you want to run against TestNet or MainNet, comment out the current environment variable and uncomment the relevant one in [`.env`](.env) file that is created after running bootstrap command and based on [`.env.template`](.env.template).
 
+## Cloudinary photo uploads
+
+Property photos are uploaded through the authenticated backend endpoint `/api/uploads/images`. Configure `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET` in the backend `.env` file. The API secret must never be added to a frontend `VITE_` variable. Uploads accept one image up to 5 MB per request.
+
 # Algorand Wallet integrations
 
 The template comes with [`use-wallet`](https://github.com/txnlab/use-wallet) integration, which provides a React hook for connecting to an Algorand wallet providers. The following wallet providers are included by default:

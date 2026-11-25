@@ -7,6 +7,8 @@ import { FianzaEscrowClient } from './contracts/FianzaEscrow'
 import { getAlgodConfigFromViteEnvironment, getIndexerConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
 import { AlgorandClient } from '@algorandfoundation/algokit-utils'
 import algosdk from 'algosdk'
+import PhotoUpload from "./components/PhotoUpload";
+
 
 const APP_ID = BigInt(766160152)
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
@@ -378,9 +380,9 @@ const Home: React.FC = () => {
           ))}
         </div>
         <p className="rentchain-prototype-note">
-          Prototype status: Algorand wallet connection and escrow status/funding are available. Paired-photo
-          damage detection, explainable AI, evidence upload, and confidence-based approval are research modules
-          and are not yet active in this prototype.
+          Prototype status: Algorand wallet connection, escrow status/funding, and Cloudinary photo uploads are
+          available. Paired-photo damage detection, explainable AI, and confidence-based approval are not yet
+          active in this prototype.
         </p>
       </section>
 
@@ -405,6 +407,17 @@ const Home: React.FC = () => {
             ⚠️ Connect your wallet to interact with the smart contract
           </div>
         )}
+
+        <section className="evidence-section">
+          <h2>Property Photo Evidence</h2>
+          <p>
+            Upload photos to record the property's
+            condition during the rental period.
+          </p>
+
+          <PhotoUpload title="Move-in Property Photos" />
+          <PhotoUpload title="Move-out Property Photos" />
+        </section>
 
         <div className="fianza-actions-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
 
